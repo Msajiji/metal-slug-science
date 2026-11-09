@@ -1,0 +1,4057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>🚀 SCIENCE BLASTER PRO: DR. AZZAM'S SCIENCE MISSION (BRUNEI YEAR 7 EDITION)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Fredoka:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-display: 'Orbitron', sans-serif;
+      --font-body: 'Fredoka', sans-serif;
+    }
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #04091a;
+      font-family: var(--font-body);
+      color: #f8fafc;
+    }
+    .font-orbitron {
+      font-family: var(--font-display);
+    }
+    #gameContainer {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* PRO GAME UI PANELS (MATCHING REFERENCE IMAGES) */
+    .hud-capsule {
+      background: linear-gradient(180deg, rgba(10, 37, 74, 0.92) 0%, rgba(6, 18, 42, 0.96) 100%);
+      border: 2px solid #38bdf8;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 12px rgba(56, 189, 248, 0.35), inset 0 1px 2px rgba(255,255,255,0.4);
+      border-radius: 9999px;
+    }
+    .hud-icon-btn {
+      background: radial-gradient(circle at 30% 30%, #38bdf8 0%, #0284c7 60%, #0369a1 100%);
+      border: 2.5px solid #bae6fd;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 0 12px rgba(56, 189, 248, 0.5), inset 0 2px 4px rgba(255,255,255,0.6);
+      border-radius: 9999px;
+      transition: all 0.15s ease;
+    }
+    .hud-icon-btn:hover {
+      transform: scale(1.06);
+      filter: brightness(1.12);
+    }
+    .hud-icon-btn:active {
+      transform: scale(0.94);
+    }
+
+    /* WOOD & PARCHMENT BOARDS (FOKUS SAINS & MISI LEVEL) */
+    .wood-panel {
+      background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+      border: 4px solid #92400e;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.55), inset 0 0 0 2px #d97706;
+      border-radius: 14px;
+      color: #451a03;
+    }
+    .wood-header {
+      background: linear-gradient(180deg, #b45309 0%, #78350f 100%);
+      border: 2px solid #fbbf24;
+      color: #fef3c7;
+      text-shadow: 0 2px 3px rgba(0,0,0,0.8);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    }
+    .mission-header {
+      background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+      border: 2px solid #fca5a5;
+      color: #ffffff;
+      text-shadow: 0 2px 3px rgba(0,0,0,0.7);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    }
+
+    /* HEXAGON / OCTAGON BLUE SCI-FI TOUCH BUTTONS */
+    .hex-touch-btn {
+      background: linear-gradient(180deg, rgba(14, 116, 144, 0.85) 0%, rgba(15, 23, 42, 0.92) 100%);
+      border: 3px solid #38bdf8;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.65), 0 0 16px rgba(56, 189, 248, 0.45), inset 0 2px 6px rgba(186, 230, 253, 0.45);
+      color: #ffffff;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      transition: transform 0.08s ease, filter 0.08s ease;
+    }
+    .hex-touch-btn.active, .hex-touch-btn:active {
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+      border-color: #ffffff;
+      transform: scale(0.91);
+      box-shadow: 0 0 24px rgba(56, 189, 248, 0.95);
+    }
+    .target-shoot-btn {
+      background: radial-gradient(circle at 35% 35%, #38bdf8 0%, #0284c7 55%, #1e3a8a 100%);
+      border: 3.5px solid #bae6fd;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.7), 0 0 22px rgba(56, 189, 248, 0.75), inset 0 3px 8px rgba(255,255,255,0.65);
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      transition: transform 0.08s ease;
+    }
+    .target-shoot-btn.active, .target-shoot-btn:active {
+      transform: scale(0.91);
+      border-color: #fde047;
+      box-shadow: 0 0 30px rgba(253, 224, 71, 0.95);
+    }
+
+    /* SCI-FI BLUE SHOWCASE FRAME (START SCREEN & MODALS) */
+    .sci-fi-frame {
+      background: linear-gradient(160deg, rgba(10, 25, 56, 0.94) 0%, rgba(4, 12, 30, 0.97) 100%);
+      border: 2.5px solid #38bdf8;
+      box-shadow: 0 0 30px rgba(14, 165, 233, 0.4), inset 0 0 20px rgba(56, 189, 248, 0.15);
+      border-radius: 22px;
+    }
+    .sci-fi-banner {
+      background: linear-gradient(90deg, #0369a1 0%, #0284c7 50%, #0369a1 100%);
+      border: 2px solid #7dd3fc;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.5);
+    }
+
+    .btn-sci-fi {
+      background: linear-gradient(180deg, #38bdf8 0%, #0284c7 55%, #1d4ed8 100%);
+      border: 2.5px solid #bae6fd;
+      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+      transition: all 0.16s ease;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+    .btn-sci-fi:hover {
+      transform: translateY(-2px) scale(1.02);
+      filter: brightness(1.1);
+    }
+    .btn-sci-fi:active {
+      transform: translateY(1px) scale(0.98);
+    }
+    .btn-emerald {
+      background: linear-gradient(180deg, #34d399 0%, #059669 55%, #065f46 100%);
+      border: 2.5px solid #a7f3d0;
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.55), inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Question Option Card */
+    .option-btn {
+      background: rgba(15, 23, 42, 0.92);
+      border: 2px solid rgba(56, 189, 248, 0.45);
+      transition: all 0.15s ease;
+    }
+    .option-btn:hover:not(:disabled) {
+      background: rgba(3, 105, 161, 0.55);
+      border-color: #7dd3fc;
+      transform: translateX(4px);
+    }
+    .option-btn.correct {
+      background: rgba(6, 95, 70, 0.95) !important;
+      border-color: #34d399 !important;
+      box-shadow: 0 0 20px rgba(52, 211, 153, 0.6);
+    }
+    .option-btn.wrong {
+      background: rgba(153, 27, 27, 0.95) !important;
+      border-color: #f87171 !important;
+      box-shadow: 0 0 20px rgba(248, 113, 113, 0.6);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #38bdf8;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="gameContainer">
+  <!-- MAIN GAMEPLAY CANVAS -->
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- ========================================================================
+       PRO TOP HUD BAR (MATCHING REFERENCE IMAGE 1)
+       ======================================================================== -->
+  <header id="hudBar" class="hidden absolute top-0 left-0 right-0 z-20 p-2 sm:p-3 pointer-events-none flex items-start justify-between gap-2">
+    <!-- TOP LEFT: Dr. Azzam Portrait + Energy Bar + 3D Red Hearts -->
+    <div class="flex items-center gap-2 sm:gap-3 pointer-events-auto">
+      <div class="relative flex items-center bg-gradient-to-r from-sky-950/95 via-slate-900/95 to-sky-900/90 border-2 border-cyan-400 rounded-full pr-4 pl-1 py-1 shadow-xl">
+        <!-- Circular Turban Avatar -->
+        <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-gradient-to-b from-sky-400 to-blue-900 border-2 border-cyan-200 flex items-center justify-center overflow-hidden shadow-inner shrink-0">
+          <svg viewBox="0 0 80 80" class="w-full h-full">
+            <!-- White Turban -->
+            <ellipse cx="40" cy="28" rx="26" ry="20" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+            <path d="M16 28 Q40 16 64 28" fill="none" stroke="#e2e8f0" stroke-width="3"/>
+            <path d="M18 22 Q40 10 62 22" fill="none" stroke="#cbd5e1" stroke-width="2.5"/>
+            <!-- Face -->
+            <path d="M22 30 Q22 58 40 58 Q58 58 58 30 Z" fill="#eab68c"/>
+            <!-- Eyes & Eyebrows -->
+            <path d="M27 34 Q32 31 36 34" fill="none" stroke="#3b1e08" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M44 34 Q48 31 53 34" fill="none" stroke="#3b1e08" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="32" cy="39" r="3.6" fill="#1e1b18"/>
+            <circle cx="48" cy="39" r="3.6" fill="#1e1b18"/>
+            <circle cx="33" cy="37.8" r="1.2" fill="#ffffff"/>
+            <circle cx="49" cy="37.8" r="1.2" fill="#ffffff"/>
+            <!-- Smile -->
+            <path d="M35 49 Q40 53 45 49" fill="none" stroke="#7c2d12" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- Purple & Silver Suit Collar -->
+            <path d="M18 78 L25 56 L55 56 L62 78 Z" fill="#6d28d9" stroke="#e2e8f0" stroke-width="2"/>
+            <circle cx="40" cy="68" r="5" fill="#1e1b4b" stroke="#38bdf8" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <!-- Name & Segmented Energy Bar -->
+        <div class="ml-2.5">
+          <div class="font-orbitron text-xs sm:text-sm font-black text-white tracking-wider leading-tight drop-shadow">
+            DR. AZZAM
+          </div>
+          <div class="text-[9px] sm:text-[10px] font-bold text-cyan-300 tracking-widest uppercase leading-none mb-1">
+            SCIENCE AGENT
+          </div>
+          <!-- Segmented Green-Yellow Energy Bar -->
+          <div class="w-24 sm:w-32 h-3 bg-slate-950 rounded-full p-0.5 border border-cyan-400/60 flex gap-0.5">
+            <div id="segBar1" class="flex-1 h-full rounded-l-full bg-emerald-400"></div>
+            <div id="segBar2" class="flex-1 h-full bg-emerald-400"></div>
+            <div id="segBar3" class="flex-1 h-full bg-lime-400"></div>
+            <div id="segBar4" class="flex-1 h-full rounded-r-full bg-amber-400"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D Glossy Red Hearts -->
+      <div id="hudLives" class="flex items-center gap-1 drop-shadow-md"></div>
+    </div>
+
+    <!-- TOP CENTER: Capsules for SCORE, CRYSTAL, TIME + Boss Bar -->
+    <div class="flex flex-col items-center gap-1.5 pointer-events-auto">
+      <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3">
+        <!-- SCORE Capsule -->
+        <div class="hud-capsule px-3 sm:px-4 py-1 flex items-center gap-2">
+          <span class="text-lg sm:text-2xl drop-shadow">⭐</span>
+          <div class="text-center">
+            <div class="text-[9px] sm:text-[10px] font-bold text-sky-300 tracking-widest uppercase leading-none">SCORE</div>
+            <div id="hudScore" class="font-orbitron text-xs sm:text-lg font-black text-white tracking-wider">0000000</div>
+          </div>
+        </div>
+        <!-- CRYSTAL Capsule -->
+        <div class="hud-capsule px-3 sm:px-4 py-1 flex items-center gap-2">
+          <span class="text-lg sm:text-2xl drop-shadow">💎</span>
+          <div class="text-center">
+            <div class="text-[9px] sm:text-[10px] font-bold text-purple-300 tracking-widest uppercase leading-none">CRYSTAL</div>
+            <div id="hudCrystal" class="font-orbitron text-xs sm:text-lg font-black text-white tracking-wider">0/1</div>
+          </div>
+        </div>
+        <!-- TIME Capsule -->
+        <div class="hud-capsule px-3 sm:px-4 py-1 hidden sm:flex items-center gap-2">
+          <span class="text-lg sm:text-2xl drop-shadow">⏱️</span>
+          <div class="text-center">
+            <div class="text-[9px] sm:text-[10px] font-bold text-amber-300 tracking-widest uppercase leading-none">TIME</div>
+            <div id="hudTime" class="font-orbitron text-xs sm:text-lg font-black text-white tracking-wider">05:00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOSS HEALTH BAR (Appears during Boss Encounter) -->
+      <div id="bossHudContainer" class="hidden hud-capsule px-4 py-1.5 border-2 border-rose-500 w-64 sm:w-80">
+        <div class="flex items-center justify-between text-[11px] font-extrabold mb-1">
+          <span id="bossHudName" class="text-amber-300 font-orbitron truncate">👑 BOSS LEVEL 1</span>
+          <span id="bossHudHpText" class="text-rose-300 font-orbitron">100%</span>
+        </div>
+        <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-rose-400/60">
+          <div id="bossHudBar" class="h-full bg-gradient-to-r from-red-600 via-amber-500 to-emerald-400 transition-all duration-150" style="width: 100%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP RIGHT: Circular Glossy Action Buttons (Sound, Pause, Home) -->
+    <div class="flex items-center gap-1.5 sm:gap-2 pointer-events-auto">
+      <button id="btnSoundToggle" onclick="GameAudio.toggleMute()" class="hud-icon-btn w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-white text-lg sm:text-xl" title="Sound ON/OFF">
+        <span id="soundIcon">🔊</span>
+      </button>
+      <button onclick="Game.togglePause()" class="hud-icon-btn w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-white font-black text-sm sm:text-base" title="Pause Game">
+        ⏸️
+      </button>
+      <button onclick="Game.showStartScreen()" class="hud-icon-btn w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-white text-lg sm:text-xl" title="Main Menu">
+        🏠
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       LEFT & RIGHT FLOATING GAME BOARDS (YEAR 7 SCIENCE FOCUS & LEVEL MISSION)
+       ======================================================================== -->
+  <!-- Left Panel: Year 7 Science Focus -->
+  <aside id="leftFocusPanel" class="hidden lg:block absolute left-3 top-24 z-10 w-52 wood-panel p-2.5 pointer-events-none opacity-95">
+    <div class="wood-header rounded-lg py-1 px-2 text-center font-extrabold text-xs uppercase tracking-wider mb-2">
+      SCIENCE FOCUS<br/><span class="text-amber-300">BRUNEI YEAR 7</span>
+    </div>
+    <div id="focusListContainer" class="space-y-1.5 text-xs font-bold">
+      <!-- Populated per level -->
+    </div>
+  </aside>
+
+  <!-- Right Panel: Level Mission Checklist -->
+  <aside id="rightMissionPanel" class="hidden md:block absolute right-3 top-20 z-10 w-64 wood-panel p-3 pointer-events-none opacity-95">
+    <div id="missionPanelTitle" class="mission-header rounded-lg py-1 px-3 text-center font-extrabold text-xs uppercase tracking-wider mb-2 flex items-center justify-center gap-1.5">
+      <span>🎯</span> <span>LEVEL 1 MISSION</span>
+    </div>
+    <div class="flex items-center justify-between gap-2">
+      <ul class="space-y-1.5 text-xs font-bold flex-1">
+        <li class="flex items-center gap-1.5">
+          <span class="text-emerald-700 font-black">✓</span>
+          <span id="mTextExplore">Explore Science Forest</span>
+        </li>
+        <li class="flex items-center gap-1.5">
+          <span id="mCheckQuiz" class="text-amber-700 font-black">◉</span>
+          <span id="mTextQuiz">Answer Science Quiz (0/5)</span>
+        </li>
+        <li class="flex items-center gap-1.5">
+          <span id="mCheckCrystal" class="text-amber-700 font-black">◉</span>
+          <span id="mTextCrystal">Collect Nature Crystal</span>
+        </li>
+      </ul>
+      <!-- Faceted Emerald/Purple Gem Icon -->
+      <div class="w-10 h-14 shrink-0 flex items-center justify-center">
+        <svg viewBox="0 0 50 70" class="w-full h-full drop-shadow">
+          <polygon points="25,2 46,20 38,66 12,66 4,20" fill="#10b981" stroke="#a7f3d0" stroke-width="2.5"/>
+          <polygon points="25,8 39,22 25,60 11,22" fill="#34d399" opacity="0.75"/>
+          <polygon points="25,2 25,60 12,66 4,20" fill="#059669" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       BOTTOM TOUCH CONTROLS (HEXAGON BLUE ARROWS & CROSSHAIR SHOOT BUTTON)
+       ======================================================================== -->
+  <div id="touchControls" class="hidden absolute bottom-2.5 left-3 right-3 z-20 pointer-events-none flex justify-between items-end select-none">
+    <!-- Left Side: Left & Right Hexagon Buttons -->
+    <div class="flex items-center gap-3 pointer-events-auto">
+      <button id="touchLeft" class="hex-touch-btn w-16 h-14 sm:w-20 sm:h-16" aria-label="Move Left">
+        <svg viewBox="0 0 24 24" class="w-9 h-9 fill-white drop-shadow"><path d="M20 10v4H9l4 4-2.8 2.8L1.4 12l8.8-8.8L13 6l-4 4h11z"/></svg>
+      </button>
+      <button id="touchRight" class="hex-touch-btn w-16 h-14 sm:w-20 sm:h-16" aria-label="Move Right">
+        <svg viewBox="0 0 24 24" class="w-9 h-9 fill-white drop-shadow"><path d="M4 10v4h11l-4 4 2.8 2.8L22.6 12l-8.8-8.8L11 6l4 4H4z"/></svg>
+      </button>
+    </div>
+
+    <!-- Right Side: Ladder/Aim Up & Down + Jump + Target Crosshair Shoot -->
+    <div class="flex items-end gap-2.5 sm:gap-3.5 pointer-events-auto">
+      <div class="flex flex-col gap-1.5">
+        <button id="touchUp" class="hex-touch-btn w-12 h-11 sm:w-14 sm:h-12 text-xs font-extrabold" title="Climb Up / Aim Up">
+          ▲
+        </button>
+        <button id="touchDown" class="hex-touch-btn w-12 h-11 sm:w-14 sm:h-12 text-xs font-extrabold" title="Climb Down">
+          ▼
+        </button>
+      </div>
+      <!-- Up Arrow Jump Button (Matches Reference Image 1) -->
+      <button id="touchJump" class="hex-touch-btn w-16 h-14 sm:w-20 sm:h-16" aria-label="Jump">
+        <svg viewBox="0 0 24 24" class="w-9 h-9 fill-white drop-shadow"><path d="M10 20h4V9l4 4 2.8-2.8L12 1.4 3.2 10.2 6 13l4-4v11z"/></svg>
+      </button>
+      <!-- Circular Crosshair Shoot Button (Matches Reference Image 1) -->
+      <button id="touchShoot" class="target-shoot-btn w-16 h-16 sm:w-20 sm:h-20" aria-label="Fire Science Blaster">
+        <svg viewBox="0 0 48 48" class="w-10 h-10 sm:w-12 sm:h-12 stroke-white fill-none" stroke-width="3.5">
+          <circle cx="24" cy="24" r="14"/>
+          <circle cx="24" cy="24" r="4" fill="#ffffff"/>
+          <line x1="24" y1="4" x2="24" y2="12"/>
+          <line x1="24" y1="36" x2="24" y2="44"/>
+          <line x1="4" y1="24" x2="12" y2="24"/>
+          <line x1="36" y1="24" x2="44" y2="24"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       1. START SCREEN OVERLAY (MATCHING REFERENCE IMAGE 2 CHARACTER & SPRITE SHEET)
+       ======================================================================== -->
+  <div id="startScreen" class="absolute inset-0 z-30 flex items-center justify-center p-2.5 sm:p-5 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
+    <div class="sci-fi-frame max-w-5xl w-full p-4 sm:p-6 my-auto shadow-2xl">
+      <!-- Top Header Logo & Slogan -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-3 border-b border-sky-500/40 pb-3">
+        <div class="flex items-center gap-3">
+          <!-- Glowing Atom Emblem -->
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-950 border-2 border-cyan-400 flex items-center justify-center shadow-lg">
+            <svg viewBox="0 0 60 60" class="w-10 h-10">
+              <ellipse cx="30" cy="30" rx="24" ry="9" fill="none" stroke="#38bdf8" stroke-width="3" transform="rotate(30 30 30)"/>
+              <ellipse cx="30" cy="30" rx="24" ry="9" fill="none" stroke="#38bdf8" stroke-width="3" transform="rotate(-30 30 30)"/>
+              <ellipse cx="30" cy="30" rx="24" ry="9" fill="none" stroke="#38bdf8" stroke-width="3" transform="rotate(90 30 30)"/>
+              <circle cx="30" cy="30" r="6" fill="#fde047"/>
+            </svg>
+          </div>
+          <div class="text-left">
+            <div class="font-orbitron text-xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-sky-200 to-cyan-300 tracking-wide">
+              SCIENCE BLASTER PRO
+            </div>
+            <div class="font-orbitron text-xs sm:text-sm font-extrabold text-amber-400 tracking-widest">
+              BRUNEI YEAR 7 SCIENCE MISSION • Shoot • Answer • Learn • Win!
+            </div>
+          </div>
+        </div>
+
+        <!-- Start Game CTA -->
+        <button onclick="Game.startFromLevel(0)" class="btn-sci-fi px-7 py-3 rounded-2xl font-orbitron text-sm sm:text-lg font-black text-white tracking-wider shrink-0">
+          ▶️ START MISSION NOW!
+        </button>
+      </div>
+
+      <!-- Main Content Grid: Left Character Card + Right Sprite & Weapons Showcase -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mt-4 items-stretch">
+        <!-- Left Column (4 cols): Dr. Azzam Science Agent Hero Card -->
+        <div class="lg:col-span-4 bg-gradient-to-b from-sky-950/90 via-indigo-950/90 to-slate-950 border-2 border-cyan-400/70 rounded-2xl p-4 flex flex-col justify-between text-center relative overflow-hidden">
+          <div class="mx-auto w-36 h-40 sm:w-44 sm:h-48 flex items-center justify-center">
+            <!-- High-Detail SVG Illustration of Dr. Azzam giving Thumbs Up -->
+            <svg viewBox="0 0 200 220" class="w-full h-full drop-shadow-xl">
+              <defs>
+                <radialGradient id="turbanGrad" cx="50%" cy="35%" r="60%">
+                  <stop offset="0%" stop-color="#ffffff"/>
+                  <stop offset="75%" stop-color="#e2e8f0"/>
+                  <stop offset="100%" stop-color="#94a3b8"/>
+                </radialGradient>
+                <radialGradient id="skinGrad" cx="45%" cy="40%" r="60%">
+                  <stop offset="0%" stop-color="#f6cba3"/>
+                  <stop offset="70%" stop-color="#e0a370"/>
+                  <stop offset="100%" stop-color="#b87644"/>
+                </radialGradient>
+                <linearGradient id="suitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#9333ea"/>
+                  <stop offset="50%" stop-color="#6b21a8"/>
+                  <stop offset="100%" stop-color="#3b0764"/>
+                </linearGradient>
+              </defs>
+              <!-- Jetpack behind shoulders -->
+              <rect x="34" y="110" width="32" height="75" rx="10" fill="#334155" stroke="#94a3b8" stroke-width="3"/>
+              <rect x="40" y="125" width="14" height="42" rx="5" fill="#38bdf8"/>
+              <!-- White Turban -->
+              <ellipse cx="105" cy="60" rx="54" ry="44" fill="url(#turbanGrad)" stroke="#cbd5e1" stroke-width="2.5"/>
+              <path d="M55 62 Q105 35 155 62" fill="none" stroke="#cbd5e1" stroke-width="3.5"/>
+              <path d="M62 46 Q105 22 148 46" fill="none" stroke="#e2e8f0" stroke-width="3"/>
+              <!-- Ears & Face -->
+              <circle cx="58" cy="88" r="10" fill="url(#skinGrad)"/>
+              <circle cx="152" cy="88" r="10" fill="url(#skinGrad)"/>
+              <path d="M64 66 Q64 128 105 128 Q146 128 146 66 Z" fill="url(#skinGrad)"/>
+              <!-- Eyebrows & Big Expressive Eyes -->
+              <path d="M74 74 Q86 68 96 74" fill="none" stroke="#291507" stroke-width="4.5" stroke-linecap="round"/>
+              <path d="M114 74 Q124 68 136 74" fill="none" stroke="#291507" stroke-width="4.5" stroke-linecap="round"/>
+              <circle cx="86" cy="86" r="8" fill="#1c1917"/>
+              <circle cx="124" cy="86" r="8" fill="#1c1917"/>
+              <circle cx="88" cy="83" r="2.8" fill="#ffffff"/>
+              <circle cx="126" cy="83" r="2.8" fill="#ffffff"/>
+              <!-- Nose & Confident Smile -->
+              <ellipse cx="105" cy="96" rx="4.5" ry="3" fill="#c68353"/>
+              <path d="M92 109 Q105 117 118 109" fill="none" stroke="#652b0e" stroke-width="3.5" stroke-linecap="round"/>
+              <!-- Purple & Silver Futuristic Suit -->
+              <path d="M52 215 L66 128 L144 128 L158 215 Z" fill="url(#suitGrad)" stroke="#e2e8f0" stroke-width="3"/>
+              <!-- Silver Shoulder Pauldrons with Atom Logo -->
+              <ellipse cx="68" cy="148" rx="22" ry="18" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2.5"/>
+              <circle cx="68" cy="148" r="9" fill="#3b0764"/>
+              <!-- Chest Atom Core -->
+              <circle cx="112" cy="160" r="16" fill="#1e1b4b" stroke="#38bdf8" stroke-width="3"/>
+              <ellipse cx="112" cy="160" rx="11" ry="4.5" fill="none" stroke="#38bdf8" stroke-width="1.8" transform="rotate(35 112 160)"/>
+              <ellipse cx="112" cy="160" rx="11" ry="4.5" fill="none" stroke="#38bdf8" stroke-width="1.8" transform="rotate(-35 112 160)"/>
+              <circle cx="112" cy="160" r="3.5" fill="#fde047"/>
+              <!-- Thumbs Up Gloved Hand -->
+              <rect x="136" y="132" width="12" height="22" rx="6" fill="#eab68c" stroke="#7c2d12" stroke-width="2"/>
+              <rect x="130" y="148" width="32" height="28" rx="8" fill="#1e293b" stroke="#cbd5e1" stroke-width="2.5"/>
+            </svg>
+          </div>
+
+          <div>
+            <div class="sci-fi-banner rounded-xl py-1.5 px-3 inline-block mb-2">
+              <div class="font-orbitron text-lg sm:text-xl font-black text-white tracking-wider">DR. AZZAM</div>
+              <div class="font-orbitron text-xs font-extrabold text-amber-300 tracking-widest">SCIENCE AGENT</div>
+            </div>
+            <p class="text-xs sm:text-sm text-sky-100 leading-snug bg-slate-900/90 border border-sky-400/40 rounded-xl p-2.5">
+              Young Science Hero on a mission to recover all <strong>5 Science Knowledge Crystals</strong> across 5 exciting Brunei Year 7 Science worlds!
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Column (8 cols): Character Animations + Weapons & Items + Level Selector -->
+        <div class="lg:col-span-8 flex flex-col justify-between gap-2.5">
+          <!-- CHARACTER ANIMATIONS (SPRITE) SHOWCASE (MATCHING REFERENCE IMAGE 2) -->
+          <div class="bg-slate-900/90 border-2 border-sky-400/60 rounded-2xl p-3">
+            <div class="sci-fi-banner rounded-lg px-4 py-1 inline-block font-orbitron text-xs sm:text-sm font-black text-white tracking-wider mb-2">
+              CHARACTER ANIMATIONS (SPRITE)
+            </div>
+            <div class="grid grid-cols-4 sm:grid-cols-7 gap-1.5 text-center">
+              <div class="bg-slate-950/80 border border-sky-500/30 rounded-xl p-1.5">
+                <div class="text-lg">🧍‍♂️</div>
+                <div class="text-[10px] font-extrabold text-cyan-300">Idle</div>
+                <div class="text-[8px] text-slate-400">Stand Ready</div>
+              </div>
+              <div class="bg-slate-950/80 border border-sky-500/30 rounded-xl p-1.5">
+                <div class="text-lg">🏃‍♂️</div>
+                <div class="text-[10px] font-extrabold text-cyan-300">Run</div>
+                <div class="text-[8px] text-slate-400">Move L/R</div>
+              </div>
+              <div class="bg-slate-950/80 border border-sky-500/30 rounded-xl p-1.5">
+                <div class="text-lg">🚀</div>
+                <div class="text-[10px] font-extrabold text-cyan-300">Jump</div>
+                <div class="text-[8px] text-slate-400">Jetpack Boost</div>
+              </div>
+              <div class="bg-slate-950/80 border border-sky-500/30 rounded-xl p-1.5">
+                <div class="text-lg">🔫</div>
+                <div class="text-[10px] font-extrabold text-cyan-300">Shoot</div>
+                <div class="text-[8px] text-slate-400">Blaster Fire</div>
+              </div>
+              <div class="bg-slate-950/80 border border-amber-500/30 rounded-xl p-1.5">
+                <div class="text-lg">⚡</div>
+                <div class="text-[10px] font-extrabold text-amber-300">Hit</div>
+                <div class="text-[8px] text-slate-400">Take Damage</div>
+              </div>
+              <div class="bg-slate-950/80 border border-rose-500/30 rounded-xl p-1.5">
+                <div class="text-lg">💫</div>
+                <div class="text-[10px] font-extrabold text-rose-300">Fall</div>
+                <div class="text-[8px] text-slate-400">Lose Life</div>
+              </div>
+              <div class="bg-slate-950/80 border border-emerald-500/30 rounded-xl p-1.5 col-span-4 sm:col-span-1">
+                <div class="text-lg">🏆</div>
+                <div class="text-[10px] font-extrabold text-emerald-300">Victory</div>
+                <div class="text-[8px] text-slate-400">Level Clear</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- WEAPONS & ITEMS SHOWCASE (MATCHING REFERENCE IMAGE 2) -->
+          <div class="bg-slate-900/90 border-2 border-sky-400/60 rounded-2xl p-3">
+            <div class="sci-fi-banner rounded-lg px-4 py-1 inline-block font-orbitron text-xs sm:text-sm font-black text-white tracking-wider mb-2">
+              WEAPONS & MISSION ITEMS
+            </div>
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 text-center">
+              <div class="bg-slate-950/80 border border-sky-500/30 rounded-xl p-2">
+                <div class="text-xl">🔫</div>
+                <div class="text-[11px] font-extrabold text-cyan-300 mt-0.5">Science Blaster</div>
+                <div class="text-[9px] text-slate-300">Aim L / R / Up</div>
+              </div>
+              <div class="bg-slate-950/80 border border-amber-500/40 rounded-xl p-2">
+                <div class="text-xl">🟨❓</div>
+                <div class="text-[11px] font-extrabold text-amber-300 mt-0.5">Question Box</div>
+                <div class="text-[9px] text-slate-300">100 Year 7 Quizzes</div>
+              </div>
+              <div class="bg-slate-950/80 border border-rose-500/40 rounded-xl p-2">
+                <div class="text-xl">❤️</div>
+                <div class="text-[11px] font-extrabold text-rose-300 mt-0.5">Extra Life</div>
+                <div class="text-[9px] text-slate-300">+1 Life Bubble</div>
+              </div>
+              <div class="bg-slate-950/80 border border-yellow-500/40 rounded-xl p-2">
+                <div class="text-xl">🪙</div>
+                <div class="text-[11px] font-extrabold text-yellow-300 mt-0.5">Star Coin</div>
+                <div class="text-[9px] text-slate-300">+100 Score</div>
+              </div>
+              <div class="bg-slate-950/80 border border-purple-500/40 rounded-xl p-2">
+                <div class="text-xl">💎</div>
+                <div class="text-[11px] font-extrabold text-purple-300 mt-0.5">Science Crystal</div>
+                <div class="text-[9px] text-slate-300">Level Objective</div>
+              </div>
+              <div class="bg-slate-950/80 border border-cyan-500/40 rounded-xl p-2">
+                <div class="text-xl">🛡️</div>
+                <div class="text-[11px] font-extrabold text-sky-300 mt-0.5">Atom Shield</div>
+                <div class="text-[9px] text-slate-300">Protection Field</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SELECT 5 BRUNEI YEAR 7 SCIENCE WORLDS -->
+          <div class="bg-slate-900/90 border-2 border-sky-400/60 rounded-2xl p-3">
+            <div class="flex items-center justify-between mb-2">
+              <span class="sci-fi-banner rounded-lg px-4 py-1 font-orbitron text-xs sm:text-sm font-black text-white tracking-wider">
+                SELECT MISSION WORLD (5 LEVELS)
+              </span>
+              <span class="text-[11px] text-cyan-200 font-bold hidden sm:inline">
+                ⌨️ Arrow/WASD + Space (Jump) + X/J (Shoot)
+              </span>
+            </div>
+            <div class="grid grid-cols-5 gap-2">
+              <button onclick="Game.startFromLevel(0)" class="bg-emerald-950/90 hover:bg-emerald-800 border-2 border-emerald-400 rounded-xl p-2 text-center transition group">
+                <div class="text-2xl group-hover:scale-110 transition">🌳</div>
+                <div class="font-orbitron text-[10px] sm:text-xs font-black text-emerald-300 mt-0.5">LEVEL 1</div>
+                <div class="text-[10px] font-bold text-white truncate">Science Forest</div>
+              </button>
+              <button onclick="Game.startFromLevel(1)" class="bg-orange-950/90 hover:bg-orange-800 border-2 border-orange-400 rounded-xl p-2 text-center transition group">
+                <div class="text-2xl group-hover:scale-110 transition">🌋</div>
+                <div class="font-orbitron text-[10px] sm:text-xs font-black text-orange-300 mt-0.5">LEVEL 2</div>
+                <div class="text-[10px] font-bold text-white truncate">Volcano Lab</div>
+              </button>
+              <button onclick="Game.startFromLevel(2)" class="bg-cyan-950/90 hover:bg-cyan-800 border-2 border-cyan-400 rounded-xl p-2 text-center transition group">
+                <div class="text-2xl group-hover:scale-110 transition">🌊</div>
+                <div class="font-orbitron text-[10px] sm:text-xs font-black text-cyan-300 mt-0.5">LEVEL 3</div>
+                <div class="text-[10px] font-bold text-white truncate">Deep Sea Lab</div>
+              </button>
+              <button onclick="Game.startFromLevel(3)" class="bg-purple-950/90 hover:bg-purple-800 border-2 border-purple-400 rounded-xl p-2 text-center transition group">
+                <div class="text-2xl group-hover:scale-110 transition">⚡</div>
+                <div class="font-orbitron text-[10px] sm:text-xs font-black text-purple-300 mt-0.5">LEVEL 4</div>
+                <div class="text-[10px] font-bold text-white truncate">Energy City</div>
+              </button>
+              <button onclick="Game.startFromLevel(4)" class="bg-indigo-950/90 hover:bg-indigo-800 border-2 border-indigo-400 rounded-xl p-2 text-center transition group">
+                <div class="text-2xl group-hover:scale-110 transition">🚀</div>
+                <div class="font-orbitron text-[10px] sm:text-xs font-black text-indigo-300 mt-0.5">LEVEL 5</div>
+                <div class="text-[10px] font-bold text-white truncate">Space Lab</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       2. LEVEL INTRO SCREEN OVERLAY (WOODEN LEAFY BANNER STYLE)
+       ======================================================================== -->
+  <div id="levelIntroScreen" class="hidden absolute inset-0 z-30 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+    <div class="sci-fi-frame max-w-lg w-full p-6 sm:p-8 text-center shadow-2xl">
+      <div class="font-orbitron text-xs sm:text-sm font-black text-cyan-300 tracking-widest uppercase">
+        SCIENCE BLASTER PRO • BRUNEI YEAR 7 SCIENCE
+      </div>
+      <!-- Wooden Leafy Level Sign -->
+      <div class="wood-header rounded-2xl p-4 my-3 border-4 border-amber-500 shadow-xl">
+        <div id="introLevelBadge" class="font-orbitron text-xs font-extrabold text-amber-300 tracking-widest">
+          LEVEL 1
+        </div>
+        <h2 id="introLevelTitle" class="font-orbitron text-2xl sm:text-3xl font-black text-white tracking-wider mt-0.5">
+          🌳 SCIENCE FOREST
+        </h2>
+      </div>
+      <p id="introLevelTopics" class="text-xs sm:text-sm text-cyan-200 font-bold">
+        Focus: Cells, Microscope, Plant vs Animal Cells & Classification
+      </p>
+      <div class="bg-slate-900/90 border border-sky-500/40 rounded-2xl p-4 my-4 text-left text-xs sm:text-sm text-slate-200 space-y-1.5">
+        <div class="font-extrabold text-amber-300">🎯 DR. AZZAM'S MISSION OBJECTIVE:</div>
+        <p id="introLevelDesc">Explore the Science world, shoot or touch Question Boxes (?), answer Brunei Year 7 Science challenges, defeat the Boss at the crystal cave, and collect the 💎 Science Crystal!</p>
+      </div>
+      <button onclick="Game.beginActiveLevel()" class="btn-sci-fi btn-emerald w-full py-3.5 rounded-2xl font-orbitron text-base sm:text-lg font-black text-white tracking-wider">
+        🚀 LAUNCH MISSION!
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       3. SCIENCE QUESTION MODAL (QUIZ SCREEN)
+       ======================================================================== -->
+  <div id="questionModal" class="hidden absolute inset-0 z-40 flex items-center justify-center p-2.5 sm:p-5 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
+    <div class="sci-fi-frame max-w-2xl w-full p-4 sm:p-6 border-2 border-amber-400 shadow-2xl my-auto">
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-700/80">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-amber-500 border-2 border-yellow-200 flex items-center justify-center font-orbitron font-black text-xl text-red-700 shadow">
+            ?
+          </div>
+          <div>
+            <div class="text-[10px] sm:text-xs text-sky-300 font-bold uppercase tracking-wider">BRUNEI YEAR 7 SCIENCE QUESTION BOX</div>
+            <div id="qModalId" class="font-orbitron text-xs sm:text-sm font-bold text-amber-300">QUESTION #L1Q01</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-xs text-slate-300 font-bold">🏷️ LEVEL:</span>
+          <span id="qModalLevelBadge" class="px-3 py-1 rounded-full text-xs sm:text-sm font-extrabold tracking-wide bg-emerald-500/20 border border-emerald-400 text-emerald-300">
+            🟢 BASIC
+          </span>
+        </div>
+      </div>
+
+      <div class="my-3.5 bg-slate-900/95 border border-sky-500/40 rounded-2xl p-4 sm:p-5">
+        <p id="qModalText" class="text-sm sm:text-lg md:text-xl font-bold text-white leading-relaxed">
+          What is the basic building block of all living organisms?
+        </p>
+      </div>
+
+      <div id="qModalOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3"></div>
+
+      <div id="qModalFeedback" class="hidden mt-3.5 p-3.5 sm:p-4 rounded-2xl border text-left">
+        <div id="qModalFeedbackTitle" class="font-orbitron text-sm sm:text-base font-black mb-1">
+          ✅ CORRECT! +100 POINTS • ⚡ SCIENCE POWER!
+        </div>
+        <p id="qModalExplanation" class="text-xs sm:text-sm text-slate-100 leading-relaxed"></p>
+        <div class="mt-3 text-right">
+          <button id="btnCloseQuestion" onclick="Game.closeQuestionModal()" class="btn-sci-fi px-6 py-2.5 rounded-xl font-orbitron text-xs sm:text-sm font-bold text-white">
+            CONTINUE MISSION ▶️
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       4. LEVEL COMPLETE SCREEN
+       ======================================================================== -->
+  <div id="levelCompleteScreen" class="hidden absolute inset-0 z-30 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
+    <div class="sci-fi-frame max-w-lg w-full p-6 sm:p-8 border-2 border-emerald-400 text-center shadow-2xl">
+      <div class="text-5xl sm:text-6xl mb-2">💎🎉</div>
+      <h2 class="font-orbitron text-2xl sm:text-3xl font-black text-emerald-300">
+        LEVEL MISSION COMPLETE!
+      </h2>
+      <p id="lcSubtitle" class="text-xs sm:text-sm text-sky-200 mt-1">
+        Congratulations! Dr. Azzam successfully recovered the Science Crystal!
+      </p>
+
+      <div class="grid grid-cols-2 gap-2.5 my-5 text-left">
+        <div class="bg-slate-900/90 border border-slate-700 p-3 rounded-2xl">
+          <div class="text-[11px] text-sky-300 font-bold">⭐ TOTAL SCORE</div>
+          <div id="lcScore" class="font-orbitron text-lg sm:text-xl font-black text-amber-300">0002500</div>
+        </div>
+        <div class="bg-slate-900/90 border border-slate-700 p-3 rounded-2xl">
+          <div class="text-[11px] text-sky-300 font-bold">❤️ LIVES REMAINING</div>
+          <div id="lcLives" class="font-orbitron text-lg sm:text-xl font-black text-rose-400">3</div>
+        </div>
+        <div class="bg-slate-900/90 border border-slate-700 p-3 rounded-2xl">
+          <div class="text-[11px] text-sky-300 font-bold">💎 CRYSTAL COLLECTED</div>
+          <div id="lcCrystals" class="font-orbitron text-lg sm:text-xl font-black text-purple-300">1/1</div>
+        </div>
+        <div class="bg-slate-900/90 border border-slate-700 p-3 rounded-2xl">
+          <div class="text-[11px] text-sky-300 font-bold">🧠 QUESTIONS COMPLETED</div>
+          <div id="lcQuestions" class="font-orbitron text-lg sm:text-xl font-black text-emerald-300">5</div>
+        </div>
+      </div>
+
+      <button onclick="Game.nextLevel()" class="btn-sci-fi btn-emerald w-full py-3.5 rounded-2xl font-orbitron text-base sm:text-lg font-black text-white tracking-wider">
+        🚀 PROCEED TO NEXT LEVEL ▶️
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       5. GAME OVER SCREEN
+       ======================================================================== -->
+  <div id="gameOverScreen" class="hidden absolute inset-0 z-30 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md">
+    <div class="sci-fi-frame max-w-md w-full p-6 sm:p-8 border-2 border-rose-500 text-center shadow-2xl">
+      <div class="text-5xl sm:text-6xl mb-2">💫🧑‍🔬</div>
+      <h2 class="font-orbitron text-2xl sm:text-3xl font-black text-rose-400">
+        MISSION FAILED!
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-200 mt-2">
+        Never give up! A true Science Agent always gets back up to try again!
+      </p>
+      <div class="bg-slate-900/90 border border-slate-700 rounded-2xl p-4 my-5">
+        <div class="text-xs text-sky-300 font-bold">⭐ CURRENT SCORE</div>
+        <div id="goScore" class="font-orbitron text-2xl font-black text-amber-300 mt-1">0000000</div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="Game.retryCurrentLevel()" class="btn-sci-fi flex-1 py-3.5 rounded-2xl font-orbitron text-sm sm:text-base font-black text-white">
+          🔄 TRY AGAIN
+        </button>
+        <button onclick="Game.showStartScreen()" class="sci-fi-frame flex-1 py-3.5 rounded-2xl font-orbitron text-xs sm:text-sm font-bold text-sky-200 hover:bg-slate-800">
+          🏠 MAIN MENU
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       6. FINAL VICTORY SCREEN (SCIENCE BLASTER CHAMPION!)
+       ======================================================================== -->
+  <div id="finalVictoryScreen" class="hidden absolute inset-0 z-30 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md overflow-y-auto">
+    <div class="sci-fi-frame max-w-xl w-full p-6 sm:p-8 border-2 border-amber-400 text-center shadow-2xl my-auto">
+      <div class="text-5xl sm:text-6xl mb-2">🏆💎✨</div>
+      <div class="inline-block px-4 py-1 rounded-full bg-amber-500/20 border border-amber-300 text-amber-300 font-orbitron text-xs font-bold mb-2">
+        ALL 5 SCIENCE CRYSTALS RECOVERED!
+      </div>
+      <h1 class="font-orbitron text-2xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-cyan-300">
+        🏆 SCIENCE BLASTER CHAMPION!
+      </h1>
+      <p class="text-sm sm:text-base text-white font-semibold mt-2">
+        🎉 Congratulations! Dr. Azzam (Science Agent) has completed all 5 Brunei Year 7 Science missions!
+      </p>
+
+      <div class="grid grid-cols-3 gap-2.5 my-5">
+        <div class="bg-slate-900/90 border border-amber-400/40 p-3 rounded-2xl">
+          <div class="text-[10px] sm:text-xs text-amber-200 font-bold">⭐ FINAL SCORE</div>
+          <div id="fvScore" class="font-orbitron text-lg sm:text-2xl font-black text-amber-300 mt-1">0</div>
+        </div>
+        <div class="bg-slate-900/90 border border-purple-400/40 p-3 rounded-2xl">
+          <div class="text-[10px] sm:text-xs text-purple-200 font-bold">💎 CRYSTALS</div>
+          <div id="fvCrystals" class="font-orbitron text-lg sm:text-2xl font-black text-purple-300 mt-1">5/5</div>
+        </div>
+        <div class="bg-slate-900/90 border border-emerald-400/40 p-3 rounded-2xl">
+          <div class="text-[10px] sm:text-xs text-emerald-200 font-bold">🧠 QUIZ MASTERY</div>
+          <div id="fvCorrect" class="font-orbitron text-lg sm:text-2xl font-black text-emerald-300 mt-1">0</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="Game.startFromLevel(0)" class="btn-sci-fi flex-1 py-3.5 rounded-2xl font-orbitron text-sm sm:text-base font-black text-white">
+          🔄 PLAY MISSION AGAIN
+        </button>
+        <button onclick="Game.showStartScreen()" class="sci-fi-frame flex-1 py-3.5 rounded-2xl font-orbitron text-xs sm:text-sm font-bold text-sky-200 hover:bg-slate-800">
+          🏠 MAIN MENU
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================================
+   1. BANK OF 100 BRUNEI YEAR 7 (LEVEL 7) SCIENCE QUESTIONS IN ENGLISH
+   Topics per Level:
+   - Level 1: Cells, Microscope, Organisation, Living Things & Classification
+   - Level 2: States of Matter, Particle Theory, Expansion/Contraction & Thermal Physics
+   - Level 3: Ecosystems, Habitats, Food Chains/Webs, Adaptations & Conservation
+   - Level 4: Forms of Energy, Energy Conservation, Electricity & Forces
+   - Level 5: Lab Safety, Scientific Inquiry, Elements, Compounds, Mixtures & Separation
+   ============================================================================ */
+const QUESTION_BANK = {
+  1: [
+    {
+      id: "L1Q01",
+      question: "What is the basic structural and functional unit of all living organisms?",
+      options: ["Tissue", "Cell", "Organ", "Molecule"],
+      correct: 1,
+      explanation: "Cells are the basic building blocks of all living things.",
+      level: "BASIC"
+    },
+    {
+      id: "L1Q02",
+      question: "Which part of a cell contains genetic material (DNA) and controls all activities of the cell?",
+      options: ["Cytoplasm", "Cell membrane", "Nucleus", "Vacuole"],
+      correct: 2,
+      explanation: "The nucleus acts as the control centre of the cell and contains genetic information (DNA).",
+      level: "BASIC"
+    },
+    {
+      id: "L1Q03",
+      question: "Which two structures are present in a palisade plant cell but ABSENT in a human cheek cell?",
+      options: ["Nucleus and cytoplasm", "Cell wall and chloroplasts", "Cell membrane and nucleus", "Cytoplasm and mitochondria"],
+      correct: 1,
+      explanation: "Plant cells have a rigid cellulose cell wall and chloroplasts (for photosynthesis), which animal cells do not have.",
+      level: "BASIC"
+    },
+    {
+      id: "L1Q04",
+      question: "What is the main function of chloroplasts in green plant cells?",
+      options: ["To control substances entering the cell", "To trap light energy for photosynthesis", "To store waste products", "To give strength to the stem only"],
+      correct: 1,
+      explanation: "Chloroplasts contain green chlorophyll, which absorbs sunlight to make food by photosynthesis.",
+      level: "BASIC"
+    },
+    {
+      id: "L1Q05",
+      question: "Which laboratory instrument is used to observe tiny structures like cheek cells that cannot be seen with the naked eye?",
+      options: ["Telescope", "Light microscope", "Periscope", "Thermometer"],
+      correct: 1,
+      explanation: "A light microscope magnifies tiny specimens such as cells and microorganisms.",
+      level: "BASIC"
+    },
+    {
+      id: "L1Q06",
+      question: "In the MRS GREN mnemonic for the characteristics of living things, what does the 'E' stand for?",
+      options: ["Evaporation", "Excretion", "Expansion", "Electricity"],
+      correct: 1,
+      explanation: "Excretion is the removal of toxic metabolic waste products (such as carbon dioxide and urea) from a living organism.",
+      level: "BASIC"
+    },
+    {
+      id: "L1Q07",
+      question: "Which sequence correctly shows the levels of cellular organisation from simplest to most complex?",
+      options: ["Cell → Organ → Tissue → Organ System → Organism", "Cell → Tissue → Organ → Organ System → Organism", "Tissue → Cell → Organ → Organism → Organ System", "Organ → Tissue → Cell → Organ System → Organism"],
+      correct: 1,
+      explanation: "Similar cells form a tissue; tissues form an organ; organs work together in an organ system to make up a multicellular organism.",
+      level: "BASIC"
+    },
+    {
+      id: "L1Q08",
+      question: "If a microscope has an eyepiece lens of 10× and an objective lens of 40×, what is the total magnification of the specimen?",
+      options: ["50×", "400×", "4×", "1040×"],
+      correct: 1,
+      explanation: "Total magnification = Eyepiece magnification × Objective lens magnification (10 × 40 = 400×).",
+      level: "APPLICATION"
+    },
+    {
+      id: "L1Q09",
+      question: "How is a root hair cell specially adapted to absorb water and mineral salts efficiently from the soil?",
+      options: ["It contains many chloroplasts to trap light", "It has a long, thin extension that increases surface area", "It has a thick waterproof cuticle", "It has no nucleus or cytoplasm"],
+      correct: 1,
+      explanation: "The long finger-like projection of a root hair cell provides a large surface area to speed up water absorption.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L1Q10",
+      question: "Red blood cells transport oxygen around the human body. Which structural adaptation helps them carry more oxygen?",
+      options: ["They have a rigid cellulose cell wall", "They have no nucleus and a biconcave disc shape to hold more haemoglobin", "They have long tails for swimming", "They contain a large central vacuole"],
+      correct: 1,
+      explanation: "Having no nucleus leaves more room for haemoglobin, and the biconcave shape increases surface area for oxygen diffusion.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L1Q11",
+      question: "Why do scientists stain onion epidermal cells with iodine solution or cheek cells with methylene blue before viewing them under a microscope?",
+      options: ["To keep the cells warm", "To make transparent cell structures like the nucleus clearly visible", "To make the cells divide faster", "To dissolve the glass slide"],
+      correct: 1,
+      explanation: "Many cell parts are nearly colourless; stains colour specific structures like the nucleus so they can be seen clearly.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L1Q12",
+      question: "Bats and birds can both fly, yet bats are classified as mammals rather than birds. Why?",
+      options: ["Bats have feathers and lay hard-shelled eggs", "Bats have fur/hair, give birth to live young, and feed them milk", "Bats breathe using gills", "Bats are cold-blooded invertebrates"],
+      correct: 1,
+      explanation: "Mammals are warm-blooded vertebrates with hair/fur and mammary glands that produce milk for their young.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L1Q13",
+      question: "Which of the following is an example of an ORGAN in a flowering plant?",
+      options: ["Leaf", "Chloroplast", "Root hair cell", "Cell wall"],
+      correct: 0,
+      explanation: "A leaf (along with the root, stem, and flower) is a plant organ made up of several different tissues working together.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L1Q14",
+      question: "Which group of invertebrates has a segmented body, a hard exoskeleton, and jointed legs (such as crabs, spiders, and insects)?",
+      options: ["Molluscs", "Arthropods", "Annelids", "Cnidarians"],
+      correct: 1,
+      explanation: "Arthropods are invertebrates characterised by jointed limbs and a tough external skeleton (exoskeleton).",
+      level: "APPLICATION"
+    },
+    {
+      id: "L1Q15",
+      question: "Dr. Azzam examines a slide of living root cells taken from deep underground. He notices the cells have cell walls and large vacuoles, but NO chloroplasts. Why are chloroplasts absent?",
+      options: ["Root cells are actually animal cells", "Roots are underground where there is no sunlight, so they cannot carry out photosynthesis", "The iodine stain destroyed the chloroplasts", "Root cells do not need energy to survive"],
+      correct: 1,
+      explanation: "HOTS: Since light cannot reach underground roots, root cells do not photosynthesise and therefore do not produce chloroplasts.",
+      level: "HOTS"
+    },
+    {
+      id: "L1Q16",
+      question: "When lowering the coverslip onto a wet-mount microscope slide, why should you lower it slowly at a 45° angle using a mounted needle?",
+      options: ["To crush the cells into smaller pieces", "To prevent trapping air bubbles under the coverslip", "To increase the magnification of the objective lens", "To make the water evaporate immediately"],
+      correct: 1,
+      explanation: "HOTS: Lowering the coverslip at an angle allows air to escape gradually so dark-ringed air bubbles do not block the view of the cells.",
+      level: "HOTS"
+    },
+    {
+      id: "L1Q17",
+      question: "A robotic toy dog can move, make barking sounds, and detect obstacles with sensors. Why is the robot dog classified as NON-LIVING?",
+      options: ["Because it moves on four legs", "Because it is not made of cells and cannot respire, grow, reproduce, or excrete", "Because it uses kinetic energy", "Because it responds to stimuli"],
+      correct: 1,
+      explanation: "HOTS: A living organism must be composed of cells and carry out all life processes (MRS GREN), including respiration, growth, and reproduction.",
+      level: "HOTS"
+    },
+    {
+      id: "L1Q18",
+      question: "If the cell membrane of a cell is damaged by a chemical toxin, what is the most immediate consequence for the cell?",
+      options: ["The cell loses its ability to control which substances enter and leave the cell", "The cell wall immediately turns into metal", "The cell starts producing sunlight", "The microscope lens becomes blurry"],
+      correct: 0,
+      explanation: "HOTS: The cell membrane is partially permeable and regulates the movement of substances in and out of the cell.",
+      level: "HOTS"
+    },
+    {
+      id: "L1Q19",
+      question: "A newly discovered vertebrate has moist, scaleless skin, lays jelly-coated eggs in water, and its larvae breathe with gills while adults use lungs. To which class does it belong?",
+      options: ["Reptiles", "Amphibians", "Fish", "Mammals"],
+      correct: 1,
+      explanation: "HOTS: Amphibians (like frogs and salamanders) have moist skin without scales, lay jelly-covered eggs in water, and undergo metamorphosis.",
+      level: "HOTS"
+    },
+    {
+      id: "L1Q20",
+      question: "When viewing a specimen under high power on a microscope, why should you ONLY use the fine focusing knob and never the coarse focusing knob?",
+      options: ["The coarse knob turns off the mirror light", "The objective lens is very close to the slide, so using the coarse knob could crack the slide and damage the lens", "The fine knob changes the colour of the specimen", "High power does not require any focusing"],
+      correct: 1,
+      explanation: "HOTS: Under high power, the working distance between the objective lens and glass slide is tiny; large movements from the coarse knob can smash the slide.",
+      level: "HOTS"
+    }
+  ],
+  2: [
+    {
+      id: "L2Q01",
+      question: "What is the scientific definition of MATTER?",
+      options: ["Anything that produces light and sound", "Anything that has mass and occupies space (has volume)", "Only solid objects made of metal", "Anything that can conduct electricity"],
+      correct: 1,
+      explanation: "Matter is anything that has mass and takes up space (volume), including solids, liquids, and gases.",
+      level: "BASIC"
+    },
+    {
+      id: "L2Q02",
+      question: "In which state of matter are the particles packed closely together in a fixed, regular pattern and only vibrate about fixed positions?",
+      options: ["Gas", "Liquid", "Solid", "Vacuum"],
+      correct: 2,
+      explanation: "In a solid, strong forces of attraction hold particles in a fixed lattice so they can only vibrate in place.",
+      level: "BASIC"
+    },
+    {
+      id: "L2Q03",
+      question: "Which state of matter has a fixed volume but takes the shape of its container?",
+      options: ["Solid", "Liquid", "Gas", "Plasma"],
+      correct: 1,
+      explanation: "Liquid particles are close together (fixed volume) but can slide past one another to take the container's shape.",
+      level: "BASIC"
+    },
+    {
+      id: "L2Q04",
+      question: "What is the name of the process when a solid changes directly into a liquid upon heating?",
+      options: ["Freezing", "Melting", "Condensation", "Sublimation"],
+      correct: 1,
+      explanation: "Melting occurs at the melting point when a solid gains heat energy and turns into a liquid.",
+      level: "BASIC"
+    },
+    {
+      id: "L2Q05",
+      question: "What happens to the particles of a substance when it is heated?",
+      options: ["The particles shrink in size", "The particles gain kinetic energy, move faster, and move further apart", "The particles disappear", "The particles lose energy and stop moving"],
+      correct: 1,
+      explanation: "Heating supplies thermal energy, causing particles to vibrate or move faster and push slightly further apart (thermal expansion).",
+      level: "BASIC"
+    },
+    {
+      id: "L2Q06",
+      question: "What is the random movement of particles from a region of higher concentration to a region of lower concentration called?",
+      options: ["Filtration", "Diffusion", "Distillation", "Compression"],
+      correct: 1,
+      explanation: "Diffusion is the spreading out of particles from an area of high concentration to low concentration due to random particle motion.",
+      level: "BASIC"
+    },
+    {
+      id: "L2Q07",
+      question: "Which state of matter can be easily compressed into a much smaller volume?",
+      options: ["Solid", "Liquid", "Gas", "Ice"],
+      correct: 2,
+      explanation: "Gas particles have large empty spaces between them, allowing them to be pushed closer together under pressure.",
+      level: "BASIC"
+    },
+    {
+      id: "L2Q08",
+      question: "When a drop of purple potassium manganate(VII) crystal is placed at the bottom of a beaker of water, the purple colour slowly spreads throughout the water. What does this demonstrate?",
+      options: ["Water molecules are stationary", "Particles in a liquid are in constant random motion, causing diffusion", "The crystal is melting into a gas", "Gravity pushes the purple particles upward"],
+      correct: 1,
+      explanation: "Diffusion of the dissolved purple particles through water provides evidence that liquid particles are constantly moving.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L2Q09",
+      question: "Why does the smell of perfume sprayed in one corner of a room reach a student standing on the other side within seconds?",
+      options: ["Perfume particles are solids that roll across the floor", "Gas particles move rapidly in all directions and diffuse through the air", "The room temperature freezes the perfume", "Light rays carry the perfume molecules"],
+      correct: 1,
+      explanation: "Gas particles move at high speeds with large spaces between them, so diffusion in gases is much faster than in liquids.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L2Q10",
+      question: "Why are small gaps left between steel railway tracks and concrete bridge sections?",
+      options: ["To save construction materials", "To allow the metal and concrete to expand safely on hot days without buckling", "To let rainwater freeze inside the tracks", "To make trains move slower"],
+      correct: 1,
+      explanation: "Solids expand when heated. Expansion gaps prevent railway tracks and bridges from bending or cracking in hot weather.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L2Q11",
+      question: "Water droplets form on the outside of a cold can of soda taken out of the refrigerator. Which change of state causes this?",
+      options: ["Evaporation of soda through the aluminium can", "Condensation of water vapour in the warm air touching the cold can", "Melting of the aluminium metal", "Sublimation of ice"],
+      correct: 1,
+      explanation: "Water vapour (gas) in the surrounding air loses heat when it touches the cold surface of the can and condenses into liquid water droplets.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L2Q12",
+      question: "How does a liquid-in-glass thermometer measure temperature?",
+      options: ["The glass tube expands while the liquid stays still", "The liquid (mercury or alcohol) expands uniformly when heated and contracts when cooled", "The mass of the liquid increases when heated", "The liquid turns into a solid at 50°C"],
+      correct: 1,
+      explanation: "When temperature rises, the liquid in the bulb expands and rises up the narrow capillary tube.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L2Q13",
+      question: "What is the formula used to calculate the density of an object?",
+      options: ["Density = Mass × Volume", "Density = Mass ÷ Volume", "Density = Volume ÷ Mass", "Density = Weight + Volume"],
+      correct: 1,
+      explanation: "Density is mass per unit volume (Density = Mass / Volume), commonly measured in g/cm³ or kg/m³.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L2Q14",
+      question: "A solid block of wood has a mass of 120 g and a volume of 150 cm³. Given that the density of water is 1.0 g/cm³, what will happen when the wood is placed in water?",
+      options: ["It will sink to the bottom because its density is 1.2 g/cm³", "It will float on water because its density is 0.8 g/cm³ (less than 1.0 g/cm³)", "It will dissolve immediately", "It will sublimate into gas"],
+      correct: 1,
+      explanation: "Density = 120 g ÷ 150 cm³ = 0.8 g/cm³. Since 0.8 g/cm³ is less than the density of water (1.0 g/cm³), the wood floats.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L2Q15",
+      question: "When a solid block of iron is heated and expands, what happens to the size of the individual iron atoms and the total mass of the block?",
+      options: ["The iron atoms get bigger and the mass increases", "The iron atoms stay the exact same size and mass stays constant; only the spaces between atoms increase", "The iron atoms multiply in number", "The mass decreases because hot iron is lighter"],
+      correct: 1,
+      explanation: "HOTS: During thermal expansion, the atoms themselves do not expand or change mass—they vibrate more vigorously and move slightly further apart.",
+      level: "HOTS"
+    },
+    {
+      id: "L2Q16",
+      question: "A bimetallic strip made of brass and iron riveted together is heated in a flame. Brass expands more than iron for the same temperature rise. Which way will the strip bend?",
+      options: ["It will bend with brass on the outside of the curve (towards the iron side)", "It will bend with iron on the outside of the curve", "It will remain completely straight", "It will twist into a spiral"],
+      correct: 0,
+      explanation: "HOTS: Because brass expands more than iron when heated, the brass side becomes longer, forcing the strip to curve with brass on the outer edge and iron on the inner edge.",
+      level: "HOTS"
+    },
+    {
+      id: "L2Q17",
+      question: "During the melting of pure ice at 0°C, heat is continuously supplied by a Bunsen burner, yet the thermometer reading stays constant at 0°C until all the ice has melted. Why?",
+      options: ["The thermometer is broken", "The heat energy absorbed is used to overcome the forces of attraction between ice particles rather than increasing their kinetic energy", "Ice reflects all heat energy at 0°C", "The surrounding air is cooling the beaker"],
+      correct: 1,
+      explanation: "HOTS: During a change of state (melting or boiling), absorbed thermal energy (latent heat) breaks intermolecular bonds without raising the temperature.",
+      level: "HOTS"
+    },
+    {
+      id: "L2Q18",
+      question: "Dr. Azzam seals the tip of a syringe filled with air and pushes the plunger in. The volume decreases easily. When he repeats this with a syringe filled with water, the plunger cannot be pushed in. Explain why using particle theory.",
+      options: ["Air particles are softer than water particles", "Gas particles have large empty spaces between them, whereas liquid particles are already packed closely together", "Water particles are frozen inside the syringe", "The plunger sticks to liquid molecules"],
+      correct: 1,
+      explanation: "HOTS: Gases are compressible because of the large distances between particles; liquids are virtually incompressible because their particles are already touching.",
+      level: "HOTS"
+    },
+    {
+      id: "L2Q19",
+      question: "How does a dented (unpunctured) table tennis ball return to its original round shape when placed in a bowl of hot water?",
+      options: ["The plastic melts and reforms", "The air trapped inside the ball gains heat, its particles move faster and hit the inner walls harder, increasing pressure and pushing the dent out", "Hot water enters through the plastic wall", "The outside air pressure drops to zero"],
+      correct: 1,
+      explanation: "HOTS: Heating the trapped air increases the kinetic energy of gas particles, increasing internal gas pressure which pushes the flexible plastic wall outward.",
+      level: "HOTS"
+    },
+    {
+      id: "L2Q20",
+      question: "Dry ice (solid carbon dioxide) disappears at room temperature without leaving any liquid puddle behind. What is this process called and how do the particles change?",
+      options: ["Evaporation; liquid particles turn to gas", "Sublimation; particles in the solid gain enough energy to break free directly into the gas state", "Condensation; gas particles turn to solid", "Melting; solid turns to liquid"],
+      correct: 1,
+      explanation: "HOTS: Dry ice undergoes sublimation, changing directly from a solid to a gas without passing through the liquid state.",
+      level: "HOTS"
+    }
+  ],
+  3: [
+    {
+      id: "L3Q01",
+      question: "What term describes the natural home or environment where an organism lives, finds food, and reproduces?",
+      options: ["Community", "Habitat", "Population", "Food chain"],
+      correct: 1,
+      explanation: "A habitat is the natural place where an organism lives (e.g., a mangrove swamp or coral reef).",
+      level: "BASIC"
+    },
+    {
+      id: "L3Q02",
+      question: "Why are green plants and algae called PRODUCERS in a food chain?",
+      options: ["They consume other animals for energy", "They make their own food (glucose) from sunlight, water, and carbon dioxide via photosynthesis", "They decompose dead matter in the soil", "They produce carbon dioxide for predators"],
+      correct: 1,
+      explanation: "Producers start every food chain by converting light energy from the Sun into chemical energy in food.",
+      level: "BASIC"
+    },
+    {
+      id: "L3Q03",
+      question: "What do the arrows (→) in a food chain represent?",
+      options: ["Which animal is faster", "The direction of energy flow (eaten by)", "The movement of water in a river", "The life cycle of a single organism"],
+      correct: 1,
+      explanation: "Arrows in a food chain point from the organism being eaten to the organism that eats it, showing the flow of energy.",
+      level: "BASIC"
+    },
+    {
+      id: "L3Q04",
+      question: "An animal that feeds ONLY on plants is known as a...",
+      options: ["Carnivore", "Herbivore", "Omnivore", "Scavenger"],
+      correct: 1,
+      explanation: "Herbivores (primary consumers) eat only plant material.",
+      level: "BASIC"
+    },
+    {
+      id: "L3Q05",
+      question: "Which organisms break down dead plants, dead animals, and waste into simple mineral salts that are returned to the soil?",
+      options: ["Producers", "Decomposers (fungi and bacteria)", "Top predators", "Herbivores"],
+      correct: 1,
+      explanation: "Decomposers such as bacteria and fungi recycle nutrients back into the ecosystem.",
+      level: "BASIC"
+    },
+    {
+      id: "L3Q06",
+      question: "Which of the following is an ABIOTIC (non-living physical) factor in a marine ecosystem?",
+      options: ["Coral polyps", "Light intensity and water temperature", "Plankton and small fish", "Sharks"],
+      correct: 1,
+      explanation: "Abiotic factors are non-living physical factors such as temperature, light intensity, pH, salinity, and dissolved oxygen.",
+      level: "BASIC"
+    },
+    {
+      id: "L3Q07",
+      question: "What is an ECOSYSTEM?",
+      options: ["A group of organisms of the same species only", "A community of living organisms interacting with one another and with their non-living environment", "A list of endangered animals", "The weather pattern of a country"],
+      correct: 1,
+      explanation: "An ecosystem consists of all the biotic (living) communities interacting with the abiotic (non-living) environment.",
+      level: "BASIC"
+    },
+    {
+      id: "L3Q08",
+      question: "In the food chain: Phytoplankton → Krill → Squid → Penguin → Leopard Seal, which organism is the secondary consumer?",
+      options: ["Phytoplankton", "Krill", "Squid", "Leopard Seal"],
+      correct: 2,
+      explanation: "Phytoplankton is the producer, Krill is the primary consumer, and Squid is the secondary consumer.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L3Q09",
+      question: "How are fish and sharks structurally adapted to move swiftly through water with minimal water resistance (drag)?",
+      options: ["They have a boxy, flat body shape", "They have a streamlined body shape, fins, and scales covered in mucus", "They have thick fur and heavy bones", "They breathe through spiracles"],
+      correct: 1,
+      explanation: "A streamlined body tapers at both ends, reducing friction (water resistance) as the fish swims.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L3Q10",
+      question: "Mangrove trees in Brunei's coastal swamps grow in waterlogged, unstable mud with low oxygen. Which adaptation helps support them and take in air?",
+      options: ["Broad thin leaves that trap snow", "Prop/stilt roots for support and breathing roots (pneumatophores) that stick up out of the mud", "Deep taproots that reach 50 metres underground", "Spines instead of leaves"],
+      correct: 1,
+      explanation: "Mangrove trees have extensive prop roots to anchor them in soft mud and aerial breathing roots to absorb oxygen from the air.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L3Q11",
+      question: "How do desert cacti survive in hot, dry environments with very little rainfall?",
+      options: ["They have large, thin leaves with many stomata", "Their leaves are reduced to spines to reduce water loss, and they have thick fleshy stems to store water", "They grow only in the shade of tall trees", "They absorb water from moonlight"],
+      correct: 1,
+      explanation: "Needle-like spines minimise surface area for transpiration (water loss) and protect the water-storing stem from herbivores.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L3Q12",
+      question: "Polar bears live in the freezing Arctic. Which combination of adaptations helps them conserve body heat and hunt on ice?",
+      options: ["Thin skin, large ears, and dark black fur", "Thick layer of insulating blubber (fat), dense white fur for camouflage, and small ears", "Gills and webbed wings", "Hollow bones and scales"],
+      correct: 1,
+      explanation: "Thick blubber and dense fur trap heat (insulation), small ears reduce heat loss, and white fur camouflages them against snow.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L3Q13",
+      question: "A chameleon can change its skin colour to match the tree branch it rests on. What type of adaptation is this and how does it help?",
+      options: ["Camouflage; it helps the chameleon hide from predators and sneak up on insect prey", "Hibernation; it helps the chameleon sleep all winter", "Migration; it helps the chameleon fly across oceans", "Parasitism; it harms the tree branch"],
+      correct: 0,
+      explanation: "Camouflage allows an organism to blend into its surroundings for protection and hunting.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L3Q14",
+      question: "What is the difference between a population and a community in a coral reef?",
+      options: ["They mean the exact same thing", "A population is all the organisms of ONE species (e.g., all clownfish), while a community is ALL the different populations living together in the reef", "A community includes rocks and water, while a population is only plants", "A population is always larger than an ecosystem"],
+      correct: 1,
+      explanation: "A population consists of members of the same species in a habitat; a community comprises all the different species living together.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L3Q15",
+      question: "In the food chain: Seaweed → Sea Urchin → Sea Otter, what is the most likely effect on the kelp (seaweed) forest if sea otters are hunted to extinction?",
+      options: ["Sea urchins will multiply rapidly and overgraze the seaweed, destroying the kelp forest", "Both sea urchins and seaweed will disappear immediately", "Seaweed will grow ten times faster", "There will be no change to the ecosystem"],
+      correct: 0,
+      explanation: "HOTS: Without their predator (sea otters), the sea urchin population increases unchecked, consuming vast amounts of seaweed.",
+      level: "HOTS"
+    },
+    {
+      id: "L3Q16",
+      question: "An oil spill covers the surface of a coastal marine reserve. How does this affect submerged aquatic plants and fish below the surface?",
+      options: ["Fish grow larger because oil is rich in chemical energy", "The oil layer blocks sunlight needed for photosynthesis by aquatic plants and prevents oxygen from dissolving into the water", "The oil turns seawater into fresh drinking water", "Coral reefs grow faster in oil"],
+      correct: 1,
+      explanation: "HOTS: Floating oil blocks light (stopping photosynthesis and oxygen production) and forms a barrier that prevents atmospheric oxygen from dissolving.",
+      level: "HOTS"
+    },
+    {
+      id: "L3Q17",
+      question: "Why do food chains rarely have more than 4 or 5 trophic (feeding) levels?",
+      options: ["Because there are only 4 species of animals on Earth", "Because about 90% of energy is lost as heat, movement, and waste at each trophic level, leaving very little energy for higher levels", "Because top predators are too small to eat", "Because producers run out of sunlight at night"],
+      correct: 1,
+      explanation: "HOTS: Energy is lost through respiration (heat) and undigested waste at every step, so very little energy remains after 4–5 transfers.",
+      level: "HOTS"
+    },
+    {
+      id: "L3Q18",
+      question: "A non-native (invasive) predatory fish is accidentally released into a local Bruneian river where it has no natural predators. Predict the long-term impact on native fish species.",
+      options: ["Native fish populations will decline sharply due to predation and competition for food", "The invasive fish will immediately turn into a plant", "Native fish will teach the invasive fish to eat mud", "Water temperature will rise by 50°C"],
+      correct: 0,
+      explanation: "HOTS: Invasive species without natural predators outcompete and prey upon native species, reducing local biodiversity.",
+      level: "HOTS"
+    },
+    {
+      id: "L3Q19",
+      question: "Why is a complex FOOD WEB more stable than a single linear FOOD CHAIN in an ecosystem?",
+      options: ["Because a food web has no predators", "Because if one prey species declines, predators have alternative food sources to survive", "Because food webs do not require sunlight or producers", "Because decomposers cannot live in a food web"],
+      correct: 1,
+      explanation: "HOTS: In a food web, organisms have multiple feeding relationships, so the loss of one species does not automatically collapse the entire system.",
+      level: "HOTS"
+    },
+    {
+      id: "L3Q20",
+      question: "Excessive chemical fertilisers washed from farms into a lake cause rapid growth of surface algae (algal bloom). When the algae die, why do fish in the lake suffocate?",
+      options: ["The fertilisers poison the fish's fins", "Bacteria decomposing the dead algae multiply and use up almost all the dissolved oxygen in the water", "The algae drink all the water in the lake", "Fish cannot swim in green water"],
+      correct: 1,
+      explanation: "HOTS: During eutrophication, aerobic bacteria decompose the dead algae and consume the dissolved oxygen, causing aquatic animals to die of hypoxia.",
+      level: "HOTS"
+    }
+  ],
+  4: [
+    {
+      id: "L4Q01",
+      question: "What is the SI unit of ENERGY?",
+      options: ["Newton (N)", "Joule (J)", "Watt (W)", "Pascal (Pa)"],
+      correct: 1,
+      explanation: "Energy is measured in Joules (J) or kilojoules (kJ).",
+      level: "BASIC"
+    },
+    {
+      id: "L4Q02",
+      question: "What form of energy is stored in food, fossil fuels, and electric batteries?",
+      options: ["Kinetic energy", "Chemical potential energy", "Sound energy", "Gravitational potential energy"],
+      correct: 1,
+      explanation: "Food, fuels, and batteries store chemical potential energy that can be released through chemical reactions.",
+      level: "BASIC"
+    },
+    {
+      id: "L4Q03",
+      question: "Which form of energy is possessed by any moving object?",
+      options: ["Kinetic energy", "Elastic potential energy", "Thermal energy", "Nuclear energy"],
+      correct: 0,
+      explanation: "Kinetic energy is the energy of motion. The faster and heavier an object is, the more kinetic energy it has.",
+      level: "BASIC"
+    },
+    {
+      id: "L4Q04",
+      question: "What does the Law of Conservation of Energy state?",
+      options: ["Energy can be created from nothing in a generator", "Energy cannot be created or destroyed; it can only be converted from one form to another", "All energy eventually disappears into space", "Only electrical energy can be conserved"],
+      correct: 1,
+      explanation: "The total amount of energy in a closed system remains constant; it only transforms between different forms.",
+      level: "BASIC"
+    },
+    {
+      id: "L4Q05",
+      question: "Which of the following is a RENEWABLE energy source?",
+      options: ["Crude oil (petroleum)", "Natural gas", "Solar energy", "Coal"],
+      correct: 2,
+      explanation: "Solar energy (along with wind, hydroelectric, and biomass) is renewable because it is naturally replenished and will not run out.",
+      level: "BASIC"
+    },
+    {
+      id: "L4Q06",
+      question: "What is the SI unit of FORCE, and which instrument is used to measure it in the lab?",
+      options: ["Kilogram (kg); electronic balance", "Newton (N); spring balance (Newton meter)", "Joule (J); thermometer", "Metre (m); ruler"],
+      correct: 1,
+      explanation: "Force is measured in Newtons (N) using a spring balance (Newton meter).",
+      level: "BASIC"
+    },
+    {
+      id: "L4Q07",
+      question: "What is the contact force that opposes motion between two surfaces sliding past each other?",
+      options: ["Gravity", "Magnetic force", "Friction", "Electrostatic force"],
+      correct: 2,
+      explanation: "Friction acts in the opposite direction to motion when two surfaces rub against each other.",
+      level: "BASIC"
+    },
+    {
+      id: "L4Q08",
+      question: "When Dr. Azzam switches on a battery-powered torchlight, what is the main energy conversion that takes place?",
+      options: ["Electrical energy → Chemical energy → Sound energy", "Chemical energy → Electrical energy → Light energy + Thermal (heat) energy", "Light energy → Kinetic energy → Chemical energy", "Gravitational energy → Nuclear energy"],
+      correct: 1,
+      explanation: "Chemical energy in the battery converts to electrical energy in the wires, which turns into light and heat in the bulb.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L4Q09",
+      question: "When a coconut falls from the top of a tall palm tree to the ground, how does its energy change during the fall?",
+      options: ["Gravitational potential energy is converted into kinetic energy", "Kinetic energy is converted into chemical energy", "Sound energy is converted into light energy", "Elastic potential energy is converted into nuclear energy"],
+      correct: 0,
+      explanation: "As height decreases, gravitational potential energy decreases and is converted into kinetic energy as the coconut speeds up.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L4Q10",
+      question: "An archer pulls back a bowstring to shoot an arrow. Which energy conversion occurs when the bowstring is released?",
+      options: ["Elastic potential energy → Kinetic energy", "Chemical energy → Thermal energy", "Sound energy → Elastic potential energy", "Light energy → Electrical energy"],
+      correct: 0,
+      explanation: "The stretched bow stores elastic potential energy, which transforms into kinetic energy of the moving arrow.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L4Q11",
+      question: "Which of the following is an example where FRICTION is useful rather than a nuisance?",
+      options: ["Wear and tear of moving engine parts", "Treads on car tyres gripping a wet road to help the car brake safely", "Overheating of a machine drill", "Wasting fuel to overcome air resistance"],
+      correct: 1,
+      explanation: "Friction between tyre treads and the road prevents skidding and allows cars to move and stop safely.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L4Q12",
+      question: "How can unwanted friction between moving metal gears inside a bicycle or machine be reduced?",
+      options: ["By sprinkling sand between the gears", "By applying lubricants (oil or grease) or using ball bearings", "By pressing the metal surfaces harder together", "By making the surfaces rougher"],
+      correct: 1,
+      explanation: "Lubricants form a slippery film between moving surfaces, and ball bearings allow surfaces to roll rather than slide.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L4Q13",
+      question: "On Earth, the gravitational field strength is approximately 10 N/kg. What is the WEIGHT of Dr. Azzam's 45 kg science equipment crate on Earth?",
+      options: ["4.5 N", "45 N", "450 N", "4500 kg"],
+      correct: 2,
+      explanation: "Weight = Mass × Gravitational field strength (W = m × g = 45 kg × 10 N/kg = 450 N).",
+      level: "APPLICATION"
+    },
+    {
+      id: "L4Q14",
+      question: "In a hydroelectric power station, how is electricity generated?",
+      options: ["Burning coal to boil water", "Gravitational potential energy of water behind a dam turns into kinetic energy of flowing water, which spins turbines connected to electrical generators", "Solar panels absorbing moonlight", "Splitting uranium atoms"],
+      correct: 1,
+      explanation: "Falling water converts gravitational potential energy into kinetic energy, turning a turbine and generator to produce electrical energy.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L4Q15",
+      question: "Dr. Azzam takes a 60 kg rover from Earth (g = 10 N/kg) to the Moon, where gravity is one-sixth as strong (g ≈ 1.6 N/kg). How do the rover's MASS and WEIGHT compare on the Moon?",
+      options: ["Both mass and weight decrease to one-sixth", "Its mass remains 60 kg, while its weight decreases from 600 N to 96 N", "Its mass becomes 0 kg and its weight stays 600 N", "Both mass and weight increase on the Moon"],
+      correct: 1,
+      explanation: "HOTS: Mass is the amount of matter in an object (constant everywhere at 60 kg), whereas weight depends on gravity (60 × 1.6 = 96 N).",
+      level: "HOTS"
+    },
+    {
+      id: "L4Q16",
+      question: "An LED lamp receives 100 J of electrical energy every second. It produces 85 J of useful light energy and 15 J of wasted heat energy. What is the efficiency of the LED lamp?",
+      options: ["15%", "85%", "100%", "115%"],
+      correct: 1,
+      explanation: "HOTS: Efficiency = (Useful energy output ÷ Total energy input) × 100% = (85 J ÷ 100 J) × 100% = 85%.",
+      level: "HOTS"
+    },
+    {
+      id: "L4Q17",
+      question: "A pendulum bob is pulled to position A (highest point) and released to swing through position B (lowest point) to position C. Why does the pendulum eventually stop swinging after several minutes?",
+      options: ["Gravity turns off after a few minutes", "Energy is gradually transferred to the surroundings as thermal energy due to air resistance and friction at the pivot", "The mass of the bob evaporates", "Kinetic energy is destroyed"],
+      correct: 1,
+      explanation: "HOTS: Work done against air resistance and pivot friction dissipates mechanical energy as heat into the surrounding air.",
+      level: "HOTS"
+    },
+    {
+      id: "L4Q18",
+      question: "Two identical bulbs are connected in a SERIES circuit vs a PARALLEL circuit. If one bulb blows (breaks) in each circuit, what happens to the other bulb?",
+      options: ["In series the other bulb goes out; in parallel the other bulb stays lit", "In both circuits the other bulb stays lit", "In series the other bulb gets brighter; in parallel it goes out", "The battery explodes in both circuits"],
+      correct: 0,
+      explanation: "HOTS: A series circuit has only one path for current, so a break stops all current. A parallel circuit has independent branches, so the other bulb continues working.",
+      level: "HOTS"
+    },
+    {
+      id: "L4Q19",
+      question: "Brunei Darussalam is rich in petroleum and natural gas, which are non-renewable fossil fuels. Why is it important for Brunei to also invest in solar energy and energy conservation?",
+      options: ["Because solar panels work only in the dark", "Because fossil fuels are finite and burning them releases carbon dioxide (a greenhouse gas), whereas solar energy is clean and sustainable", "Because petroleum is a renewable resource", "Because electricity is not needed in cities"],
+      correct: 1,
+      explanation: "HOTS: Transitioning to renewable solar energy conserves finite hydrocarbon reserves and reduces carbon emissions that cause global warming.",
+      level: "HOTS"
+    },
+    {
+      id: "L4Q20",
+      question: "A skydiver jumps from an aircraft. At first she accelerates downward, but after opening her parachute she falls at a steady, slow speed. What can you conclude about the forces acting on her when she falls at a constant speed?",
+      options: ["There is no gravity acting on her anymore", "The upward air resistance (drag) on the parachute is equal and opposite to her downward weight (balanced forces)", "Upward air resistance is ten times greater than her weight forever", "Her mass has become zero"],
+      correct: 1,
+      explanation: "HOTS: When an object moves at constant velocity (terminal velocity), the resultant force is zero because upward air resistance balances downward weight.",
+      level: "HOTS"
+    }
+  ],
+  5: [
+    {
+      id: "L5Q01",
+      question: "Which piece of laboratory apparatus should be used to measure a precise volume of liquid (e.g., 24.5 cm³) accurately?",
+      options: ["Beaker", "Conical flask", "Measuring cylinder", "Test tube"],
+      correct: 2,
+      explanation: "A measuring cylinder has fine graduations designed for measuring liquid volumes accurately, unlike beakers which only give rough estimates.",
+      level: "BASIC"
+    },
+    {
+      id: "L5Q02",
+      question: "What does a hazard warning symbol showing a skull and crossbones on a chemical bottle mean?",
+      options: ["Flammable", "Toxic (poisonous)", "Corrosive", "Radioactive"],
+      correct: 1,
+      explanation: "The skull and crossbones symbol warns that the substance is toxic (poisonous) if swallowed, inhaled, or absorbed through skin.",
+      level: "BASIC"
+    },
+    {
+      id: "L5Q03",
+      question: "What does the CORROSIVE hazard symbol (liquid dripping onto a hand and a surface) indicate?",
+      options: ["The substance catches fire easily", "The substance can attack and destroy living tissue (skin/eyes) and metals", "The substance is safe to drink", "The substance is magnetic"],
+      correct: 1,
+      explanation: "Corrosive substances such as concentrated acids and alkalis cause severe chemical burns to skin and damage materials.",
+      level: "BASIC"
+    },
+    {
+      id: "L5Q04",
+      question: "What is a pure substance made of only ONE type of atom that cannot be broken down into simpler substances by chemical methods?",
+      options: ["Compound", "Mixture", "Element", "Solution"],
+      correct: 2,
+      explanation: "An element (such as oxygen, iron, carbon, or gold) consists of only one kind of atom and is listed on the Periodic Table.",
+      level: "BASIC"
+    },
+    {
+      id: "L5Q05",
+      question: "When a solute (such as salt) dissolves completely in a solvent (such as water), what is the clear mixture called?",
+      options: ["Suspension", "Solution", "Residue", "Precipitate"],
+      correct: 1,
+      explanation: "Solute + Solvent = Solution. Salt is the solute, water is the solvent, and salt water is the solution.",
+      level: "BASIC"
+    },
+    {
+      id: "L5Q06",
+      question: "Which separation technique is used to separate an insoluble solid (such as sand) from a liquid (such as water)?",
+      options: ["Filtration", "Chromatography", "Distillation", "Sublimation"],
+      correct: 0,
+      explanation: "Filtration uses filter paper in a filter funnel; the insoluble sand stays behind as the residue while water passes through as the filtrate.",
+      level: "BASIC"
+    },
+    {
+      id: "L5Q07",
+      question: "In a scientific investigation, what is a HYPOTHESIS?",
+      options: ["A list of broken apparatus", "A testable prediction or proposed explanation made before carrying out an experiment", "The final graph drawn at the end", "A safety rule in the laboratory"],
+      correct: 1,
+      explanation: "A hypothesis is a sensible, testable statement predicting how the independent variable affects the dependent variable.",
+      level: "BASIC"
+    },
+    {
+      id: "L5Q08",
+      question: "When lighting a Bunsen burner in the science laboratory, should the air-hole be open or closed first, and why?",
+      options: ["Open, to get a roaring blue flame immediately", "Closed, to produce a visible yellow safety flame so it can be seen easily when not in use", "Open, so gas escapes without burning", "Closed, because the yellow flame is hotter than the blue flame"],
+      correct: 1,
+      explanation: "Closing the air-hole gives a luminous yellow safety flame that is easy to see. For strong heating, open the air-hole to get a hotter, non-luminous blue flame.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L5Q09",
+      question: "When reading the volume of water in a measuring cylinder, where should you position your eye to avoid parallax error?",
+      options: ["Looking down from above the cylinder", "Level with the bottom of the curved meniscus", "Level with the top edge of the cylinder", "Looking up from below the bench"],
+      correct: 1,
+      explanation: "Your line of sight must be horizontal and level with the bottom of the meniscus to prevent parallax error.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L5Q10",
+      question: "Which separation method is best used to identify the different coloured dyes mixed together in black food colouring or marker ink?",
+      options: ["Magnetic attraction", "Paper chromatography", "Sieving", "Decanting"],
+      correct: 1,
+      explanation: "Paper chromatography separates dissolved pigments/dyes based on their different solubilities in the solvent and attraction to the paper.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L5Q11",
+      question: "How can pure drinking water (the solvent) be obtained from seawater (salt solution) in a laboratory?",
+      options: ["By passing the seawater through filter paper", "By simple distillation (evaporation followed by condensation in a Liebig condenser)", "By using a strong magnet", "By stirring the seawater with a glass rod"],
+      correct: 1,
+      explanation: "Simple distillation boils the water into steam and condenses it back into pure liquid water (distillate), leaving the salt behind.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L5Q12",
+      question: "Water (H₂O) is formed when hydrogen gas burns in oxygen gas. Why is water classified as a COMPOUND rather than a mixture?",
+      options: ["Because hydrogen and oxygen can be separated by filtration", "Because hydrogen and oxygen atoms are chemically bonded in a fixed ratio (2:1) and water has completely different properties from the gases", "Because water is a liquid at room temperature", "Because water contains only one type of atom"],
+      correct: 1,
+      explanation: "In a compound, two or more elements are chemically combined in fixed proportions and cannot be separated by physical methods.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L5Q13",
+      question: "During filtration of muddy water through filter paper, what are the scientific names for (1) the mud trapped on the paper and (2) the clear liquid collected in the flask below?",
+      options: ["(1) Filtrate, (2) Residue", "(1) Residue, (2) Filtrate", "(1) Solute, (2) Solvent", "(1) Distillate, (2) Suspension"],
+      correct: 1,
+      explanation: "The insoluble solid remaining on the filter paper is the residue; the liquid that passes through is the filtrate.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L5Q14",
+      question: "Why does Earth experience day and night every 24 hours?",
+      options: ["Because the Sun orbits around the Earth once a day", "Because the Earth rotates (spins) on its axis once every 24 hours", "Because the Moon blocks the Sun every night", "Because clouds cover the sky at night"],
+      correct: 1,
+      explanation: "Earth rotates on its axis from west to east every 24 hours; the side facing the Sun has day while the side facing away has night.",
+      level: "APPLICATION"
+    },
+    {
+      id: "L5Q15",
+      question: "Dr. Azzam accidentally spills a mixture of iron filings, fine sand, and table salt (sodium chloride). Which sequence of steps will separate and recover all three substances?",
+      options: ["Add water → evaporate → use a magnet", "Use a magnet to remove iron filings → add water and stir to dissolve salt → filter to separate sand (residue) → evaporate filtrate to get salt crystals", "Filter the dry mixture → boil the sand → freeze the iron", "Use paper chromatography on the dry mixture"],
+      correct: 1,
+      explanation: "HOTS: Iron is magnetic; sand is insoluble in water (removed by filtration); salt is soluble in water (recovered by evaporation/crystallisation).",
+      level: "HOTS"
+    },
+    {
+      id: "L5Q16",
+      question: "When setting up a paper chromatography experiment, why must the starting baseline be drawn in PENCIL rather than pen ink, and why must the solvent level be BELOW the baseline?",
+      options: ["Pencil is cheaper; solvent above the line makes the paper heavier", "Pencil graphite is insoluble so it won't smudge/separate with the dyes, and keeping solvent below the line stops the sample spots from dissolving directly into the beaker", "Pencil conducts electricity to push the dyes upward", "Pen ink is magnetic and sticks to the glass beaker"],
+      correct: 1,
+      explanation: "HOTS: Pen ink would dissolve and ruin the chromatogram, and submerging the spots in the solvent pool would wash the dyes into the beaker instead of up the paper.",
+      level: "HOTS"
+    },
+    {
+      id: "L5Q17",
+      question: "A student investigates how water temperature affects the time taken for 5 g of sugar to dissolve. Identify the (1) Independent variable, (2) Dependent variable, and (3) one Controlled variable.",
+      options: ["(1) Mass of sugar, (2) Water temperature, (3) Time taken", "(1) Water temperature, (2) Time taken to dissolve, (3) Mass of sugar / volume of water / stirring rate", "(1) Time taken, (2) Size of beaker, (3) Room lighting", "(1) Volume of water, (2) Colour of sugar, (3) Thermometer length"],
+      correct: 1,
+      explanation: "HOTS: The independent variable is what you change (temperature), the dependent variable is what you measure (time taken), and controlled variables are kept constant for a fair test.",
+      level: "HOTS"
+    },
+    {
+      id: "L5Q18",
+      question: "Iron filings (grey magnetic solid) and sulfur powder (yellow solid) are mixed in a dish. If a magnet is held over the dish, the iron is pulled out. However, after heating the mixture strongly, a black solid (iron(II) sulfide) forms that is NOT magnetic. Why?",
+      options: ["Heating melted the magnet", "Heating caused a chemical reaction that bonded iron and sulfur atoms into a new compound with completely different properties from its elements", "The iron evaporated into the air", "Sulfur painted the iron black"],
+      correct: 1,
+      explanation: "HOTS: Before heating, it is a physical mixture where iron retains its magnetic property. Heating forms a chemical compound (iron(II) sulfide) with new properties.",
+      level: "HOTS"
+    },
+    {
+      id: "L5Q19",
+      question: "To measure the volume of an irregularly shaped stone, Dr. Azzam pours 50 cm³ of water into a measuring cylinder, lowers the stone in gently on a thread, and reads the new level as 78 cm³. What is the volume of the stone, and why must the stone be fully submerged?",
+      options: ["128 cm³; so the stone floats", "28 cm³; because a submerged object displaces a volume of water equal to its own volume", "50 cm³; because water compresses around the stone", "78 cm³; because the thread absorbs 50 cm³ of water"],
+      correct: 1,
+      explanation: "HOTS: By the water displacement method, Volume of stone = Final volume − Initial volume (78 − 50 = 28 cm³).",
+      level: "HOTS"
+    },
+    {
+      id: "L5Q20",
+      question: "When heating a flammable liquid like ethanol in a test tube, why must you use a hot water bath instead of heating it directly over a naked Bunsen burner flame?",
+      options: ["Ethanol freezes when near a blue flame", "Ethanol vapour is highly flammable and could catch fire or explode if exposed directly to an open flame", "Test tubes melt in cold water", "Water baths make the ethanol turn into solid gold"],
+      correct: 1,
+      explanation: "HOTS: Flammable liquids vaporise easily and ignite on contact with a naked flame; a warm water bath heats them safely and evenly.",
+      level: "HOTS"
+    }
+  ]
+};
+
+/* ============================================================================
+   2. NON-REPEATING RANDOM QUESTION SYSTEM
+   ============================================================================ */
+const usedQuestionIds = new Set();
+
+function getNextRandomQuestion(levelNumber) {
+  const pool = QUESTION_BANK[levelNumber] || QUESTION_BANK[1];
+  // Tapis soalan yang belum pernah digunakan dalam sesi ini
+  let available = pool.filter(q => !usedQuestionIds.has(q.id));
+
+  // Jika semua 20 soalan dalam level tersebut telah habis dijawab dalam sesi ini,
+  // buka semula pool level tersebut supaya pemain tidak tersekat
+  if (available.length === 0) {
+    pool.forEach(q => usedQuestionIds.delete(q.id));
+    available = [...pool];
+  }
+
+  const randomIndex = Math.floor(Math.random() * available.length);
+  const chosenQuestion = available[randomIndex];
+  usedQuestionIds.add(chosenQuestion.id);
+  return chosenQuestion;
+}
+
+/* ============================================================================
+   3. WEB AUDIO API SOUND SYSTEM (SYNTHESIZED SCI-FI AUDIO + BGM)
+   ============================================================================ */
+const GameAudio = {
+  ctx: null,
+  muted: false,
+  bgmInterval: null,
+  bgmStep: 0,
+
+  init() {
+    if (!this.ctx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        this.ctx = new AudioCtx();
+      }
+    }
+    if (this.ctx && this.ctx.state === "suspended") {
+      this.ctx.resume();
+    }
+  },
+
+  toggleMute() {
+    this.init();
+    this.muted = !this.muted;
+    const icon = document.getElementById("soundIcon");
+    const label = document.getElementById("soundLabel");
+    if (icon) icon.textContent = this.muted ? "🔇" : "🔊";
+    if (label) label.textContent = this.muted ? "OFF" : "ON";
+    if (this.muted) {
+      this.stopBGM();
+    } else if (Game.state === "PLAYING") {
+      this.startBGM(Game.currentLevelIndex);
+    }
+  },
+
+  playTone(freq, type, duration, vol = 0.12, slideFreq = null) {
+    if (this.muted) return;
+    this.init();
+    if (!this.ctx) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, now);
+      if (slideFreq) {
+        osc.frequency.exponentialRampToValueAtTime(slideFreq, now + duration);
+      }
+      gain.gain.setValueAtTime(vol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + duration);
+    } catch (e) {}
+  },
+
+  shoot(power = false) {
+    if (power) {
+      this.playTone(760, "sawtooth", 0.14, 0.12, 220);
+      this.playTone(1100, "square", 0.1, 0.08, 440);
+    } else {
+      this.playTone(620, "square", 0.11, 0.1, 180);
+    }
+  },
+
+  jump() {
+    this.playTone(220, "sine", 0.16, 0.12, 540);
+  },
+
+  hitEnemy() {
+    this.playTone(190, "triangle", 0.08, 0.12, 90);
+  },
+
+  explosion() {
+    if (this.muted) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      const bufferSize = this.ctx.sampleRate * 0.25;
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+      const noise = this.ctx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(480, now);
+      const gain = this.ctx.createGain();
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+      noise.start(now);
+    } catch (e) {}
+  },
+
+  questionBox() {
+    this.playTone(523.25, "sine", 0.1, 0.14, 659.25);
+    setTimeout(() => this.playTone(783.99, "sine", 0.18, 0.14, 1046.5), 90);
+  },
+
+  correctAnswer() {
+    const notes = [523.25, 659.25, 783.99, 1046.5];
+    notes.forEach((n, idx) => {
+      setTimeout(() => this.playTone(n, "triangle", 0.16, 0.16), idx * 80);
+    });
+  },
+
+  wrongAnswer() {
+    this.playTone(260, "sawtooth", 0.18, 0.14, 180);
+    setTimeout(() => this.playTone(185, "sawtooth", 0.28, 0.14, 120), 150);
+  },
+
+  crystalCollected() {
+    const notes = [587.33, 880, 1174.66, 1567.98];
+    notes.forEach((n, idx) => {
+      setTimeout(() => this.playTone(n, "sine", 0.2, 0.15), idx * 70);
+    });
+  },
+
+  bossDefeated() {
+    this.explosion();
+    const fanfare = [440, 554.37, 659.25, 880, 659.25, 880, 1108.73];
+    fanfare.forEach((n, idx) => {
+      setTimeout(() => this.playTone(n, "square", 0.2, 0.14), idx * 120);
+    });
+  },
+
+  startBGM(levelIdx = 0) {
+    this.stopBGM();
+    if (this.muted) return;
+    const scales = [
+      [220, 261.63, 293.66, 329.63, 392, 329.63, 293.66, 261.63],
+      [196, 233.08, 261.63, 293.66, 311.13, 293.66, 261.63, 233.08],
+      [246.94, 293.66, 329.63, 369.99, 440, 369.99, 329.63, 293.66],
+      [261.63, 311.13, 349.23, 392, 466.16, 392, 349.23, 311.13],
+      [293.66, 349.23, 440, 523.25, 587.33, 523.25, 440, 349.23]
+    ];
+    const currentScale = scales[levelIdx % scales.length];
+    this.bgmStep = 0;
+    this.bgmInterval = setInterval(() => {
+      if (this.muted || Game.state !== "PLAYING") return;
+      const note = currentScale[this.bgmStep % currentScale.length];
+      this.playTone(note * 0.5, "triangle", 0.18, 0.035);
+      this.bgmStep++;
+    }, 260);
+  },
+
+  stopBGM() {
+    if (this.bgmInterval) {
+      clearInterval(this.bgmInterval);
+      this.bgmInterval = null;
+    }
+  }
+};
+
+/* ============================================================================
+   4. 5 THEMED LEVEL CONFIGURATIONS (BRUNEI YEAR 7 SCIENCE SYLLABUS)
+   World Coordinates:
+   - Ground Floor Y = 485
+   - World Width = 2750
+   ============================================================================ */
+const LEVEL_CONFIGS = [
+  {
+    levelNumber: 1,
+    name: "SCIENCE FOREST",
+    icon: "🌳",
+    topics: "Cells, Microscope, Plant vs Animal Cells & Classification",
+    focusItems: [
+      { icon: "🔬", label: "Cells & Microscope" },
+      { icon: "🌱", label: "Plant vs Animal Cells" },
+      { icon: "🧬", label: "Living Processes" },
+      { icon: "🐾", label: "Classification" }
+    ],
+    exploreTask: "Explore Science Forest",
+    crystalTask: "Collect Nature Crystal",
+    missionText: "Explore the Science Forest, shoot or touch Question Boxes (?), answer Brunei Year 7 Science questions on Cells & Classification, defeat the Forest Tree-Mecha Golem Boss, and collect the 💎 Nature Crystal!",
+    skyTop: "#38bdf8",
+    skyBottom: "#bae6fd",
+    groundTop: "#4ade80",
+    groundFill: "#5c3a21",
+    platformTop: "#22c55e",
+    platformFill: "#78350f",
+    accentColor: "#fef08a",
+    bossName: "🌳 BOSS LEVEL 1: FOREST GOLEM",
+    bossColor: "#78350f",
+    bossHp: 130
+  },
+  {
+    levelNumber: 2,
+    name: "VOLCANO THERMAL LAB",
+    icon: "🌋",
+    topics: "States of Matter, Particle Theory, Thermal Expansion & Density",
+    focusItems: [
+      { icon: "🧊", label: "States of Matter" },
+      { icon: "⚛️", label: "Particle Theory" },
+      { icon: "🌡️", label: "Thermal Expansion" },
+      { icon: "⚖️", label: "Mass & Density" }
+    ],
+    exploreTask: "Explore Volcano Lab",
+    crystalTask: "Collect Thermal Crystal",
+    missionText: "Cross the Volcano Thermal Lab, master States of Matter & Particle Theory challenges, defeat the Lava Golem Boss, and collect the 💎 Thermal Crystal!",
+    skyTop: "#450a0a",
+    skyBottom: "#ea580c",
+    groundTop: "#f97316",
+    groundFill: "#29150e",
+    platformTop: "#fb923c",
+    platformFill: "#431407",
+    accentColor: "#fde047",
+    bossName: "🌋 BOSS LEVEL 2: LAVA GOLEM",
+    bossColor: "#dc2626",
+    bossHp: 155
+  },
+  {
+    levelNumber: 3,
+    name: "DEEP SEA BIO-LAB",
+    icon: "🌊",
+    topics: "Ecosystems, Habitats, Food Chains & Webs, Marine Adaptations",
+    focusItems: [
+      { icon: "🐠", label: "Habitats & Ecosystems" },
+      { icon: "🦈", label: "Food Chains & Webs" },
+      { icon: "🦎", label: "Adaptations" },
+      { icon: "🌍", label: "Conservation" }
+    ],
+    exploreTask: "Explore Deep Sea Lab",
+    crystalTask: "Collect Ocean Crystal",
+    missionText: "Dive into the Deep Sea Bio-Lab, answer Ecosystems & Adaptations questions, defeat the Deep Sea Mecha Boss, and touch the 💎 Ocean Crystal that spawns!",
+    skyTop: "#022c43",
+    skyBottom: "#0284c7",
+    groundTop: "#22d3ee",
+    groundFill: "#0c4a6e",
+    platformTop: "#38bdf8",
+    platformFill: "#155e75",
+    accentColor: "#a5f3fc",
+    bossName: "🌊 BOSS LEVEL 3: DEEP SEA MECHA",
+    bossColor: "#0369a1",
+    bossHp: 175
+  },
+  {
+    levelNumber: 4,
+    name: "CYBER ENERGY CITY",
+    icon: "⚡",
+    topics: "Forms of Energy, Conservation of Energy, Electricity & Forces",
+    focusItems: [
+      { icon: "🔋", label: "Forms of Energy" },
+      { icon: "☀️", label: "Renewable Energy" },
+      { icon: "🧲", label: "Forces & Weight" },
+      { icon: "⚙️", label: "Friction & Motion" }
+    ],
+    exploreTask: "Explore Energy City",
+    crystalTask: "Collect Energy Crystal",
+    missionText: "Power up in Cyber Energy City, solve Energy, Electricity & Forces quizzes, defeat the Energy Robot Boss, and claim the 💎 Energy Crystal!",
+    skyTop: "#1e1b4b",
+    skyBottom: "#581c87",
+    groundTop: "#c084fc",
+    groundFill: "#1e1b4b",
+    platformTop: "#e879f9",
+    platformFill: "#3b0764",
+    accentColor: "#f0abfc",
+    bossName: "⚡ BOSS LEVEL 4: ENERGY ROBOT",
+    bossColor: "#7e22ce",
+    bossHp: 195
+  },
+  {
+    levelNumber: 5,
+    name: "ORBITAL SPACE LAB",
+    icon: "🚀",
+    topics: "Lab Safety, Scientific Inquiry, Elements, Mixtures & Separation",
+    focusItems: [
+      { icon: "⚠️", label: "Lab Safety & Hazards" },
+      { icon: "🧪", label: "Elements & Compounds" },
+      { icon: "🧫", label: "Solutions & Mixtures" },
+      { icon: "🔬", label: "Separation Techniques" }
+    ],
+    exploreTask: "Explore Orbital Lab",
+    crystalTask: "Collect Cosmic Crystal",
+    missionText: "Final Mission in the Orbital Space Lab! Answer Scientific Inquiry, Elements & Separation questions, defeat the Cosmic Titan Boss, and claim the 💎 Cosmic Champion Crystal!",
+    skyTop: "#020617",
+    skyBottom: "#1e1b4b",
+    groundTop: "#60a5fa",
+    groundFill: "#0f172a",
+    platformTop: "#38bdf8",
+    platformFill: "#1e293b",
+    accentColor: "#93c5fd",
+    bossName: "👑 BOSS LEVEL 5: COSMIC TITAN",
+    bossColor: "#e11d48",
+    bossHp: 225
+  }
+];
+
+/* ============================================================================
+   5. INPUT CONTROLLER (KEYBOARD + MULTI-TOUCH MOBILE CONTROLS)
+   ============================================================================ */
+const Keys = {
+  left: false,
+  right: false,
+  up: false,
+  down: false,
+  jump: false,
+  shoot: false
+};
+
+function setupInputs() {
+  window.addEventListener("keydown", (e) => {
+    if (Game.state !== "PLAYING") return;
+    const code = e.code;
+    if (code === "ArrowLeft" || code === "KeyA") Keys.left = true;
+    if (code === "ArrowRight" || code === "KeyD") Keys.right = true;
+    if (code === "ArrowUp" || code === "KeyW") {
+      Keys.up = true;
+      e.preventDefault();
+    }
+    if (code === "ArrowDown" || code === "KeyS") {
+      Keys.down = true;
+      e.preventDefault();
+    }
+    if (code === "Space") {
+      Keys.jump = true;
+      e.preventDefault();
+    }
+    if (code === "KeyX" || code === "KeyJ" || code === "KeyZ" || code === "Enter") {
+      Keys.shoot = true;
+    }
+  });
+
+  window.addEventListener("keyup", (e) => {
+    const code = e.code;
+    if (code === "ArrowLeft" || code === "KeyA") Keys.left = false;
+    if (code === "ArrowRight" || code === "KeyD") Keys.right = false;
+    if (code === "ArrowUp" || code === "KeyW") Keys.up = false;
+    if (code === "ArrowDown" || code === "KeyS") Keys.down = false;
+    if (code === "Space") Keys.jump = false;
+    if (code === "KeyX" || code === "KeyJ" || code === "KeyZ" || code === "Enter") Keys.shoot = false;
+  });
+
+  // Clear stuck keys if window loses focus
+  window.addEventListener("blur", () => {
+    Keys.left = Keys.right = Keys.up = Keys.down = Keys.jump = Keys.shoot = false;
+  });
+
+  // Setup Touch Buttons with reliable pointer/touch events
+  const bindTouch = (btnId, keyName) => {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+
+    const press = (ev) => {
+      ev.preventDefault();
+      GameAudio.init();
+      Keys[keyName] = true;
+      btn.classList.add("active");
+    };
+    const release = (ev) => {
+      ev.preventDefault();
+      Keys[keyName] = false;
+      btn.classList.remove("active");
+    };
+
+    btn.addEventListener("touchstart", press, { passive: false });
+    btn.addEventListener("touchend", release, { passive: false });
+    btn.addEventListener("touchcancel", release, { passive: false });
+    btn.addEventListener("mousedown", press);
+    btn.addEventListener("mouseup", release);
+    btn.addEventListener("mouseleave", release);
+  };
+
+  bindTouch("touchLeft", "left");
+  bindTouch("touchRight", "right");
+  bindTouch("touchUp", "up");
+  bindTouch("touchDown", "down");
+  bindTouch("touchShoot", "shoot");
+  bindTouch("touchJump", "jump");
+}
+
+/* ============================================================================
+   6. MAIN GAME ENGINE & ENTITIES
+   ============================================================================ */
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const VIRTUAL_HEIGHT = 600;
+const GROUND_Y = 485;
+const WORLD_WIDTH = 2750;
+
+const Game = {
+  state: "START", // START, INTRO, PLAYING, PAUSED, QUESTION, LEVEL_COMPLETE, GAME_OVER, FINAL_VICTORY
+  currentLevelIndex: 0,
+  score: 0,
+  lives: 3,
+  totalCrystals: 0,
+  totalQuestionsAnswered: 0,
+  totalCorrectAnswers: 0,
+  levelQuestionsAnswered: 0,
+  levelCrystalsCollected: 0,
+  mainCrystalCollected: false,
+  levelTimeRemaining: 300, // 05:00 countdown timer in seconds
+
+  cameraX: 0,
+  frameCount: 0,
+  screenShake: 0,
+  bannerTimer: 0,
+
+  player: null,
+  platforms: [],
+  bridges: [],
+  ladders: [],
+  questionBoxes: [],
+  coins: [],
+  powerups: [],
+  enemies: [],
+  bullets: [],
+  enemyBullets: [],
+  crystals: [],
+  particles: [],
+  floatingTexts: [],
+  bgDecorations: [],
+  boss: null,
+  activeQuestion: null,
+  activeQuestionBox: null,
+
+  init() {
+    this.resizeCanvas();
+    window.addEventListener("resize", () => this.resizeCanvas());
+    setupInputs();
+    this.buildBackgroundPreview();
+    requestAnimationFrame(() => this.loop());
+  },
+
+  resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  },
+
+  buildBackgroundPreview() {
+    this.bgDecorations = [];
+    for (let i = 0; i < 45; i++) {
+      this.bgDecorations.push({
+        x: Math.random() * WORLD_WIDTH,
+        y: Math.random() * (GROUND_Y - 60),
+        size: 2 + Math.random() * 4.5,
+        speed: 0.2 + Math.random() * 0.6,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+  },
+
+  hideAllModals() {
+    ["startScreen", "levelIntroScreen", "questionModal", "levelCompleteScreen", "gameOverScreen", "finalVictoryScreen"].forEach(id => {
+      document.getElementById(id).classList.add("hidden");
+    });
+  },
+
+  showStartScreen() {
+    GameAudio.stopBGM();
+    this.state = "START";
+    this.hideAllModals();
+    document.getElementById("hudBar").classList.add("hidden");
+    document.getElementById("leftFocusPanel").classList.add("hidden");
+    document.getElementById("rightMissionPanel").classList.add("hidden");
+    document.getElementById("touchControls").classList.add("hidden");
+    document.getElementById("startScreen").classList.remove("hidden");
+  },
+
+  togglePause() {
+    if (this.state === "PLAYING") {
+      this.state = "PAUSED";
+      this.spawnFloatingText(this.player.x + 20, this.player.y - 30, "⏸️ GAME PAUSED", "#38bdf8", 22);
+    } else if (this.state === "PAUSED") {
+      this.state = "PLAYING";
+    }
+  },
+
+  startFromLevel(levelIndex) {
+    GameAudio.init();
+    this.currentLevelIndex = levelIndex;
+    if (levelIndex === 0) {
+      this.score = 0;
+      this.lives = 3;
+      this.totalCrystals = 0;
+      this.totalQuestionsAnswered = 0;
+      this.totalCorrectAnswers = 0;
+    } else if (this.lives <= 0) {
+      this.lives = 3;
+    }
+    this.prepareLevelIntro();
+  },
+
+  prepareLevelIntro() {
+    GameAudio.stopBGM();
+    this.state = "INTRO";
+    this.hideAllModals();
+    const cfg = LEVEL_CONFIGS[this.currentLevelIndex];
+    document.getElementById("introLevelBadge").textContent = `LEVEL ${cfg.levelNumber}`;
+    document.getElementById("introLevelTitle").textContent = `${cfg.icon} ${cfg.name}`;
+    document.getElementById("introLevelTopics").textContent = `Focus: ${cfg.topics}`;
+    document.getElementById("introLevelDesc").textContent = cfg.missionText;
+    document.getElementById("levelIntroScreen").classList.remove("hidden");
+  },
+
+  beginActiveLevel() {
+    this.hideAllModals();
+    document.getElementById("hudBar").classList.remove("hidden");
+    document.getElementById("leftFocusPanel").classList.remove("hidden");
+    document.getElementById("rightMissionPanel").classList.remove("hidden");
+    document.getElementById("touchControls").classList.remove("hidden");
+    this.setupLevelWorld(this.currentLevelIndex);
+    this.state = "PLAYING";
+    GameAudio.startBGM(this.currentLevelIndex);
+    window.focus();
+  },
+
+  setupLevelWorld(levelIdx) {
+    const cfg = LEVEL_CONFIGS[levelIdx];
+    this.cameraX = 0;
+    this.levelQuestionsAnswered = 0;
+    this.levelCrystalsCollected = 0;
+    this.mainCrystalCollected = false;
+    this.levelTimeRemaining = 300; // 05:00
+    this.bannerTimer = 240; // Show center level banner at start
+    this.bullets = [];
+    this.enemyBullets = [];
+    this.particles = [];
+    this.floatingTexts = [];
+    Keys.left = Keys.right = Keys.up = Keys.down = Keys.jump = Keys.shoot = false;
+
+    // Populate Left Science Focus Panel
+    const focusContainer = document.getElementById("focusListContainer");
+    if (focusContainer) {
+      focusContainer.innerHTML = cfg.focusItems.map(item => `
+        <div class="flex items-center gap-2 bg-amber-100/90 border border-amber-700/40 rounded-lg px-2 py-1 shadow-sm">
+          <span class="text-base">${item.icon}</span>
+          <span class="leading-tight text-[11px] font-extrabold text-amber-950">${item.label}</span>
+        </div>
+      `).join("");
+    }
+
+    // Populate Right Mission Panel
+    document.getElementById("missionPanelTitle").innerHTML = `<span>🎯</span> <span>LEVEL ${cfg.levelNumber} MISSION</span>`;
+    document.getElementById("mTextExplore").textContent = cfg.exploreTask;
+    document.getElementById("mTextCrystal").textContent = cfg.crystalTask;
+
+    // 1. Create Dr. Azzam (Science Agent)
+    this.player = {
+      x: 110,
+      y: GROUND_Y - 72,
+      w: 48,
+      h: 72,
+      vx: 0,
+      vy: 0,
+      speed: 5.3,
+      jumpPower: -13.8,
+      facing: 1,
+      aimUp: false,
+      onGround: false,
+      onLadder: false,
+      shootCooldown: 0,
+      muzzleFlashTimer: 0,
+      invulnTimer: 0,
+      shieldTimer: 0,
+      sciencePowerTimer: 0,
+      animTimer: 0,
+      victoryPose: false,
+      defeatedPose: false
+    };
+
+    // 2. Platforms & Suspension Rope Bridges (Matching Reference Image 1!)
+    this.platforms = [
+      // Main Ground Banks with River Gorge in the middle covered by Rope Bridges
+      { x: 0, y: GROUND_Y, w: 680, h: 130, isGround: true },
+      { x: 680, y: GROUND_Y, w: 280, h: 24, isBridge: true }, // Rope Bridge 1 over river
+      { x: 960, y: GROUND_Y, w: 680, h: 130, isGround: true },
+      { x: 1640, y: GROUND_Y, w: 240, h: 24, isBridge: true }, // Rope Bridge 2
+      { x: 1880, y: GROUND_Y, w: 870, h: 130, isGround: true },
+
+      // Elevated Grassy Cliff Platforms
+      { x: 310, y: 355, w: 230, h: 28 },
+      { x: 640, y: 260, w: 230, h: 28 },
+      { x: 1020, y: 345, w: 250, h: 28 },
+      { x: 1350, y: 250, w: 240, h: 28 },
+      { x: 1680, y: 350, w: 220, h: 28 },
+      { x: 1960, y: 265, w: 220, h: 28 },
+      { x: 2210, y: 355, w: 195, h: 28 }
+    ];
+
+    // 3. Wooden Ladders
+    this.ladders = [
+      { x: 340, y: 355, w: 42, h: GROUND_Y - 355 },
+      { x: 665, y: 260, w: 42, h: 355 - 260 + 20 },
+      { x: 1180, y: 345, w: 42, h: GROUND_Y - 345 },
+      { x: 1385, y: 250, w: 42, h: 345 - 250 + 20 },
+      { x: 1990, y: 265, w: 42, h: GROUND_Y - 265 },
+      { x: 2235, y: 355, w: 42, h: GROUND_Y - 355 }
+    ];
+
+    // 4. Golden 3D Question Boxes (📦 '?' on wooden post or floating)
+    this.questionBoxes = [
+      { x: 260, y: GROUND_Y - 92, w: 52, h: 52, hasPost: true, triggered: false, bounceOffset: 0 },
+      { x: 730, y: 195, w: 52, h: 52, hasPost: false, triggered: false, bounceOffset: 0 },
+      { x: 1090, y: 280, w: 52, h: 52, hasPost: false, triggered: false, bounceOffset: 0 },
+      { x: 1470, y: 185, w: 52, h: 52, hasPost: false, triggered: false, bounceOffset: 0 },
+      { x: 2070, y: 200, w: 52, h: 52, hasPost: false, triggered: false, bounceOffset: 0 }
+    ];
+
+    // 5. Golden Star Coins (🪙 +100 Mata) & Powerups (❤️ Heart Bubble & 🛡️ Atom Shield)
+    this.coins = [
+      { x: 740, y: GROUND_Y - 34, r: 16, collected: false },
+      { x: 795, y: GROUND_Y - 34, r: 16, collected: false },
+      { x: 850, y: GROUND_Y - 34, r: 16, collected: false },
+      { x: 905, y: GROUND_Y - 34, r: 16, collected: false },
+      { x: 420, y: 318, r: 16, collected: false },
+      { x: 475, y: 318, r: 16, collected: false },
+      { x: 1710, y: GROUND_Y - 34, r: 16, collected: false },
+      { x: 1770, y: GROUND_Y - 34, r: 16, collected: false },
+      { x: 1830, y: GROUND_Y - 34, r: 16, collected: false }
+    ];
+
+    this.powerups = [
+      { x: 1140, y: 295, r: 20, type: "HEART", collected: false, phase: 0 },
+      { x: 1790, y: 300, r: 20, type: "SHIELD", collected: false, phase: 1.5 }
+    ];
+
+    this.crystals = []; // Main Victory Crystal spawns when Boss is defeated!
+
+    // 6. Enemies (Bee flying, Red Ladybug Beetle, Wild Boar)
+    this.enemies = [
+      { x: 460, y: GROUND_Y - 42, baseY: GROUND_Y - 42, w: 48, h: 42, minX: 350, maxX: 640, vx: -1.6, hp: 30, maxHp: 30, hitFlash: 0, subType: "beetle" },
+      { x: 520, y: 250, baseY: 250, w: 50, h: 44, minX: 330, maxX: 820, vx: 2.1, hp: 30, maxHp: 30, hitFlash: 0, subType: "bee" },
+      { x: 1080, y: GROUND_Y - 48, baseY: GROUND_Y - 48, w: 58, h: 48, minX: 980, maxX: 1380, vx: 1.9, hp: 45, maxHp: 45, hitFlash: 0, subType: "boar" },
+      { x: 1410, y: 195, baseY: 195, w: 50, h: 44, minX: 1280, maxX: 1620, vx: -2.2, hp: 35, maxHp: 35, hitFlash: 0, subType: "bee" },
+      { x: 1520, y: GROUND_Y - 42, baseY: GROUND_Y - 42, w: 48, h: 42, minX: 1350, maxX: 1620, vx: 1.7, hp: 35, maxHp: 35, hitFlash: 0, subType: "beetle" },
+      { x: 2010, y: GROUND_Y - 48, baseY: GROUND_Y - 48, w: 58, h: 48, minX: 1900, maxX: 2220, vx: -2.0, hp: 45, maxHp: 45, hitFlash: 0, subType: "boar" }
+    ];
+
+    // 7. Boss Level at Crystal Cave Arena
+    this.boss = {
+      x: 2450,
+      y: GROUND_Y - 145,
+      w: 130,
+      h: 145,
+      minX: 2290,
+      maxX: 2590,
+      vx: -1.9,
+      vy: 0,
+      hp: cfg.bossHp,
+      maxHp: cfg.bossHp,
+      name: cfg.bossName,
+      color: cfg.bossColor,
+      hitFlash: 0,
+      attackTimer: 90,
+      defeated: false,
+      jumpTimer: 140
+    };
+
+    document.getElementById("bossHudContainer").classList.add("hidden");
+    this.updateHUD();
+  },
+
+  updateHUD() {
+    const cfg = LEVEL_CONFIGS[this.currentLevelIndex];
+    // Render 3D Glossy Red Hearts
+    const livesEl = document.getElementById("hudLives");
+    if (livesEl) {
+      let html = "";
+      for (let i = 0; i < Math.max(0, this.lives); i++) {
+        html += `
+          <svg viewBox="0 0 36 36" class="w-7 h-7 sm:w-8 sm:h-8">
+            <defs>
+              <radialGradient id="heartG${i}" cx="35%" cy="30%" r="65%">
+                <stop offset="0%" stop-color="#fda4af"/>
+                <stop offset="45%" stop-color="#ef4444"/>
+                <stop offset="100%" stop-color="#991b1b"/>
+              </radialGradient>
+            </defs>
+            <path d="M18 32 C18 32 4 22 4 11.5 C4 6.5 8 3 12.5 3 C15.5 3 18 5 18 7.5 C18 5 20.5 3 23.5 3 C28 3 32 6.5 32 11.5 C32 22 18 32 18 32 Z" fill="url(#heartG${i})" stroke="#fecdd3" stroke-width="1.8"/>
+            <ellipse cx="11.5" cy="9.5" rx="3" ry="1.8" fill="#ffffff" opacity="0.65" transform="rotate(-25 11.5 9.5)"/>
+          </svg>
+        `;
+      }
+      livesEl.innerHTML = html;
+    }
+
+    // Pad Score to 7 digits like 0002500 in Reference Image 1
+    document.getElementById("hudScore").textContent = String(this.score).padStart(7, "0");
+    document.getElementById("hudCrystal").textContent = `${this.mainCrystalCollected ? 1 : 0}/1`;
+
+    // Format countdown timer MM:SS
+    const mins = Math.floor(this.levelTimeRemaining / 60);
+    const secs = Math.floor(this.levelTimeRemaining % 60);
+    const timeEl = document.getElementById("hudTime");
+    if (timeEl) {
+      timeEl.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    }
+
+    // Update Right Mission Board Checklist
+    const mQuiz = document.getElementById("mTextQuiz");
+    const mCheckQuiz = document.getElementById("mCheckQuiz");
+    if (mQuiz) mQuiz.textContent = `Answer Science Quiz (${this.levelQuestionsAnswered}/5)`;
+    if (mCheckQuiz) {
+      mCheckQuiz.textContent = this.levelQuestionsAnswered > 0 ? "✓" : "◉";
+      mCheckQuiz.className = this.levelQuestionsAnswered > 0 ? "text-emerald-700 font-black" : "text-amber-700 font-black";
+    }
+    const mCheckCrystal = document.getElementById("mCheckCrystal");
+    if (mCheckCrystal) {
+      mCheckCrystal.textContent = this.mainCrystalCollected ? "✓" : "◉";
+      mCheckCrystal.className = this.mainCrystalCollected ? "text-emerald-700 font-black" : "text-amber-700 font-black";
+    }
+
+    // Boss HUD update
+    if (this.boss && !this.boss.defeated && this.player && this.player.x > 1880) {
+      const bossHud = document.getElementById("bossHudContainer");
+      bossHud.classList.remove("hidden");
+      document.getElementById("bossHudName").textContent = this.boss.name;
+      const pct = Math.max(0, Math.round((this.boss.hp / this.boss.maxHp) * 100));
+      document.getElementById("bossHudHpText").textContent = `${pct}%`;
+      document.getElementById("bossHudBar").style.width = `${pct}%`;
+    } else {
+      document.getElementById("bossHudContainer").classList.add("hidden");
+    }
+  },
+
+  addScore(delta) {
+    this.score = Math.max(0, this.score + delta);
+    this.updateHUD();
+  },
+
+  spawnFloatingText(x, y, text, color = "#fde047", size = 18) {
+    this.floatingTexts.push({
+      x,
+      y,
+      text,
+      color,
+      size,
+      vy: -1.6,
+      life: 65,
+      maxLife: 65
+    });
+  },
+
+  spawnExplosionParticles(x, y, color, count = 22) {
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 1.5 + Math.random() * 6.5;
+      this.particles.push({
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 1.5,
+        r: 3 + Math.random() * 5,
+        color,
+        life: 25 + Math.random() * 20,
+        maxLife: 45
+      });
+    }
+  },
+
+  /* ==========================================================================
+     TRIGGER SCIENCE QUESTION MODAL
+     ========================================================================== */
+  triggerQuestionBox(box) {
+    if (box.triggered || this.state !== "PLAYING") return;
+    box.triggered = true;
+    box.bounceOffset = -14;
+    GameAudio.questionBox();
+
+    // Clear movement keys so player pauses cleanly
+    Keys.left = Keys.right = Keys.up = Keys.down = Keys.jump = Keys.shoot = false;
+    this.state = "QUESTION";
+
+    const levelNum = LEVEL_CONFIGS[this.currentLevelIndex].levelNumber;
+    const q = getNextRandomQuestion(levelNum);
+    this.activeQuestion = q;
+    this.activeQuestionBox = box;
+
+    // Populate Modal UI
+    document.getElementById("qModalId").textContent = `QUESTION #${q.id} (YEAR 7 SCIENCE)`;
+    document.getElementById("qModalText").textContent = q.question;
+
+    const badge = document.getElementById("qModalLevelBadge");
+    if (q.level === "HOTS") {
+      badge.textContent = "🔴 HOTS";
+      badge.className = "px-3 py-1 rounded-full text-xs sm:text-sm font-extrabold tracking-wide bg-rose-500/25 border border-rose-400 text-rose-300";
+    } else if (q.level === "APPLICATION") {
+      badge.textContent = "🔵 APPLICATION";
+      badge.className = "px-3 py-1 rounded-full text-xs sm:text-sm font-extrabold tracking-wide bg-sky-500/25 border border-sky-400 text-sky-300";
+    } else {
+      badge.textContent = "🟢 BASIC";
+      badge.className = "px-3 py-1 rounded-full text-xs sm:text-sm font-extrabold tracking-wide bg-emerald-500/25 border border-emerald-400 text-emerald-300";
+    }
+
+    const optionsContainer = document.getElementById("qModalOptions");
+    optionsContainer.innerHTML = "";
+    const letters = ["A", "B", "C", "D"];
+
+    q.options.forEach((optText, idx) => {
+      const btn = document.createElement("button");
+      btn.className = "option-btn w-full p-3 sm:p-4 rounded-2xl text-left flex items-center gap-3 text-white font-semibold text-xs sm:text-base";
+      btn.innerHTML = `
+        <span class="w-8 h-8 rounded-xl bg-sky-500/30 border border-sky-400 flex items-center justify-center font-orbitron font-black text-sky-200 shrink-0">${letters[idx]}</span>
+        <span class="flex-1">${optText}</span>
+      `;
+      btn.onclick = () => this.submitAnswer(idx, btn);
+      optionsContainer.appendChild(btn);
+    });
+
+    document.getElementById("qModalFeedback").classList.add("hidden");
+    document.getElementById("questionModal").classList.remove("hidden");
+  },
+
+  submitAnswer(selectedIndex, clickedBtn) {
+    const q = this.activeQuestion;
+    if (!q) return;
+
+    const optionButtons = document.querySelectorAll("#qModalOptions button");
+    optionButtons.forEach(b => (b.disabled = true));
+
+    const feedbackBox = document.getElementById("qModalFeedback");
+    const feedbackTitle = document.getElementById("qModalFeedbackTitle");
+    const explanationEl = document.getElementById("qModalExplanation");
+
+    this.totalQuestionsAnswered++;
+    this.levelQuestionsAnswered++;
+
+    const isCorrect = selectedIndex === q.correct;
+    optionButtons[q.correct].classList.add("correct");
+
+    if (isCorrect) {
+      GameAudio.correctAnswer();
+      this.totalCorrectAnswers++;
+      const pts = q.level === "HOTS" ? 200 : 100;
+      this.addScore(pts);
+
+      // Restore life if below 5 max, and activate Science Power Blaster!
+      let bonusLifeMsg = "";
+      if (this.lives < 5) {
+        this.lives++;
+        bonusLifeMsg = " • ❤️ +1 LIFE!";
+      }
+      if (this.player) {
+        this.player.sciencePowerTimer = 600; // 10 seconds of rapid hyper blaster
+      }
+      this.updateHUD();
+
+      feedbackBox.className = "mt-3.5 p-3.5 sm:p-4 rounded-2xl border border-emerald-400 bg-emerald-950/80 text-left";
+      feedbackTitle.className = "font-orbitron text-sm sm:text-base font-black text-emerald-300 mb-1";
+      feedbackTitle.textContent = `✅ CORRECT! 🎉 +${pts} POINTS • ⚡ SCIENCE POWER!${bonusLifeMsg}`;
+      explanationEl.textContent = `💡 Science Explanation: ${q.explanation}`;
+
+      if (this.player) {
+        this.spawnFloatingText(this.player.x + 20, this.player.y - 35, "✅ CORRECT!", "#34d399", 20);
+        this.spawnFloatingText(this.player.x + 20, this.player.y - 60, `🎉 +${pts} POINTS`, "#fde047", 18);
+        this.spawnFloatingText(this.player.x + 20, this.player.y - 85, "⚡ SCIENCE POWER!", "#38bdf8", 18);
+      }
+    } else {
+      GameAudio.wrongAnswer();
+      clickedBtn.classList.add("wrong");
+      this.addScore(-50);
+
+      feedbackBox.className = "mt-3.5 p-3.5 sm:p-4 rounded-2xl border border-rose-400 bg-rose-950/80 text-left";
+      feedbackTitle.className = "font-orbitron text-sm sm:text-base font-black text-rose-300 mb-1";
+      feedbackTitle.textContent = `❌ TRY AGAIN! (-50 POINTS)`;
+      explanationEl.textContent = `💡 Correct Answer: ${q.options[q.correct]}. ${q.explanation}`;
+
+      if (this.player) {
+        this.spawnFloatingText(this.player.x + 20, this.player.y - 35, "❌ TRY AGAIN!", "#f87171", 20);
+      }
+    }
+
+    feedbackBox.classList.remove("hidden");
+  },
+
+  closeQuestionModal() {
+    document.getElementById("questionModal").classList.add("hidden");
+    Keys.left = Keys.right = Keys.up = Keys.down = Keys.jump = Keys.shoot = false;
+    this.state = "PLAYING";
+    window.focus();
+  },
+
+  /* ==========================================================================
+     PHYSICS, MOVEMENT & COLLISION SYSTEM
+     ========================================================================== */
+  rectOverlap(a, b) {
+    return (
+      a.x < b.x + b.w &&
+      a.x + a.w > b.x &&
+      a.y < b.y + b.h &&
+      a.y + a.h > b.y
+    );
+  },
+
+  updateGameplay() {
+    const p = this.player;
+    if (!p || p.defeatedPose) return;
+
+    this.frameCount++;
+    if (this.bannerTimer > 0) this.bannerTimer--;
+    if (this.frameCount % 60 === 0 && this.levelTimeRemaining > 0) {
+      this.levelTimeRemaining--;
+      this.updateHUD();
+    }
+
+    if (this.screenShake > 0) this.screenShake *= 0.85;
+    if (p.invulnTimer > 0) p.invulnTimer--;
+    if (p.shieldTimer > 0) p.shieldTimer--;
+    if (p.muzzleFlashTimer > 0) p.muzzleFlashTimer--;
+    if (p.sciencePowerTimer > 0) {
+      p.sciencePowerTimer--;
+      if (p.sciencePowerTimer === 0) this.updateHUD();
+    }
+    if (p.shootCooldown > 0) p.shootCooldown--;
+
+    // 1. Horizontal Movement
+    p.vx = 0;
+    if (Keys.left) {
+      p.vx = -p.speed;
+      p.facing = -1;
+    }
+    if (Keys.right) {
+      p.vx = p.speed;
+      p.facing = 1;
+    }
+
+    // 2. Check Ladder Overlap
+    let touchingLadder = null;
+    for (const lad of this.ladders) {
+      if (
+        p.x + p.w * 0.75 > lad.x &&
+        p.x + p.w * 0.25 < lad.x + lad.w &&
+        p.y + p.h >= lad.y - 10 &&
+        p.y <= lad.y + lad.h
+      ) {
+        touchingLadder = lad;
+        break;
+      }
+    }
+
+    if (touchingLadder && (Keys.up || Keys.down)) {
+      p.onLadder = true;
+      p.vy = 0;
+      p.x += (touchingLadder.x + touchingLadder.w / 2 - (p.x + p.w / 2)) * 0.2;
+    }
+    if (!touchingLadder) {
+      p.onLadder = false;
+    }
+
+    p.aimUp = Keys.up && !p.onLadder;
+
+    // 3. Vertical Movement (Ladder vs Gravity & Jump)
+    if (p.onLadder) {
+      if (Keys.up) p.vy = -4.3;
+      else if (Keys.down) p.vy = 4.3;
+      else p.vy = 0;
+
+      if (Keys.jump) {
+        p.onLadder = false;
+        p.vy = p.jumpPower;
+        GameAudio.jump();
+      }
+    } else {
+      if (Keys.jump && p.onGround) {
+        p.vy = p.jumpPower;
+        p.onGround = false;
+        GameAudio.jump();
+        this.spawnExplosionParticles(p.x + p.w / 2, p.y + p.h, "#38bdf8", 7);
+      }
+      p.vy += 0.62;
+      if (p.vy > 14) p.vy = 14;
+    }
+
+    p.x += p.vx;
+    if (p.x < 16) p.x = 16;
+    if (p.x + p.w > WORLD_WIDTH - 16) p.x = WORLD_WIDTH - 16 - p.w;
+
+    const prevBottom = p.y + p.h;
+    p.y += p.vy;
+    p.onGround = false;
+
+    if (!p.onLadder || (p.onLadder && p.vy > 0)) {
+      for (const plat of this.platforms) {
+        const withinX = p.x + p.w - 6 > plat.x && p.x + 6 < plat.x + plat.w;
+        if (Keys.down && touchingLadder && !plat.isGround && !plat.isBridge) continue;
+
+        if (withinX && p.vy >= 0 && prevBottom <= plat.y + 16 && p.y + p.h >= plat.y) {
+          p.y = plat.y - p.h;
+          p.vy = 0;
+          p.onGround = true;
+          p.onLadder = false;
+        }
+      }
+    }
+
+    if (p.y + p.h > GROUND_Y) {
+      p.y = GROUND_Y - p.h;
+      p.vy = 0;
+      p.onGround = true;
+    }
+
+    // 4. Shooting Science Blaster
+    if (Keys.shoot && p.shootCooldown <= 0) {
+      const isPowered = p.sciencePowerTimer > 0;
+      p.shootCooldown = isPowered ? 9 : 14;
+      p.muzzleFlashTimer = 6;
+      GameAudio.shoot(isPowered);
+
+      let bx, by, bvx, bvy;
+      if (p.aimUp) {
+        bx = p.x + p.w / 2;
+        by = p.y - 8;
+        bvx = 0;
+        bvy = -14;
+      } else {
+        bx = p.facing === 1 ? p.x + p.w + 14 : p.x - 14;
+        by = p.y + 34;
+        bvx = p.facing * 14;
+        bvy = 0;
+      }
+
+      this.bullets.push({
+        x: bx,
+        y: by,
+        vx: bvx,
+        vy: bvy,
+        r: isPowered ? 8 : 6,
+        damage: isPowered ? 24 : 15,
+        color: isPowered ? "#fde047" : "#38bdf8",
+        life: 65
+      });
+    }
+
+    // 5. Collect Golden Star Coins (🪙 +100) & Powerups (❤️ / 🛡️)
+    for (const coin of this.coins) {
+      if (coin.collected) continue;
+      const cRect = { x: coin.x - coin.r, y: coin.y - coin.r, w: coin.r * 2, h: coin.r * 2 };
+      if (this.rectOverlap(p, cRect)) {
+        coin.collected = true;
+        GameAudio.crystalCollected();
+        this.addScore(100);
+        this.spawnExplosionParticles(coin.x, coin.y, "#fde047", 10);
+        this.spawnFloatingText(coin.x, coin.y - 12, "🪙 +100", "#fde047", 16);
+      }
+    }
+
+    for (const pw of this.powerups) {
+      if (pw.collected) continue;
+      pw.phase += 0.06;
+      const py = pw.y + Math.sin(pw.phase) * 5;
+      const pwRect = { x: pw.x - pw.r, y: py - pw.r, w: pw.r * 2, h: pw.r * 2 };
+      if (this.rectOverlap(p, pwRect)) {
+        pw.collected = true;
+        GameAudio.correctAnswer();
+        if (pw.type === "HEART") {
+          this.lives = Math.min(5, this.lives + 1);
+          this.spawnFloatingText(pw.x, py - 15, "❤️ +1 LIFE!", "#fb7185", 18);
+          this.updateHUD();
+        } else if (pw.type === "SHIELD") {
+          p.shieldTimer = 480; // 8 seconds protection shield
+          this.spawnFloatingText(pw.x, py - 15, "🛡️ ATOM SHIELD ACTIVE!", "#38bdf8", 18);
+        }
+      }
+    }
+
+    // 6. Player <-> Question Box Collision
+    for (const box of this.questionBoxes) {
+      if (box.bounceOffset < 0) box.bounceOffset += 1;
+      if (!box.triggered && this.rectOverlap(p, box)) {
+        this.triggerQuestionBox(box);
+        return;
+      }
+    }
+
+    // 7. Update Bullets
+    for (let i = this.bullets.length - 1; i >= 0; i--) {
+      const b = this.bullets[i];
+      b.x += b.vx;
+      b.y += b.vy;
+      b.life--;
+
+      let bulletRemoved = false;
+      const bRect = { x: b.x - b.r, y: b.y - b.r, w: b.r * 2, h: b.r * 2 };
+
+      for (const box of this.questionBoxes) {
+        if (!box.triggered && this.rectOverlap(bRect, box)) {
+          this.bullets.splice(i, 1);
+          bulletRemoved = true;
+          this.spawnExplosionParticles(b.x, b.y, "#fde047", 10);
+          this.triggerQuestionBox(box);
+          return;
+        }
+      }
+      if (bulletRemoved) continue;
+
+      for (let j = this.enemies.length - 1; j >= 0; j--) {
+        const en = this.enemies[j];
+        if (this.rectOverlap(bRect, en)) {
+          en.hp -= b.damage;
+          en.hitFlash = 6;
+          GameAudio.hitEnemy();
+          this.spawnExplosionParticles(b.x, b.y, b.color, 8);
+          this.bullets.splice(i, 1);
+          bulletRemoved = true;
+
+          if (en.hp <= 0) {
+            GameAudio.explosion();
+            this.addScore(50);
+            this.spawnExplosionParticles(en.x + en.w / 2, en.y + en.h / 2, "#fb923c", 24);
+            this.spawnFloatingText(en.x + 10, en.y, "+50 SCORE!", "#fde047", 17);
+            this.enemies.splice(j, 1);
+          }
+          break;
+        }
+      }
+      if (bulletRemoved) continue;
+
+      if (this.boss && !this.boss.defeated && this.rectOverlap(bRect, this.boss)) {
+        this.boss.hp -= b.damage;
+        this.boss.hitFlash = 5;
+        GameAudio.hitEnemy();
+        this.spawnExplosionParticles(b.x, b.y, "#34d399", 10);
+        this.bullets.splice(i, 1);
+        bulletRemoved = true;
+        this.updateHUD();
+
+        if (this.boss.hp <= 0) {
+          this.handleBossDefeated();
+        }
+      }
+      if (bulletRemoved) continue;
+
+      if (b.life <= 0 || b.x < 0 || b.x > WORLD_WIDTH || b.y < -50) {
+        this.bullets.splice(i, 1);
+      }
+    }
+
+    // 8. Update Enemies (Flying Bees hover up/down, Beetles & Boars patrol)
+    for (const en of this.enemies) {
+      en.x += en.vx;
+      if (en.x < en.minX) {
+        en.x = en.minX;
+        en.vx = Math.abs(en.vx);
+      } else if (en.x + en.w > en.maxX) {
+        en.x = en.maxX - en.w;
+        en.vx = -Math.abs(en.vx);
+      }
+      if (en.subType === "bee") {
+        en.y = en.baseY + Math.sin(this.frameCount * 0.08 + en.minX) * 14;
+      }
+      if (en.hitFlash > 0) en.hitFlash--;
+
+      if (p.invulnTimer <= 0 && p.shieldTimer <= 0 && this.rectOverlap(p, en)) {
+        this.damagePlayer();
+      }
+    }
+
+    // 9. Update Boss AI
+    if (this.boss && !this.boss.defeated) {
+      const boss = this.boss;
+      if (boss.hitFlash > 0) boss.hitFlash--;
+
+      boss.x += boss.vx;
+      if (boss.x < boss.minX) {
+        boss.x = boss.minX;
+        boss.vx = Math.abs(boss.vx);
+      } else if (boss.x + boss.w > boss.maxX) {
+        boss.x = boss.maxX - boss.w;
+        boss.vx = -Math.abs(boss.vx);
+      }
+
+      boss.jumpTimer--;
+      if (boss.jumpTimer <= 0 && boss.y + boss.h >= GROUND_Y - 2) {
+        boss.vy = -10.5;
+        boss.jumpTimer = 115 + Math.floor(Math.random() * 55);
+      }
+      boss.vy += 0.45;
+      boss.y += boss.vy;
+      if (boss.y + boss.h > GROUND_Y) {
+        boss.y = GROUND_Y - boss.h;
+        boss.vy = 0;
+      }
+
+      if (Math.abs(p.x - boss.x) < 760) {
+        boss.attackTimer--;
+        if (boss.attackTimer <= 0) {
+          boss.attackTimer = Math.max(52, 95 - this.currentLevelIndex * 8);
+          const angle = Math.atan2(p.y + p.h / 2 - (boss.y + boss.h / 2), p.x - boss.x);
+          this.enemyBullets.push({
+            x: boss.x + 15,
+            y: boss.y + boss.h * 0.45,
+            vx: Math.cos(angle) * 5.8,
+            vy: Math.sin(angle) * 5.8,
+            r: 11,
+            life: 160
+          });
+        }
+      }
+
+      if (p.invulnTimer <= 0 && p.shieldTimer <= 0 && this.rectOverlap(p, boss)) {
+        this.damagePlayer();
+      }
+      this.updateHUD();
+    }
+
+    for (let i = this.enemyBullets.length - 1; i >= 0; i--) {
+      const eb = this.enemyBullets[i];
+      eb.x += eb.vx;
+      eb.y += eb.vy;
+      eb.life--;
+
+      const ebRect = { x: eb.x - eb.r, y: eb.y - eb.r, w: eb.r * 2, h: eb.r * 2 };
+      if (p.invulnTimer <= 0 && p.shieldTimer <= 0 && this.rectOverlap(p, ebRect)) {
+        this.enemyBullets.splice(i, 1);
+        this.damagePlayer();
+        continue;
+      }
+      if (eb.life <= 0) this.enemyBullets.splice(i, 1);
+    }
+
+    // 10. Check Faceted Knowledge Crystal Collection (💎)
+    for (const c of this.crystals) {
+      if (c.collected) continue;
+      c.floatPhase += 0.07;
+      const drawY = c.y + Math.sin(c.floatPhase) * 6;
+      const cRect = {
+        x: c.x - c.r - 8,
+        y: drawY - c.r - 8,
+        w: (c.r + 8) * 2,
+        h: (c.r + 8) * 2
+      };
+
+      if (this.rectOverlap(p, cRect)) {
+        c.collected = true;
+        this.levelCrystalsCollected++;
+        this.totalCrystals++;
+        this.mainCrystalCollected = true;
+        GameAudio.crystalCollected();
+        this.addScore(300);
+        this.spawnExplosionParticles(c.x, drawY, "#a855f7", 38);
+        this.spawnFloatingText(c.x, drawY - 28, "💎 CRYSTAL COLLECTED! +300", "#e879f9", 22);
+        p.victoryPose = true;
+        this.updateHUD();
+
+        setTimeout(() => {
+          this.completeCurrentLevel();
+        }, 1050);
+      }
+    }
+
+    // 11. Particles & Floating Texts
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      const pt = this.particles[i];
+      pt.x += pt.vx;
+      pt.y += pt.vy;
+      pt.vy += 0.18;
+      pt.life--;
+      if (pt.life <= 0) this.particles.splice(i, 1);
+    }
+    for (let i = this.floatingTexts.length - 1; i >= 0; i--) {
+      const ft = this.floatingTexts[i];
+      ft.y += ft.vy;
+      ft.life--;
+      if (ft.life <= 0) this.floatingTexts.splice(i, 1);
+    }
+
+    // 12. Smooth Camera Follow
+    const scale = canvas.height / VIRTUAL_HEIGHT;
+    const viewWidth = canvas.width / scale;
+    const targetCamX = p.x + p.w / 2 - viewWidth * 0.38;
+    this.cameraX += (targetCamX - this.cameraX) * 0.12;
+    this.cameraX = Math.max(0, Math.min(WORLD_WIDTH - viewWidth, this.cameraX));
+  },
+
+  handleBossDefeated() {
+    if (!this.boss || this.boss.defeated) return;
+    this.boss.defeated = true;
+    this.boss.hp = 0;
+    this.enemyBullets = [];
+    this.screenShake = 18;
+    GameAudio.bossDefeated();
+    this.addScore(500);
+
+    const bx = this.boss.x + this.boss.w / 2;
+    const by = this.boss.y + this.boss.h / 2;
+    this.spawnExplosionParticles(bx, by, "#fde047", 45);
+    this.spawnExplosionParticles(bx, by, "#34d399", 35);
+    this.spawnFloatingText(bx, this.boss.y - 30, "👑 BOSS DEFEATED! +500", "#fde047", 22);
+    this.spawnFloatingText(bx, this.boss.y - 60, "💎 COLLECT THE SCIENCE CRYSTAL!", "#e879f9", 20);
+
+    // Spawn the Faceted Purple/Emerald Knowledge Crystal at guaranteed reachable floor height!
+    const safeCrystalX = Math.min(WORLD_WIDTH - 140, Math.max(2250, bx));
+    const safeCrystalY = GROUND_Y - 46;
+    this.crystals.push({
+      x: safeCrystalX,
+      y: safeCrystalY,
+      r: 28,
+      collected: false,
+      isMainVictory: true,
+      floatPhase: 0
+    });
+
+    this.updateHUD();
+  },
+
+  damagePlayer() {
+    const p = this.player;
+    if (!p || p.invulnTimer > 0 || p.shieldTimer > 0 || this.mainCrystalCollected) return;
+    this.lives--;
+    p.invulnTimer = 85;
+    p.vy = -7;
+    p.vx = -p.facing * 5;
+    this.screenShake = 10;
+    GameAudio.wrongAnswer();
+    this.spawnExplosionParticles(p.x + p.w / 2, p.y + p.h / 2, "#fbbf24", 16);
+    this.spawnFloatingText(p.x, p.y - 20, "⚡ HIT! -1 ❤️", "#f87171", 19);
+    this.updateHUD();
+
+    if (this.lives <= 0) {
+      p.defeatedPose = true;
+      GameAudio.stopBGM();
+      setTimeout(() => {
+        this.state = "GAME_OVER";
+        document.getElementById("goScore").textContent = String(this.score).padStart(7, "0");
+        document.getElementById("gameOverScreen").classList.remove("hidden");
+      }, 950);
+    }
+  },
+
+  completeCurrentLevel() {
+    if (this.state === "LEVEL_COMPLETE" || this.state === "FINAL_VICTORY") return;
+    GameAudio.stopBGM();
+    Keys.left = Keys.right = Keys.up = Keys.down = Keys.jump = Keys.shoot = false;
+
+    if (this.currentLevelIndex >= LEVEL_CONFIGS.length - 1) {
+      // Level 5 Complete -> FINAL VICTORY CHAMPION!
+      this.state = "FINAL_VICTORY";
+      document.getElementById("fvScore").textContent = this.score;
+      document.getElementById("fvCrystals").textContent = this.totalCrystals;
+      document.getElementById("fvCorrect").textContent = `${this.totalCorrectAnswers}/${this.totalQuestionsAnswered}`;
+      document.getElementById("finalVictoryScreen").classList.remove("hidden");
+    } else {
+      this.state = "LEVEL_COMPLETE";
+      const cfg = LEVEL_CONFIGS[this.currentLevelIndex];
+      document.getElementById("lcSubtitle").textContent = `Congratulations! Level ${cfg.levelNumber} (${cfg.name}) Mission Complete!`;
+      document.getElementById("lcScore").textContent = this.score;
+      document.getElementById("lcLives").textContent = `❤️ ${this.lives}`;
+      document.getElementById("lcCrystals").textContent = `💎 ${this.levelCrystalsCollected}`;
+      document.getElementById("lcQuestions").textContent = `🧠 ${this.levelQuestionsAnswered}`;
+      document.getElementById("levelCompleteScreen").classList.remove("hidden");
+    }
+  },
+
+  nextLevel() {
+    if (this.currentLevelIndex < LEVEL_CONFIGS.length - 1) {
+      this.currentLevelIndex++;
+      this.prepareLevelIntro();
+    } else {
+      this.showStartScreen();
+    }
+  },
+
+  retryCurrentLevel() {
+    this.lives = 3;
+    this.prepareLevelIntro();
+  },
+
+  /* ==========================================================================
+     7. PRO ILLUSTRATED RENDERING ENGINE (MATCHING REFERENCE IMAGES 1 & 2)
+     ========================================================================== */
+  render() {
+    const cfg = LEVEL_CONFIGS[this.currentLevelIndex] || LEVEL_CONFIGS[0];
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const scale = canvas.height / VIRTUAL_HEIGHT;
+    ctx.save();
+    ctx.scale(scale, scale);
+
+    const viewW = canvas.width / scale;
+
+    // 1. Vibrant Sky Gradient
+    const skyGrad = ctx.createLinearGradient(0, 0, 0, VIRTUAL_HEIGHT);
+    skyGrad.addColorStop(0, cfg.skyTop);
+    skyGrad.addColorStop(1, cfg.skyBottom);
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, viewW, VIRTUAL_HEIGHT);
+
+    const shakeX = this.screenShake > 0.5 ? (Math.random() - 0.5) * this.screenShake : 0;
+    const shakeY = this.screenShake > 0.5 ? (Math.random() - 0.5) * this.screenShake : 0;
+
+    // 2. Parallax Thematic Background (Waterfall, Jungle Trees, Chameleon, River)
+    this.drawParallaxScenery(cfg, viewW);
+
+    // Camera World Transform
+    ctx.save();
+    ctx.translate(-this.cameraX + shakeX, shakeY);
+
+    // 3. Draw Boss Crystal Cave on the Right End (x: 2350 - 2750)
+    this.drawBossCrystalCave(cfg);
+
+    // 4. Draw Wooden Ladders
+    for (const lad of this.ladders) {
+      ctx.fillStyle = "rgba(120, 53, 15, 0.35)";
+      ctx.fillRect(lad.x + 3, lad.y, lad.w - 6, lad.h);
+      ctx.strokeStyle = "#92400e";
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(lad.x + 5, lad.y);
+      ctx.lineTo(lad.x + 5, lad.y + lad.h);
+      ctx.moveTo(lad.x + lad.w - 5, lad.y);
+      ctx.lineTo(lad.x + lad.w - 5, lad.y + lad.h);
+      ctx.stroke();
+
+      ctx.strokeStyle = "#d97706";
+      ctx.lineWidth = 4;
+      for (let ry = lad.y + 12; ry < lad.y + lad.h; ry += 18) {
+        ctx.beginPath();
+        ctx.moveTo(lad.x + 4, ry);
+        ctx.lineTo(lad.x + lad.w - 4, ry);
+        ctx.stroke();
+      }
+    }
+
+    // 5. Draw Platforms, Mossy Cliffs & Wooden Rope Bridges over River
+    for (const plat of this.platforms) {
+      if (plat.isBridge) {
+        this.drawRopeBridge(plat);
+      } else if (plat.isGround) {
+        this.drawGrassyCliff(plat.x, plat.y, plat.w, plat.h, cfg, true);
+      } else {
+        this.drawGrassyCliff(plat.x, plat.y, plat.w, plat.h, cfg, false);
+      }
+    }
+
+    // 6. Draw Golden 3D Question Boxes (📦 '?' on wooden post or floating)
+    for (const box of this.questionBoxes) {
+      this.drawQuestionBox3D(box);
+    }
+
+    // 7. Draw Golden Star Coins (🪙 +100) & Powerups (❤️ / 🛡️)
+    for (const coin of this.coins) {
+      if (!coin.collected) this.drawStarCoin(coin);
+    }
+    for (const pw of this.powerups) {
+      if (!pw.collected) this.drawPowerupBubble(pw);
+    }
+
+    // 8. Draw Faceted Knowledge Crystal (💎)
+    for (const c of this.crystals) {
+      if (!c.collected) this.drawKnowledgeCrystal(c);
+    }
+
+    // 9. Draw Enemies (Bee, Red Ladybug Beetle, Wild Boar)
+    for (const en of this.enemies) {
+      this.drawProEnemy(en, cfg);
+    }
+
+    // 10. Draw Level Boss (Forest Tree-Mecha Golem & Thematic Bosses)
+    if (this.boss && !this.boss.defeated) {
+      this.drawProBoss(this.boss, cfg);
+    }
+
+    // 11. Draw Dr. Azzam (Ejen Sains Chibi 3D-Shaded Character)
+    if (this.player) {
+      this.drawDrAzzamPro(this.player);
+    }
+
+    // 12. Draw Bullets & Boss Projectiles
+    for (const b of this.bullets) {
+      ctx.save();
+      ctx.shadowColor = b.color;
+      ctx.shadowBlur = 14;
+      ctx.fillStyle = b.color;
+      ctx.beginPath();
+      ctx.ellipse(b.x, b.y, b.r * 1.6, b.r * 0.9, b.vy < 0 ? Math.PI / 2 : 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r * 0.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    for (const eb of this.enemyBullets) {
+      ctx.save();
+      ctx.shadowColor = "#22c55e";
+      ctx.shadowBlur = 14;
+      ctx.fillStyle = "#16a34a";
+      ctx.beginPath();
+      ctx.arc(eb.x, eb.y, eb.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#bbf7d0";
+      ctx.beginPath();
+      ctx.arc(eb.x, eb.y, eb.r * 0.45, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // 13. Draw Particles & Floating Texts
+    for (const pt of this.particles) {
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, pt.life / pt.maxLife);
+      ctx.fillStyle = pt.color;
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    for (const ft of this.floatingTexts) {
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, ft.life / ft.maxLife);
+      ctx.font = `900 ${ft.size}px Orbitron, sans-serif`;
+      ctx.textAlign = "center";
+      ctx.strokeStyle = "#020617";
+      ctx.lineWidth = 4;
+      ctx.strokeText(ft.text, ft.x, ft.y);
+      ctx.fillStyle = ft.color;
+      ctx.fillText(ft.text, ft.x, ft.y);
+      ctx.restore();
+    }
+
+    ctx.restore(); // End Camera World Transform
+
+    // 14. Draw Center Level Wooden Banner (Like Reference Image 1) during start of level
+    if (this.bannerTimer > 0 && this.state === "PLAYING") {
+      this.drawCenterLevelBanner(cfg, viewW);
+    }
+
+    ctx.restore(); // End Virtual Height Scale
+  },
+
+  drawCenterLevelBanner(cfg, viewW) {
+    ctx.save();
+    const alpha = Math.min(1, this.bannerTimer / 40);
+    ctx.globalAlpha = alpha;
+    const cx = viewW / 2;
+    const cy = 115;
+
+    // Wooden Board Sign
+    ctx.fillStyle = "#78350f";
+    ctx.strokeStyle = "#fbbf24";
+    ctx.lineWidth = 3.5;
+    ctx.beginPath();
+    ctx.roundRect(cx - 145, cy - 30, 290, 62, 12);
+    ctx.fill();
+    ctx.stroke();
+
+    // Decorative green leaves on corners
+    ctx.fillStyle = "#22c55e";
+    ctx.beginPath();
+    ctx.ellipse(cx - 140, cy - 26, 18, 9, -0.4, 0, Math.PI * 2);
+    ctx.ellipse(cx + 140, cy - 26, 18, 9, 0.4, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.font = "800 13px Orbitron, sans-serif";
+    ctx.fillStyle = "#fde047";
+    ctx.textAlign = "center";
+    ctx.fillText(`LEVEL ${cfg.levelNumber}`, cx, cy - 9);
+
+    ctx.font = "900 22px Orbitron, sans-serif";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(cfg.name, cx, cy + 19);
+    ctx.restore();
+  },
+
+  drawParallaxScenery(cfg, viewW) {
+    const cam = this.cameraX;
+    ctx.save();
+
+    if (cfg.levelNumber === 1) {
+      // Distant Misty Mountains & Canopy
+      ctx.fillStyle = "#64b5f6";
+      ctx.beginPath();
+      ctx.moveTo(0, GROUND_Y);
+      ctx.lineTo(0, 240);
+      ctx.quadraticCurveTo(viewW * 0.3, 150, viewW * 0.6, 230);
+      ctx.quadraticCurveTo(viewW * 0.85, 160, viewW, 220);
+      ctx.lineTo(viewW, GROUND_Y);
+      ctx.fill();
+
+      // Sparkling Waterfall in Background (Matches Reference Image 1)
+      const wfX = 480 - cam * 0.25;
+      const wfGrad = ctx.createLinearGradient(wfX, 140, wfX, GROUND_Y + 90);
+      wfGrad.addColorStop(0, "#e0f2fe");
+      wfGrad.addColorStop(0.5, "#38bdf8");
+      wfGrad.addColorStop(1, "#0284c7");
+      ctx.fillStyle = wfGrad;
+      ctx.fillRect(wfX, 140, 120, GROUND_Y);
+
+      ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
+      const fallShift = (this.frameCount * 3.5) % 40;
+      for (let y = 145 + fallShift; y < GROUND_Y + 60; y += 40) {
+        ctx.fillRect(wfX + 14, y, 22, 22);
+        ctx.fillRect(wfX + 54, y - 12, 26, 24);
+        ctx.fillRect(wfX + 92, y + 6, 16, 18);
+      }
+
+      // Lush Giant Jungle Trees & Hanging Vines
+      for (let i = 0; i < 9; i++) {
+        const tx = i * 330 - (cam * 0.35);
+        // Tree Trunk
+        ctx.fillStyle = "#5c3a21";
+        ctx.fillRect(tx + 40, 110, 42, GROUND_Y - 110);
+        // Branch extending right (On tree 0, draw the Green Chameleon!)
+        if (i % 3 === 0) {
+          ctx.fillStyle = "#6d4428";
+          ctx.beginPath();
+          ctx.roundRect(tx + 60, 185, 125, 18, 8);
+          ctx.fill();
+          this.drawChameleonOnBranch(tx + 125, 173);
+        }
+        // Rich Green Canopy Layers
+        ctx.fillStyle = "#15803d";
+        ctx.beginPath();
+        ctx.arc(tx + 60, 105, 85, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#22c55e";
+        ctx.beginPath();
+        ctx.arc(tx + 45, 95, 65, 0, Math.PI * 2);
+        ctx.arc(tx + 85, 110, 58, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Sparkling Blue River at bottom of screen (under rope bridges)
+      const riverGrad = ctx.createLinearGradient(0, GROUND_Y + 12, 0, VIRTUAL_HEIGHT);
+      riverGrad.addColorStop(0, "#38bdf8");
+      riverGrad.addColorStop(1, "#0369a1");
+      ctx.fillStyle = riverGrad;
+      ctx.fillRect(0, GROUND_Y + 12, viewW, VIRTUAL_HEIGHT - GROUND_Y);
+
+      // Animated Water Ripples
+      ctx.strokeStyle = "rgba(255,255,255,0.6)";
+      ctx.lineWidth = 2.5;
+      for (let wx = 20; wx < viewW; wx += 90) {
+        const waveX = wx - ((this.frameCount * 1.5) % 90);
+        ctx.beginPath();
+        ctx.moveTo(waveX, GROUND_Y + 45);
+        ctx.quadraticCurveTo(waveX + 20, GROUND_Y + 38, waveX + 40, GROUND_Y + 45);
+        ctx.stroke();
+      }
+    } else if (cfg.levelNumber === 2) {
+      // Volcano & Lava River Scenery
+      ctx.fillStyle = "#450a0a";
+      for (let i = 0; i < 7; i++) {
+        const vx = i * 420 - cam * 0.25;
+        ctx.beginPath();
+        ctx.moveTo(vx, GROUND_Y);
+        ctx.lineTo(vx + 140, 150);
+        ctx.lineTo(vx + 220, 150);
+        ctx.lineTo(vx + 360, GROUND_Y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "#f97316";
+        ctx.beginPath();
+        ctx.ellipse(vx + 180, 150, 40, 10, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#450a0a";
+      }
+      ctx.fillStyle = "#ea580c";
+      ctx.fillRect(0, GROUND_Y + 15, viewW, VIRTUAL_HEIGHT - GROUND_Y);
+    } else if (cfg.levelNumber === 3) {
+      // Deep Sea Lab Rays & Submarine
+      ctx.fillStyle = "rgba(125, 211, 252, 0.12)";
+      for (let i = 0; i < 6; i++) {
+        const rx = i * 310 - (cam * 0.15) % 310;
+        ctx.beginPath();
+        ctx.moveTo(rx, 0);
+        ctx.lineTo(rx + 85, 0);
+        ctx.lineTo(rx - 35, GROUND_Y);
+        ctx.lineTo(rx - 120, GROUND_Y);
+        ctx.closePath();
+        ctx.fill();
+      }
+    } else if (cfg.levelNumber === 4) {
+      // Cyberpunk Energy City
+      for (let i = 0; i < 14; i++) {
+        const bx = i * 210 - cam * 0.3;
+        const bh = 180 + (i % 4) * 55;
+        ctx.fillStyle = "rgba(46, 16, 101, 0.8)";
+        ctx.fillRect(bx, GROUND_Y - bh, 130, bh);
+        ctx.strokeStyle = "rgba(232, 121, 249, 0.45)";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(bx, GROUND_Y - bh, 130, bh);
+      }
+    } else {
+      // Space Lab Ringed Planet
+      const px = 750 - cam * 0.18;
+      ctx.fillStyle = "rgba(99, 102, 241, 0.45)";
+      ctx.beginPath();
+      ctx.arc(px, 180, 75, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.65)";
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.ellipse(px, 180, 135, 24, -0.25, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // Floating fireflies / bubbles / stars
+    for (const d of this.bgDecorations) {
+      const dx = ((d.x - cam * d.speed) % viewW + viewW) % viewW;
+      const dy = (d.y + Math.sin(this.frameCount * 0.03 + d.phase) * 15 + VIRTUAL_HEIGHT) % GROUND_Y;
+      ctx.fillStyle = cfg.accentColor;
+      ctx.globalAlpha = 0.55;
+      ctx.beginPath();
+      ctx.arc(dx, dy, d.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.restore();
+  },
+
+  drawChameleonOnBranch(x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    // Curled tail
+    ctx.strokeStyle = "#65a30d";
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.arc(-18, 4, 9, 0, Math.PI * 1.6);
+    ctx.stroke();
+    // Chameleon body
+    ctx.fillStyle = "#84cc16";
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 18, 12, 0, 0, Math.PI * 2);
+    ctx.fill();
+    // Head & Big Turret Eye
+    ctx.fillStyle = "#a3e635";
+    ctx.beginPath();
+    ctx.arc(16, -2, 10, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.arc(19, -4, 4.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#0f172a";
+    ctx.beginPath();
+    ctx.arc(20, -4, 2.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  },
+
+  drawGrassyCliff(x, y, w, h, cfg, isGround) {
+    ctx.save();
+    // Rock / Earth Base
+    ctx.fillStyle = cfg.groundFill;
+    ctx.beginPath();
+    ctx.roundRect(x, y + 6, w, h - 6, isGround ? 6 : 12);
+    ctx.fill();
+
+    // Rock facets
+    ctx.fillStyle = "rgba(0,0,0,0.22)";
+    for (let rx = x + 20; rx < x + w - 40; rx += 65) {
+      ctx.beginPath();
+      ctx.roundRect(rx, y + 18, 38, h - 26, 8);
+      ctx.fill();
+    }
+
+    // Thick Lush Grass Top Cap
+    ctx.fillStyle = cfg.groundTop;
+    ctx.beginPath();
+    ctx.roundRect(x - 2, y, w + 4, 15, 8);
+    ctx.fill();
+
+    // Grass blades & Red Hibiscus Flowers (Bunga Raya) on Level 1
+    if (cfg.levelNumber === 1 && isGround) {
+      for (let fx = x + 55; fx < x + w - 50; fx += 190) {
+        ctx.fillStyle = "#e11d48";
+        ctx.beginPath();
+        ctx.arc(fx, y - 4, 8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#fde047";
+        ctx.beginPath();
+        ctx.arc(fx, y - 4, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.restore();
+  },
+
+  drawRopeBridge(plat) {
+    ctx.save();
+    // Wooden fence posts on left & right ends
+    ctx.fillStyle = "#78350f";
+    ctx.fillRect(plat.x - 6, plat.y - 38, 12, 48);
+    ctx.fillRect(plat.x + plat.w - 6, plat.y - 38, 12, 48);
+    ctx.fillRect(plat.x + plat.w * 0.5 - 5, plat.y - 32, 10, 42);
+
+    // Suspension Ropes
+    ctx.strokeStyle = "#d97706";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(plat.x, plat.y - 34);
+    ctx.quadraticCurveTo(plat.x + plat.w * 0.25, plat.y - 18, plat.x + plat.w * 0.5, plat.y - 28);
+    ctx.quadraticCurveTo(plat.x + plat.w * 0.75, plat.y - 18, plat.x + plat.w, plat.y - 34);
+    ctx.stroke();
+
+    // Wooden Planks
+    for (let px = plat.x; px < plat.x + plat.w; px += 28) {
+      ctx.fillStyle = "#92400e";
+      ctx.strokeStyle = "#451a03";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(px + 1, plat.y, 24, 14, 4);
+      ctx.fill();
+      ctx.stroke();
+    }
+    ctx.restore();
+  },
+
+  drawQuestionBox3D(box) {
+    const by = box.y + box.bounceOffset;
+    ctx.save();
+
+    // Wooden Post underneath if on ground
+    if (box.hasPost) {
+      ctx.fillStyle = "#5c3a21";
+      ctx.fillRect(box.x + box.w / 2 - 8, by + box.h, 16, GROUND_Y - (by + box.h));
+    }
+
+    if (!box.triggered) {
+      ctx.shadowColor = "#fbbf24";
+      ctx.shadowBlur = 16;
+    }
+
+    // 3D Gold-Yellow Cube Body
+    ctx.fillStyle = box.triggered ? "#64748b" : "#f59e0b";
+    ctx.beginPath();
+    ctx.roundRect(box.x, by, box.w, box.h, 10);
+    ctx.fill();
+
+    // Inner Yellow Face
+    ctx.fillStyle = box.triggered ? "#94a3b8" : "#fde047";
+    ctx.beginPath();
+    ctx.roundRect(box.x + 5, by + 5, box.w - 10, box.h - 10, 6);
+    ctx.fill();
+
+    // Corner Bolts
+    ctx.fillStyle = "#b45309";
+    ctx.beginPath();
+    ctx.arc(box.x + 9, by + 9, 2, 0, Math.PI * 2);
+    ctx.arc(box.x + box.w - 9, by + 9, 2, 0, Math.PI * 2);
+    ctx.arc(box.x + 9, by + box.h - 9, 2, 0, Math.PI * 2);
+    ctx.arc(box.x + box.w - 9, by + box.h - 9, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Bold Orange-Red Question Mark '?'
+    ctx.fillStyle = box.triggered ? "#334155" : "#dc2626";
+    ctx.font = "900 28px Fredoka, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(box.triggered ? "✓" : "?", box.x + box.w / 2, by + box.h / 2 + 2);
+    ctx.restore();
+  },
+
+  drawStarCoin(coin) {
+    const cy = coin.y + Math.sin(this.frameCount * 0.08 + coin.x) * 4;
+    ctx.save();
+    ctx.translate(coin.x, cy);
+    ctx.shadowColor = "#fde047";
+    ctx.shadowBlur = 10;
+    ctx.fillStyle = "#f59e0b";
+    ctx.beginPath();
+    ctx.arc(0, 0, coin.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#fef08a";
+    ctx.beginPath();
+    ctx.arc(0, 0, coin.r * 0.78, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#d97706";
+    ctx.font = "900 15px Fredoka, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("★", 0, 1);
+    ctx.restore();
+  },
+
+  drawPowerupBubble(pw) {
+    const py = pw.y + Math.sin(pw.phase) * 5;
+    ctx.save();
+    ctx.translate(pw.x, py);
+    // Translucent Cyan Energy Bubble
+    ctx.fillStyle = "rgba(56, 189, 248, 0.25)";
+    ctx.strokeStyle = "#bae6fd";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(0, 0, pw.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.font = "20px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(pw.type === "HEART" ? "❤️" : "🛡️", 0, 1);
+    ctx.restore();
+  },
+
+  drawKnowledgeCrystal(c) {
+    const cy = c.y + Math.sin(c.floatPhase) * 6;
+    ctx.save();
+    ctx.translate(c.x, cy);
+
+    // Radiant Light Beacon
+    ctx.fillStyle = "rgba(192, 132, 252, 0.22)";
+    ctx.fillRect(-30, -220, 60, 260);
+
+    // Faceted Purple/Magenta Gem (Matches Reference Image 2 "Kristal Ilmu")
+    ctx.shadowColor = "#e879f9";
+    ctx.shadowBlur = 24;
+    ctx.fillStyle = "#9333ea";
+    ctx.beginPath();
+    ctx.moveTo(0, -c.r);
+    ctx.lineTo(c.r * 0.85, -c.r * 0.25);
+    ctx.lineTo(c.r * 0.65, c.r * 0.85);
+    ctx.lineTo(0, c.r);
+    ctx.lineTo(-c.r * 0.65, c.r * 0.85);
+    ctx.lineTo(-c.r * 0.85, -c.r * 0.25);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = "#f5d0fe";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Inner bright facet
+    ctx.fillStyle = "#e879f9";
+    ctx.beginPath();
+    ctx.moveTo(0, -c.r * 0.7);
+    ctx.lineTo(c.r * 0.45, -c.r * 0.15);
+    ctx.lineTo(0, c.r * 0.7);
+    ctx.lineTo(-c.r * 0.45, -c.r * 0.15);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = "#fef08a";
+    ctx.font = "900 13px Orbitron, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("💎 SCIENCE CRYSTAL", 0, -c.r - 12);
+    ctx.restore();
+  },
+
+  drawBossCrystalCave(cfg) {
+    ctx.save();
+    const caveX = 2360;
+    // Stone Cave Arch
+    ctx.fillStyle = "#475569";
+    ctx.beginPath();
+    ctx.moveTo(caveX, GROUND_Y);
+    ctx.lineTo(caveX + 45, 130);
+    ctx.lineTo(caveX + 380, 90);
+    ctx.lineTo(caveX + 380, GROUND_Y);
+    ctx.closePath();
+    ctx.fill();
+
+    // Dark Cave Interior
+    ctx.fillStyle = "#1e1b4b";
+    ctx.beginPath();
+    ctx.moveTo(caveX + 45, GROUND_Y);
+    ctx.lineTo(caveX + 85, 195);
+    ctx.lineTo(caveX + 360, 175);
+    ctx.lineTo(caveX + 360, GROUND_Y);
+    ctx.closePath();
+    ctx.fill();
+
+    // Glowing Purple Cave Crystals
+    ctx.fillStyle = "#c084fc";
+    const crystalCoords = [
+      [caveX + 60, GROUND_Y - 55],
+      [caveX + 82, GROUND_Y - 75],
+      [caveX + 110, 225]
+    ];
+    for (const [cx, cy] of crystalCoords) {
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 28);
+      ctx.lineTo(cx + 12, cy);
+      ctx.lineTo(cx - 12, cy);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // Wooden "BOSS LEVEL" Sign attached to cave arch (Matches Reference Image 1)
+    ctx.save();
+    ctx.translate(caveX + 95, 175);
+    ctx.rotate(-0.12);
+    ctx.fillStyle = "#78350f";
+    ctx.strokeStyle = "#fbbf24";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.roundRect(-55, -22, 110, 44, 8);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = "#fef3c7";
+    ctx.font = "900 13px Orbitron, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("BOSS", 0, -4);
+    ctx.fillText(`LEVEL ${cfg.levelNumber}`, 0, 13);
+    ctx.restore();
+
+    ctx.restore();
+  },
+
+  /* ==========================================================================
+     DR. AZZAM (EJEN SAINS) CHIBI 3D-SHADED CHARACTER RENDERER
+     ========================================================================== */
+  drawDrAzzamPro(p) {
+    if (p.invulnTimer > 0 && Math.floor(p.invulnTimer / 4) % 2 === 0 && !p.defeatedPose) return;
+
+    ctx.save();
+    ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
+
+    // If defeated, lie down with spinning stars above head (Matches Reference Image 2 "Rebah / Hilang Nyawa")
+    if (p.defeatedPose) {
+      ctx.rotate(-Math.PI / 2);
+    } else {
+      ctx.scale(p.facing, 1);
+    }
+
+    const isMoving = Math.abs(p.vx) > 0.2 && p.onGround;
+    const swing = isMoving ? Math.sin(this.frameCount * 0.34) * 10 : 0;
+    const breathe = Math.sin(this.frameCount * 0.08) * 1.2;
+
+    // Golden Victory Rays behind Dr. Azzam (Matches Reference Image 2 "Menang / Victory")
+    if (p.victoryPose) {
+      ctx.save();
+      ctx.strokeStyle = "rgba(253, 224, 71, 0.7)";
+      ctx.lineWidth = 4;
+      for (let a = 0; a < Math.PI * 2; a += Math.PI / 6) {
+        const rot = a + this.frameCount * 0.04;
+        ctx.beginPath();
+        ctx.moveTo(0, -6);
+        ctx.lineTo(Math.cos(rot) * 52, -6 + Math.sin(rot) * 52);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // Atom Protection Shield Bubble
+    if (p.shieldTimer > 0) {
+      ctx.save();
+      ctx.strokeStyle = "#38bdf8";
+      ctx.fillStyle = "rgba(56, 189, 248, 0.18)";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(0, 0, 44, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // 1. Silver/Dark-Grey Backpack Jetpack with Cyan Energy Core
+    ctx.fillStyle = "#334155";
+    ctx.strokeStyle = "#cbd5e1";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(-24, -6 + breathe, 14, 28, 5);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = "#38bdf8";
+    ctx.fillRect(-21, 0 + breathe, 6, 16);
+
+    // Jetpack Flame when jumping
+    if (!p.onGround && !p.defeatedPose) {
+      ctx.fillStyle = "#38bdf8";
+      ctx.beginPath();
+      ctx.moveTo(-21, 22);
+      ctx.lineTo(-13, 22);
+      ctx.lineTo(-17, 36 + Math.random() * 8);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // 2. Purple & Silver Boots / Legs
+    ctx.fillStyle = "#581c87";
+    ctx.beginPath();
+    ctx.roundRect(-11 + swing * 0.8, 16, 10, 16, 4);
+    ctx.roundRect(2 - swing * 0.8, 16, 10, 16, 4);
+    ctx.fill();
+    // Silver Knee & Boot Cuffs
+    ctx.fillStyle = "#e2e8f0";
+    ctx.fillRect(-12 + swing * 0.8, 27, 12, 7);
+    ctx.fillRect(1 - swing * 0.8, 27, 12, 7);
+
+    // 3. Purple & Silver Futuristic Suit Torso
+    ctx.fillStyle = "#7e22ce";
+    ctx.strokeStyle = "#e2e8f0";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(-14, -9 + breathe, 28, 27, 7);
+    ctx.fill();
+    ctx.stroke();
+
+    // Belt with Cyan Buckle
+    ctx.fillStyle = "#1e1b4b";
+    ctx.fillRect(-14, 11 + breathe, 28, 5);
+    ctx.fillStyle = "#38bdf8";
+    ctx.fillRect(-3, 10 + breathe, 8, 7);
+
+    // Glowing Atom Emblem on Chest
+    ctx.fillStyle = "#1e1b4b";
+    ctx.beginPath();
+    ctx.arc(2, 1 + breathe, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#38bdf8";
+    ctx.lineWidth = 1.3;
+    ctx.stroke();
+    ctx.fillStyle = "#fde047";
+    ctx.beginPath();
+    ctx.arc(2, 1 + breathe, 2.2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 4. Chibi Head with White Turban (Serban Putih)
+    ctx.save();
+    ctx.translate(0, -22 + breathe);
+
+    // White Turban (Round & Layered)
+    ctx.fillStyle = "#f8fafc";
+    ctx.strokeStyle = "#cbd5e1";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(0, -6, 21, 16, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    // Turban folds
+    ctx.strokeStyle = "#e2e8f0";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(0, -3, 17, Math.PI * 1.15, Math.PI * 1.85);
+    ctx.stroke();
+
+    // Warm Brown Chibi Face
+    ctx.fillStyle = "#eab68c";
+    ctx.beginPath();
+    ctx.roundRect(-15, -4, 30, 21, [4, 4, 12, 12]);
+    ctx.fill();
+
+    // Facial Expression (Normal vs Hit vs Defeated)
+    if (p.defeatedPose) {
+      // X eyes
+      ctx.strokeStyle = "#1e1b18";
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      ctx.moveTo(2, 3); ctx.lineTo(7, 8);
+      ctx.moveTo(7, 3); ctx.lineTo(2, 8);
+      ctx.stroke();
+    } else if (p.invulnTimer > 55) {
+      // Wincing Hit Expression + Yellow Spark
+      ctx.strokeStyle = "#1e1b18";
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      ctx.moveTo(1, 3); ctx.lineTo(8, 6); ctx.lineTo(1, 9);
+      ctx.stroke();
+    } else {
+      // Confident Big Eyes & Eyebrows
+      ctx.strokeStyle = "#3b1e08";
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      ctx.moveTo(-4, 1); ctx.quadraticCurveTo(0, -2, 3, 1);
+      ctx.moveTo(6, 1); ctx.quadraticCurveTo(10, -2, 13, 1);
+      ctx.stroke();
+
+      ctx.fillStyle = "#1c1917";
+      ctx.beginPath();
+      ctx.arc(0, 6, 3, 0, Math.PI * 2);
+      ctx.arc(10, 6, 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(1, 5, 1.1, 0, Math.PI * 2);
+      ctx.arc(11, 5, 1.1, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Smile
+      ctx.strokeStyle = "#7c2d12";
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.arc(5, 11, 3.5, 0.15, Math.PI - 0.15);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // 5. Arm & Purple-Silver "Science Blaster" Pistol with Cyan Muzzle Flash
+    ctx.save();
+    if (p.victoryPose) {
+      ctx.translate(4, -8 + breathe);
+      ctx.rotate(-Math.PI / 2.6);
+    } else if (p.aimUp) {
+      ctx.translate(2, -10 + breathe);
+      ctx.rotate(-Math.PI / 2);
+    } else {
+      ctx.translate(5, -1 + breathe);
+    }
+
+    // Purple-Silver Science Blaster Body
+    ctx.fillStyle = "#6b21a8";
+    ctx.strokeStyle = "#e2e8f0";
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.roundRect(0, -6, 24, 11, 4);
+    ctx.fill();
+    ctx.stroke();
+
+    // Cyan glowing barrel core
+    ctx.fillStyle = p.sciencePowerTimer > 0 ? "#fde047" : "#38bdf8";
+    ctx.fillRect(6, -3, 15, 5);
+
+    // Bright Cyan Starburst Muzzle Flash when firing (Matches Reference Image 1)
+    if (p.muzzleFlashTimer > 0) {
+      ctx.fillStyle = "#38bdf8";
+      ctx.beginPath();
+      ctx.moveTo(24, 0);
+      ctx.lineTo(44, -9);
+      ctx.lineTo(36, 0);
+      ctx.lineTo(44, 9);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(27, 0, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    ctx.restore();
+  },
+
+  /* ==========================================================================
+     PRO ENEMY RENDERER (GIANT BEE, RED LADYBUG BEETLE, WILD BOAR)
+     ========================================================================== */
+  drawProEnemy(en, cfg) {
+    ctx.save();
+    ctx.translate(en.x + en.w / 2, en.y + en.h / 2);
+    if (en.vx > 0) ctx.scale(-1, 1);
+
+    if (en.subType === "bee") {
+      // Giant Yellow-Black Striped Bee with Translucent Wings
+      const wingFlap = Math.sin(this.frameCount * 0.6) * 8;
+      ctx.fillStyle = "rgba(224, 242, 254, 0.8)";
+      ctx.beginPath();
+      ctx.ellipse(2, -16 + wingFlap * 0.4, 12, 8, 0.3, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = en.hitFlash > 0 ? "#ffffff" : "#facc15";
+      ctx.strokeStyle = "#1e293b";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 20, 15, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Black stripes
+      ctx.fillStyle = "#0f172a";
+      ctx.fillRect(-4, -13, 6, 26);
+      ctx.fillRect(6, -11, 5, 22);
+
+      // Angry Eyes
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(-11, -3, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#0f172a";
+      ctx.beginPath();
+      ctx.arc(-12, -3, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (en.subType === "boar") {
+      // Fierce Brown Wild Boar with White Tusks (Matches Reference Image 1)
+      ctx.fillStyle = en.hitFlash > 0 ? "#ffffff" : "#7c2d12";
+      ctx.strokeStyle = "#451a03";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.ellipse(2, 2, 26, 18, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // White Curved Tusk
+      ctx.fillStyle = "#fef3c7";
+      ctx.beginPath();
+      ctx.moveTo(-20, 8);
+      ctx.lineTo(-28, -2);
+      ctx.lineTo(-16, 4);
+      ctx.closePath();
+      ctx.fill();
+
+      // Angry Eye
+      ctx.fillStyle = "#fef08a";
+      ctx.beginPath();
+      ctx.arc(-12, -4, 4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#dc2626";
+      ctx.beginPath();
+      ctx.arc(-13, -4, 2, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      // Red Spotted Beetle / Ladybug (Matches Reference Image 1)
+      ctx.fillStyle = en.hitFlash > 0 ? "#ffffff" : "#dc2626";
+      ctx.strokeStyle = "#1e293b";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(2, 2, 18, Math.PI, 0, false);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Black Head & Spots
+      ctx.fillStyle = "#0f172a";
+      ctx.beginPath();
+      ctx.arc(-12, -2, 9, 0, Math.PI * 2);
+      ctx.arc(2, -7, 3.5, 0, Math.PI * 2);
+      ctx.arc(11, -5, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Eyes
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(-15, -4, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.restore();
+
+    // Enemy HP Bar
+    if (en.hp < en.maxHp) {
+      ctx.fillStyle = "rgba(0,0,0,0.65)";
+      ctx.fillRect(en.x, en.y - 10, en.w, 5);
+      ctx.fillStyle = "#ef4444";
+      ctx.fillRect(en.x, en.y - 10, (en.hp / en.maxHp) * en.w, 5);
+    }
+  },
+
+  /* ==========================================================================
+     PRO BOSS RENDERER (FOREST TREE-MECHA GOLEM WITH GREEN CORE & FOLIAGE CROWN)
+     ========================================================================== */
+  drawProBoss(boss, cfg) {
+    ctx.save();
+    ctx.translate(boss.x + boss.w / 2, boss.y + boss.h / 2);
+
+    // Glowing Aura
+    ctx.shadowColor = cfg.levelNumber === 1 ? "#22c55e" : boss.color;
+    ctx.shadowBlur = 22;
+
+    // Massive Mecha-Wood Legs & Iron Armour Plates
+    ctx.fillStyle = "#475569";
+    ctx.fillRect(-42, 28, 28, 42);
+    ctx.fillRect(14, 28, 28, 42);
+
+    // Timber & Metal Torso
+    ctx.fillStyle = boss.hitFlash > 0 ? "#ffffff" : boss.color;
+    ctx.strokeStyle = "#cbd5e1";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.roundRect(-48, -36, 96, 72, 16);
+    ctx.fill();
+    ctx.stroke();
+
+    // Leafy / Thematic Shoulder Pauldrons & Tree Crown on Head (Matches Reference Image 1)
+    if (cfg.levelNumber === 1) {
+      ctx.fillStyle = "#16a34a";
+      ctx.beginPath();
+      ctx.arc(-52, -26, 24, 0, Math.PI * 2);
+      ctx.arc(52, -26, 24, 0, Math.PI * 2);
+      ctx.arc(0, -68, 38, 0, Math.PI * 2);
+      ctx.arc(-28, -62, 26, 0, Math.PI * 2);
+      ctx.arc(28, -62, 26, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Glowing Green Energy Core in Chest
+    ctx.fillStyle = "#052e16";
+    ctx.beginPath();
+    ctx.arc(0, 2, 18, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#22c55e";
+    ctx.beginPath();
+    ctx.arc(0, 2, 12, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Fierce Glowing Eyes
+    ctx.fillStyle = "#4ade80";
+    ctx.beginPath();
+    ctx.moveTo(-22, -22); ctx.lineTo(-8, -16); ctx.lineTo(-22, -12); ctx.closePath();
+    ctx.moveTo(22, -22); ctx.lineTo(8, -16); ctx.lineTo(22, -12); ctx.closePath();
+    ctx.fill();
+
+    ctx.restore();
+  },
+
+  loop() {
+    if (this.state === "PLAYING") {
+      this.updateGameplay();
+    }
+    this.render();
+    requestAnimationFrame(() => this.loop());
+  }
+};
+
+window.onload = () => {
+  Game.init();
+};
+</script>
+</body>
+</html>
