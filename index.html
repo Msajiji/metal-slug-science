@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,11 +15,9 @@
 :root{
     --bg:#07111f;
     --bg2:#0c1d32;
-    --card:#10243c;
     --text:#ffffff;
     --muted:#a9bbcf;
     --accent:#36c5ff;
-    --purple:#8b5cf6;
 }
 
 *{
@@ -66,40 +63,13 @@ body{
 }
 
 
-/* =========================================
-   HERO CONTENT
-========================================= */
+/* HERO CONTENT */
 
 .hero-content{
     width:min(90%,850px);
     padding:40px 20px;
     position:relative;
     z-index:2;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-
-/* =========================================
-   GAME ICON
-========================================= */
-
-.game-icon{
-    width:clamp(75px,10vw,130px);
-    height:auto;
-
-    margin-bottom:28px;
-
-    filter:
-        drop-shadow(0 10px 25px rgba(0,0,0,.55));
-
-    transition:.3s ease;
-}
-
-.game-icon:hover{
-    transform:scale(1.05);
 }
 
 
@@ -120,7 +90,6 @@ body{
     justify-content:center;
 
     min-width:180px;
-
     padding:16px 30px;
 
     border-radius:10px;
@@ -136,7 +105,7 @@ body{
 }
 
 
-/* WATCH INTRO BUTTON */
+/* WATCH INTRO */
 
 .primary{
     border:none;
@@ -156,7 +125,7 @@ body{
 }
 
 
-/* START GAME BUTTON */
+/* START GAME */
 
 .secondary{
     border:
@@ -186,7 +155,7 @@ body{
 
 
 /* =========================================
-   GENERAL SECTION
+   GENERAL SECTIONS
 ========================================= */
 
 section{
@@ -213,7 +182,7 @@ section{
 
 
 /* =========================================
-   STORY SECTION
+   THE STORY
 ========================================= */
 
 .story{
@@ -257,7 +226,7 @@ section{
 
 
 /* =========================================
-   MISSION SECTION
+   YOUR MISSION
 ========================================= */
 
 .mission{
@@ -545,8 +514,8 @@ footer{
 }
 
 </style>
-</head>
 
+</head>
 
 <body>
 
@@ -559,17 +528,6 @@ footer{
 
     <div class="hero-content">
 
-        <!-- GAME ICON -->
-
-        <img
-            src="assets/game-icon.png"
-            alt="Science Blaster Game Icon"
-            class="game-icon"
-        >
-
-
-        <!-- BUTTONS -->
-
         <div class="buttons">
 
             <button
@@ -578,7 +536,6 @@ footer{
             >
                 ▶ WATCH INTRO
             </button>
-
 
             <a
                 href="game.html"
@@ -606,30 +563,26 @@ footer{
             THE STORY
         </h2>
 
-
         <p class="section-subtitle">
             Your science adventure begins here.
         </p>
 
-
         <div class="story-box">
 
             <p>
-                <strong>
-                    The world of Science is in danger.
-                </strong>
+                <strong>The world of Science is in danger.</strong>
             </p>
 
             <p>
-                The legendary Science Crystals have been scattered
-                across five mysterious worlds. Without their power,
-                the balance of knowledge and discovery could be lost forever.
+                The legendary Science Crystals have been scattered across
+                five mysterious worlds. Without their power, the balance
+                of knowledge and discovery could be lost forever.
             </p>
 
             <p>
                 Your mission is to explore dangerous environments,
-                overcome obstacles, defeat enemies and unlock
-                mysterious Science Question Boxes.
+                overcome obstacles, defeat enemies and unlock mysterious
+                Science Question Boxes.
             </p>
 
             <p>
@@ -661,44 +614,36 @@ footer{
             YOUR MISSION
         </h2>
 
-
         <p class="section-subtitle">
             Complete every challenge and recover the Science Crystals.
         </p>
 
-
         <div class="mission-grid">
-
 
             <div class="mission-card">
                 <div class="mission-icon">🌳</div>
                 <strong>EXPLORE</strong>
             </div>
 
-
             <div class="mission-card">
                 <div class="mission-icon">🧠</div>
                 <strong>SOLVE</strong>
             </div>
-
 
             <div class="mission-card">
                 <div class="mission-icon">🔫</div>
                 <strong>BLAST</strong>
             </div>
 
-
             <div class="mission-card">
                 <div class="mission-icon">💎</div>
                 <strong>COLLECT</strong>
             </div>
 
-
             <div class="mission-card">
                 <div class="mission-icon">🏆</div>
                 <strong>WIN</strong>
             </div>
-
 
         </div>
 
@@ -719,24 +664,17 @@ footer{
             THE 5 WORLDS
         </h2>
 
-
         <p class="section-subtitle">
             Five worlds. Five challenges. One ultimate mission.
         </p>
 
-
         <div class="world-grid">
-
-
-            <!-- WORLD 1 -->
 
             <div class="world-card">
 
                 <div class="world-icon">🌳</div>
 
-                <h3>
-                    SCIENCE FOREST
-                </h3>
+                <h3>SCIENCE FOREST</h3>
 
                 <p>
                     Explore a mysterious world filled with science challenges.
@@ -745,15 +683,11 @@ footer{
             </div>
 
 
-            <!-- WORLD 2 -->
-
             <div class="world-card">
 
                 <div class="world-icon">🌋</div>
 
-                <h3>
-                    VOLCANO LAB
-                </h3>
+                <h3>VOLCANO LAB</h3>
 
                 <p>
                     Survive the heat and dangerous challenges.
@@ -762,15 +696,11 @@ footer{
             </div>
 
 
-            <!-- WORLD 3 -->
-
             <div class="world-card">
 
                 <div class="world-icon">🌊</div>
 
-                <h3>
-                    DEEP SEA LAB
-                </h3>
+                <h3>DEEP SEA LAB</h3>
 
                 <p>
                     Discover mysteries beneath the ocean.
@@ -779,15 +709,11 @@ footer{
             </div>
 
 
-            <!-- WORLD 4 -->
-
             <div class="world-card">
 
                 <div class="world-icon">⚡</div>
 
-                <h3>
-                    ENERGY CITY
-                </h3>
+                <h3>ENERGY CITY</h3>
 
                 <p>
                     Restore power and master energy challenges.
@@ -796,22 +722,17 @@ footer{
             </div>
 
 
-            <!-- WORLD 5 -->
-
             <div class="world-card">
 
                 <div class="world-icon">🚀</div>
 
-                <h3>
-                    SPACE LAB
-                </h3>
+                <h3>SPACE LAB</h3>
 
                 <p>
                     Enter the final frontier and complete the mission.
                 </p>
 
             </div>
-
 
         </div>
 
@@ -832,11 +753,9 @@ footer{
             ARE YOU READY FOR THE MISSION?
         </h2>
 
-
         <p>
             Explore. Think. Learn. Win.
         </p>
-
 
         <div class="buttons">
 
@@ -846,7 +765,6 @@ footer{
             >
                 🎮 START GAME
             </a>
-
 
             <button
                 class="btn secondary"
@@ -877,7 +795,6 @@ footer{
             ✕
         </button>
 
-
         <iframe
             id="introVideo"
             allow="autoplay; encrypted-media; picture-in-picture"
@@ -904,72 +821,50 @@ footer{
 
 <script>
 
-/* OPEN VIDEO */
-
 function openVideo(){
 
-    document
-        .getElementById("videoModal")
-        .style.display = "flex";
+    document.getElementById("videoModal").style.display = "flex";
 
-
-    document
-        .getElementById("introVideo")
-        .src =
+    document.getElementById("introVideo").src =
         "https://www.youtube.com/embed/6URw9WfnPe4?autoplay=1&mute=0&playsinline=1&rel=0";
 
 }
 
 
-/* CLOSE VIDEO */
-
 function closeVideo(){
 
-    document
-        .getElementById("videoModal")
-        .style.display = "none";
+    document.getElementById("videoModal").style.display = "none";
 
+    /* Stop video */
 
-    /* STOP VIDEO */
-
-    document
-        .getElementById("introVideo")
-        .src = "";
+    document.getElementById("introVideo").src = "";
 
 }
 
 
-/* CLOSE VIDEO WHEN CLICK OUTSIDE */
+/* Close video when clicking outside */
 
-document
-    .getElementById("videoModal")
-    .addEventListener("click", function(e){
+document.getElementById("videoModal")
+.addEventListener("click", function(e){
 
-        if(e.target === this){
+    if(e.target === this){
+        closeVideo();
+    }
 
-            closeVideo();
-
-        }
-
-    });
+});
 
 
-/* ESC KEY CLOSE VIDEO */
+/* Close with ESC key */
 
-document
-    .addEventListener("keydown", function(e){
+document.addEventListener("keydown", function(e){
 
-        if(e.key === "Escape"){
+    if(e.key === "Escape"){
+        closeVideo();
+    }
 
-            closeVideo();
-
-        }
-
-    });
+});
 
 </script>
 
-
 </body>
 </html>
-```
