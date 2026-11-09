@@ -179,6 +179,17 @@
       box-shadow: 0 0 20px rgba(248, 113, 113, 0.6);
     }
 
+    @keyframes shakeInput {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .input-error-shake {
+      animation: shakeInput 0.35s ease;
+      border-color: #f43f5e !important;
+      box-shadow: 0 0 18px rgba(244, 63, 94, 0.75) !important;
+    }
+
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -233,7 +244,7 @@
           <div class="font-orbitron text-xs sm:text-sm font-black text-white tracking-wider leading-tight drop-shadow">
             DR. AZZAM
           </div>
-          <div class="text-[9px] sm:text-[10px] font-bold text-cyan-300 tracking-widest uppercase leading-none mb-1">
+          <div id="hudAgentName" class="text-[9px] sm:text-[10px] font-bold text-cyan-300 tracking-widest uppercase leading-none mb-1 truncate max-w-[115px] sm:max-w-[165px]">
             SCIENCE AGENT
           </div>
           <!-- Segmented Green-Yellow Energy Bar -->
@@ -293,6 +304,9 @@
 
     <!-- TOP RIGHT: Circular Glossy Action Buttons (Sound, Pause, Home) -->
     <div class="flex items-center gap-1.5 sm:gap-2 pointer-events-auto">
+      <button onclick="Leaderboard.openModal()" class="hud-icon-btn w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-white text-lg sm:text-xl" title="Hall of Fame Leaderboard">
+        🏆
+      </button>
       <button id="btnSoundToggle" onclick="GameAudio.toggleMute()" class="hud-icon-btn w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-white text-lg sm:text-xl" title="Sound ON/OFF">
         <span id="soundIcon">🔊</span>
       </button>
@@ -418,10 +432,52 @@
           </div>
         </div>
 
-        <!-- Start Game CTA -->
-        <button onclick="Game.startFromLevel(0)" class="btn-sci-fi px-7 py-3 rounded-2xl font-orbitron text-sm sm:text-lg font-black text-white tracking-wider shrink-0">
-          ▶️ START MISSION NOW!
-        </button>
+        <!-- Leaderboard & Start Game CTAs -->
+        <div class="flex flex-wrap items-center justify-center gap-2.5 shrink-0">
+          <button onclick="Leaderboard.openModal()" class="sci-fi-frame px-4 py-3 rounded-2xl font-orbitron text-xs sm:text-sm font-black text-amber-300 border-2 border-amber-400/80 hover:bg-amber-500/20 transition flex items-center gap-1.5 shadow-lg">
+            <span>🏆</span> <span>LEADERBOARD</span>
+          </button>
+          <button onclick="Game.startFromLevel(0)" class="btn-sci-fi px-6 py-3 rounded-2xl font-orbitron text-sm sm:text-lg font-black text-white tracking-wider">
+            ▶️ START MISSION!
+          </button>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           ULTRA-LARGE & HIGH-VISIBILITY PLAYER NAME INPUT BANNER (NO CLASS FIELD)
+           ==================================================================== -->
+      <div id="agentRegistrationPanel" class="mt-4 bg-gradient-to-r from-amber-500/20 via-sky-900/95 to-indigo-950/95 border-4 border-amber-400 rounded-3xl p-4 sm:p-5 shadow-[0_0_30px_rgba(251,191,36,0.35)]">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+          <!-- Left Label & Instruction -->
+          <div class="flex items-center gap-3.5 text-center md:text-left">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-yellow-200 flex items-center justify-center text-3xl sm:text-4xl shadow-lg shrink-0">
+              🧑‍🔬
+            </div>
+            <div>
+              <label for="playerNameInput" class="block font-orbitron text-base sm:text-xl md:text-2xl font-black text-amber-300 tracking-wider uppercase drop-shadow">
+                ENTER YOUR AGENT NAME
+              </label>
+              <div id="playerNameError" class="text-xs sm:text-sm text-cyan-200 font-bold mt-0.5">
+                Type your name below before starting to record your score on the Leaderboard!
+              </div>
+            </div>
+          </div>
+
+          <!-- Extra-Large Glowing Name Input Box -->
+          <div class="w-full md:w-auto md:flex-1 max-w-xl">
+            <div class="relative flex items-center">
+              <input
+                id="playerNameInput"
+                type="text"
+                maxlength="22"
+                autocomplete="off"
+                placeholder="TYPE YOUR NAME HERE..."
+                onkeydown="if(event.key === 'Enter') Game.startFromLevel(0)"
+                class="w-full px-5 py-3.5 sm:py-4 rounded-2xl bg-slate-950 border-4 border-cyan-400 text-amber-300 font-orbitron font-black text-xl sm:text-2xl md:text-3xl tracking-wider text-center uppercase shadow-[0_0_20px_rgba(56,189,248,0.5),inset_0_2px_10px_rgba(0,0,0,0.85)] focus:outline-none focus:border-amber-300 focus:text-white focus:shadow-[0_0_30px_rgba(251,191,36,0.8)] placeholder-slate-500 transition-all"
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Main Content Grid: Left Character Card + Right Sprite & Weapons Showcase -->
@@ -708,6 +764,9 @@
       <h2 class="font-orbitron text-2xl sm:text-3xl font-black text-emerald-300">
         LEVEL MISSION COMPLETE!
       </h2>
+      <div id="lcAgentBadge" class="inline-block mt-1 px-3 py-0.5 rounded-full bg-sky-500/20 border border-sky-400 text-cyan-200 font-orbitron text-xs font-bold">
+        AGENT: DR. AZZAM
+      </div>
       <p id="lcSubtitle" class="text-xs sm:text-sm text-sky-200 mt-1">
         Congratulations! Dr. Azzam successfully recovered the Science Crystal!
       </p>
@@ -731,9 +790,14 @@
         </div>
       </div>
 
-      <button onclick="Game.nextLevel()" class="btn-sci-fi btn-emerald w-full py-3.5 rounded-2xl font-orbitron text-base sm:text-lg font-black text-white tracking-wider">
-        🚀 PROCEED TO NEXT LEVEL ▶️
-      </button>
+      <div class="flex flex-col sm:flex-row gap-2.5">
+        <button onclick="Game.nextLevel()" class="btn-sci-fi btn-emerald flex-1 py-3.5 rounded-2xl font-orbitron text-sm sm:text-base font-black text-white tracking-wider">
+          🚀 NEXT LEVEL ▶️
+        </button>
+        <button onclick="Leaderboard.openModal()" class="sci-fi-frame px-5 py-3.5 rounded-2xl font-orbitron text-xs sm:text-sm font-black text-amber-300 border-2 border-amber-400 hover:bg-slate-800">
+          🏆 LEADERBOARD
+        </button>
+      </div>
     </div>
   </div>
 
@@ -746,19 +810,25 @@
       <h2 class="font-orbitron text-2xl sm:text-3xl font-black text-rose-400">
         MISSION FAILED!
       </h2>
+      <div id="goAgentBadge" class="inline-block mt-1 px-3 py-0.5 rounded-full bg-rose-500/20 border border-rose-400 text-rose-200 font-orbitron text-xs font-bold">
+        AGENT: DR. AZZAM
+      </div>
       <p class="text-xs sm:text-sm text-slate-200 mt-2">
-        Never give up! A true Science Agent always gets back up to try again!
+        Never give up! Your score has been saved to the Leaderboard. Try again!
       </p>
       <div class="bg-slate-900/90 border border-slate-700 rounded-2xl p-4 my-5">
         <div class="text-xs text-sky-300 font-bold">⭐ CURRENT SCORE</div>
         <div id="goScore" class="font-orbitron text-2xl font-black text-amber-300 mt-1">0000000</div>
       </div>
-      <div class="flex flex-col sm:flex-row gap-3">
+      <div class="flex flex-col sm:flex-row gap-2.5">
         <button onclick="Game.retryCurrentLevel()" class="btn-sci-fi flex-1 py-3.5 rounded-2xl font-orbitron text-sm sm:text-base font-black text-white">
           🔄 TRY AGAIN
         </button>
-        <button onclick="Game.showStartScreen()" class="sci-fi-frame flex-1 py-3.5 rounded-2xl font-orbitron text-xs sm:text-sm font-bold text-sky-200 hover:bg-slate-800">
-          🏠 MAIN MENU
+        <button onclick="Leaderboard.openModal()" class="sci-fi-frame px-4 py-3.5 rounded-2xl font-orbitron text-xs sm:text-sm font-bold text-amber-300 border border-amber-400 hover:bg-slate-800">
+          🏆 LEADERBOARD
+        </button>
+        <button onclick="Game.showStartScreen()" class="sci-fi-frame px-4 py-3.5 rounded-2xl font-orbitron text-xs sm:text-sm font-bold text-sky-200 hover:bg-slate-800">
+          🏠 MENU
         </button>
       </div>
     </div>
@@ -776,8 +846,11 @@
       <h1 class="font-orbitron text-2xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-cyan-300">
         🏆 SCIENCE BLASTER CHAMPION!
       </h1>
+      <div id="fvAgentBadge" class="inline-block mt-2 px-4 py-1 rounded-full bg-cyan-500/20 border border-cyan-300 text-cyan-200 font-orbitron text-xs sm:text-sm font-black">
+        CHAMPION AGENT: DR. AZZAM
+      </div>
       <p class="text-sm sm:text-base text-white font-semibold mt-2">
-        🎉 Congratulations! Dr. Azzam (Science Agent) has completed all 5 Brunei Year 7 Science missions!
+        🎉 Congratulations! You and Dr. Azzam have completed all 5 Brunei Year 7 Science missions!
       </p>
 
       <div class="grid grid-cols-3 gap-2.5 my-5">
@@ -796,11 +869,78 @@
       </div>
 
       <div class="flex flex-col sm:flex-row gap-3">
-        <button onclick="Game.startFromLevel(0)" class="btn-sci-fi flex-1 py-3.5 rounded-2xl font-orbitron text-sm sm:text-base font-black text-white">
-          🔄 PLAY MISSION AGAIN
+        <button onclick="Leaderboard.openModal()" class="btn-sci-fi btn-emerald flex-1 py-3.5 rounded-2xl font-orbitron text-sm sm:text-base font-black text-white">
+          🏆 VIEW LEADERBOARD
         </button>
-        <button onclick="Game.showStartScreen()" class="sci-fi-frame flex-1 py-3.5 rounded-2xl font-orbitron text-xs sm:text-sm font-bold text-sky-200 hover:bg-slate-800">
-          🏠 MAIN MENU
+        <button onclick="Game.startFromLevel(0)" class="btn-sci-fi flex-1 py-3.5 rounded-2xl font-orbitron text-sm sm:text-base font-black text-white">
+          🔄 PLAY AGAIN
+        </button>
+        <button onclick="Game.showStartScreen()" class="sci-fi-frame px-5 py-3.5 rounded-2xl font-orbitron text-xs sm:text-sm font-bold text-sky-200 hover:bg-slate-800">
+          🏠 MENU
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       7. HALL OF FAME LEADERBOARD MODAL (PERSISTENT LOCALSTORAGE + EXPORT CSV)
+       ======================================================================== -->
+  <div id="leaderboardModal" class="hidden absolute inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-950/90 backdrop-blur-md overflow-y-auto">
+    <div class="sci-fi-frame max-w-3xl w-full p-4 sm:p-6 border-2 border-amber-400 shadow-2xl my-auto">
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-sky-500/40">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-2xl shadow">
+            🏆
+          </div>
+          <div>
+            <h2 class="font-orbitron text-lg sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-cyan-300">
+              SCIENCE BLASTER HALL OF FAME
+            </h2>
+            <p class="text-[11px] sm:text-xs text-sky-300 font-bold">
+              Brunei Year 7 Science Top Agents • Ranked by Highest Score &amp; Crystals
+            </p>
+          </div>
+        </div>
+        <button onclick="Leaderboard.closeModal()" class="hud-icon-btn w-9 h-9 flex items-center justify-center text-white font-black text-sm" title="Close">
+          ✕
+        </button>
+      </div>
+
+      <!-- Leaderboard Table -->
+      <div class="my-3.5 max-h-80 overflow-y-auto rounded-2xl border border-sky-500/40 bg-slate-950/90">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-sky-500/40 bg-sky-950/80 font-orbitron text-xs sm:text-sm text-cyan-300 uppercase">
+              <th class="py-3 px-4">Rank</th>
+              <th class="py-3 px-4">Agent Name</th>
+              <th class="py-3 px-3 text-center">Level</th>
+              <th class="py-3 px-3 text-center">💎 Crystals</th>
+              <th class="py-3 px-3 text-center hidden sm:table-cell">🧠 Quiz</th>
+              <th class="py-3 px-4 text-right">⭐ Score</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboardTableBody" class="divide-y divide-slate-800 text-sm sm:text-base font-bold">
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Teacher Controls: Export CSV, Reset Confirmation & Close -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="Leaderboard.exportCSV()" class="px-3.5 py-2 rounded-xl bg-emerald-900/80 hover:bg-emerald-800 border border-emerald-400 font-orbitron text-[11px] font-bold text-emerald-200 transition">
+            📥 EXPORT CSV (TEACHER)
+          </button>
+          <button id="btnResetLeaderboard" onclick="Leaderboard.promptReset()" class="px-3.5 py-2 rounded-xl bg-rose-950/80 hover:bg-rose-900 border border-rose-400/70 font-orbitron text-[11px] font-bold text-rose-200 transition">
+            🔄 RESET LEADERBOARD
+          </button>
+          <button id="btnConfirmReset" onclick="Leaderboard.confirmReset()" class="hidden px-3.5 py-2 rounded-xl bg-red-600 hover:bg-red-500 border border-yellow-300 font-orbitron text-[11px] font-black text-white transition">
+            ⚠️ CLICK TO CONFIRM CLEAR
+          </button>
+        </div>
+
+        <button onclick="Leaderboard.closeModal()" class="btn-sci-fi px-6 py-2.5 rounded-xl font-orbitron text-xs sm:text-sm font-black text-white">
+          CLOSE ✕
         </button>
       </div>
     </div>
@@ -808,6 +948,166 @@
 </div>
 
 <script>
+/* ============================================================================
+   0. PERSISTENT HALL OF FAME LEADERBOARD SYSTEM (LOCALSTORAGE + CSV EXPORT)
+   ============================================================================ */
+const LEADERBOARD_STORAGE_KEY = "SCIENCE_BLASTER_BRUNEI_Y7_LEADERBOARD_V2";
+const LAST_PLAYER_STORAGE_KEY = "SCIENCE_BLASTER_BRUNEI_Y7_LAST_PLAYER_V2";
+
+const SAMPLE_AGENTS = [
+  { name: "AWANGKU DANISH", score: 4250, crystals: 5, level: 5, quizCorrect: 18, date: "2026-11-08" },
+  { name: "DAYANG NURUL IZZAH", score: 3900, crystals: 5, level: 5, quizCorrect: 17, date: "2026-11-08" },
+  { name: "MOHD SYAFIQ", score: 3150, crystals: 4, level: 4, quizCorrect: 14, date: "2026-11-09" },
+  { name: "SITI MAISARAH", score: 2600, crystals: 3, level: 3, quizCorrect: 12, date: "2026-11-09" },
+  { name: "HAZIQ DARWISY", score: 1950, crystals: 2, level: 2, quizCorrect: 9, date: "2026-11-09" }
+];
+
+const Leaderboard = {
+  entries: [],
+
+  init() {
+    try {
+      const raw = localStorage.getItem(LEADERBOARD_STORAGE_KEY);
+      if (raw) {
+        this.entries = JSON.parse(raw);
+      } else {
+        this.entries = [...SAMPLE_AGENTS];
+        this.save();
+      }
+      const savedPlayer = localStorage.getItem(LAST_PLAYER_STORAGE_KEY);
+      if (savedPlayer) {
+        const parsed = JSON.parse(savedPlayer);
+        const nameInput = document.getElementById("playerNameInput");
+        if (nameInput && parsed.name) nameInput.value = parsed.name;
+      }
+    } catch (e) {
+      this.entries = [...SAMPLE_AGENTS];
+    }
+  },
+
+  save() {
+    try {
+      localStorage.setItem(LEADERBOARD_STORAGE_KEY, JSON.stringify(this.entries));
+    } catch (e) {}
+  },
+
+  recordScore(name, score, crystals, levelReached, quizCorrect) {
+    if (!name) return;
+    const cleanName = name.trim().toUpperCase();
+    const today = new Date().toISOString().slice(0, 10);
+
+    // Check if the same student name already has a record; update if higher or add new
+    const existingIdx = this.entries.findIndex(
+      e => (e.name || "").toLowerCase() === cleanName.toLowerCase()
+    );
+
+    if (existingIdx !== -1) {
+      const prev = this.entries[existingIdx];
+      prev.name = cleanName;
+      prev.score = Math.max(prev.score, score);
+      prev.crystals = Math.max(prev.crystals || 0, crystals);
+      prev.level = Math.max(prev.level || 1, levelReached);
+      prev.quizCorrect = Math.max(prev.quizCorrect || 0, quizCorrect);
+      prev.date = today;
+    } else {
+      this.entries.push({
+        name: cleanName,
+        score,
+        crystals,
+        level: levelReached,
+        quizCorrect,
+        date: today
+      });
+    }
+
+    // Sort descending by Score, then by Crystals, then by Level
+    this.entries.sort((a, b) => (b.score - a.score) || ((b.crystals || 0) - (a.crystals || 0)) || ((b.level || 1) - (a.level || 1)));
+    this.entries = this.entries.slice(0, 25);
+    this.save();
+  },
+
+  renderTable() {
+    const tbody = document.getElementById("leaderboardTableBody");
+    if (!tbody) return;
+
+    if (this.entries.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="py-6 text-center text-slate-400">No agent scores recorded yet. Be the first Science Blaster Champion!</td>
+        </tr>
+      `;
+      return;
+    }
+
+    const activeName = (Game.playerName || "").toLowerCase();
+    tbody.innerHTML = this.entries.slice(0, 12).map((entry, idx) => {
+      const rankBadge = idx === 0 ? "🥇 1st" : idx === 1 ? "🥈 2nd" : idx === 2 ? "🥉 3rd" : `#${idx + 1}`;
+      const isCurrent = activeName && (entry.name || "").toLowerCase() === activeName;
+      const rowClass = isCurrent
+        ? "bg-cyan-500/25 text-cyan-200 font-extrabold"
+        : idx < 3
+          ? "bg-amber-500/10 text-amber-100"
+          : "text-slate-200";
+
+      return `
+        <tr class="${rowClass} hover:bg-sky-500/15 transition">
+          <td class="py-3 px-4 font-orbitron font-black text-amber-300 whitespace-nowrap">${rankBadge}</td>
+          <td class="py-3 px-4 font-orbitron font-extrabold tracking-wide text-white">${entry.name} ${isCurrent ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-orbitron font-black ml-1.5">YOU</span>' : ''}</td>
+          <td class="py-3 px-3 text-center font-orbitron text-sky-300">Lv.${entry.level || 1}</td>
+          <td class="py-3 px-3 text-center font-orbitron text-purple-300">${entry.crystals || 0}</td>
+          <td class="py-3 px-3 text-center font-orbitron text-emerald-300 hidden sm:table-cell">${entry.quizCorrect || 0}</td>
+          <td class="py-3 px-4 text-right font-orbitron font-black text-amber-300 text-base sm:text-lg">${String(entry.score).padStart(5, "0")}</td>
+        </tr>
+      `;
+    }).join("");
+  },
+
+  openModal() {
+    this.renderTable();
+    document.getElementById("btnConfirmReset").classList.add("hidden");
+    document.getElementById("btnResetLeaderboard").classList.remove("hidden");
+    document.getElementById("leaderboardModal").classList.remove("hidden");
+  },
+
+  closeModal() {
+    document.getElementById("leaderboardModal").classList.add("hidden");
+  },
+
+  promptReset() {
+    document.getElementById("btnResetLeaderboard").classList.add("hidden");
+    document.getElementById("btnConfirmReset").classList.remove("hidden");
+  },
+
+  confirmReset() {
+    this.entries = [];
+    this.save();
+    this.renderTable();
+    document.getElementById("btnConfirmReset").classList.add("hidden");
+    document.getElementById("btnResetLeaderboard").classList.remove("hidden");
+  },
+
+  exportCSV() {
+    const headers = ["Rank", "Agent Name", "Score", "Crystals", "Highest Level", "Quiz Correct", "Date"];
+    const rows = this.entries.map((e, i) => [
+      i + 1,
+      `"${(e.name || "").replace(/"/g, '""')}"`,
+      e.score || 0,
+      e.crystals || 0,
+      e.level || 1,
+      e.quizCorrect || 0,
+      e.date || ""
+    ]);
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "Science_Blaster_Pro_Brunei_Y7_Leaderboard.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+};
+
 /* ============================================================================
    1. BANK OF 100 BRUNEI YEAR 7 (LEVEL 7) SCIENCE QUESTIONS IN ENGLISH
    Topics per Level:
@@ -2044,6 +2344,7 @@ const WORLD_WIDTH = 2750;
 
 const Game = {
   state: "START", // START, INTRO, PLAYING, PAUSED, QUESTION, LEVEL_COMPLETE, GAME_OVER, FINAL_VICTORY
+  playerName: "",
   currentLevelIndex: 0,
   score: 0,
   lives: 3,
@@ -2081,9 +2382,48 @@ const Game = {
   init() {
     this.resizeCanvas();
     window.addEventListener("resize", () => this.resizeCanvas());
+    Leaderboard.init();
     setupInputs();
     this.buildBackgroundPreview();
     requestAnimationFrame(() => this.loop());
+  },
+
+  validateAndSavePlayerIdentity() {
+    const nameInput = document.getElementById("playerNameInput");
+    const errorEl = document.getElementById("playerNameError");
+    const regPanel = document.getElementById("agentRegistrationPanel");
+
+    const enteredName = nameInput ? nameInput.value.trim().toUpperCase() : "";
+
+    if (!enteredName) {
+      if (nameInput) {
+        nameInput.classList.remove("input-error-shake");
+        void nameInput.offsetWidth;
+        nameInput.classList.add("input-error-shake");
+        nameInput.focus();
+      }
+      if (regPanel) {
+        regPanel.classList.remove("input-error-shake");
+        void regPanel.offsetWidth;
+        regPanel.classList.add("input-error-shake");
+      }
+      if (errorEl) {
+        errorEl.textContent = "⚠️ PLEASE TYPE YOUR AGENT NAME IN THE LARGE BOX BEFORE STARTING!";
+        errorEl.className = "text-xs sm:text-sm text-rose-300 font-extrabold mt-0.5";
+      }
+      GameAudio.wrongAnswer();
+      return false;
+    }
+
+    this.playerName = enteredName;
+    if (errorEl) {
+      errorEl.textContent = `✅ WELCOME, AGENT ${this.playerName}! READY FOR LAUNCH!`;
+      errorEl.className = "text-xs sm:text-sm text-emerald-300 font-extrabold mt-0.5";
+    }
+    try {
+      localStorage.setItem(LAST_PLAYER_STORAGE_KEY, JSON.stringify({ name: this.playerName }));
+    } catch (e) {}
+    return true;
   },
 
   resizeCanvas() {
@@ -2131,6 +2471,11 @@ const Game = {
   },
 
   startFromLevel(levelIndex) {
+    if (this.state === "START") {
+      if (!this.validateAndSavePlayerIdentity()) return;
+    } else if (!this.playerName) {
+      this.playerName = "Agent Azzam";
+    }
     GameAudio.init();
     this.currentLevelIndex = levelIndex;
     if (levelIndex === 0) {
@@ -2317,6 +2662,10 @@ const Game = {
 
   updateHUD() {
     const cfg = LEVEL_CONFIGS[this.currentLevelIndex];
+    const hudAgentEl = document.getElementById("hudAgentName");
+    if (hudAgentEl) {
+      hudAgentEl.textContent = this.playerName ? `AGENT: ${this.playerName.toUpperCase()}` : "SCIENCE AGENT";
+    }
     // Render 3D Glossy Red Hearts
     const livesEl = document.getElementById("hudLives");
     if (livesEl) {
@@ -2974,8 +3323,17 @@ const Game = {
     if (this.lives <= 0) {
       p.defeatedPose = true;
       GameAudio.stopBGM();
+      Leaderboard.recordScore(
+        this.playerName,
+        this.score,
+        this.totalCrystals,
+        LEVEL_CONFIGS[this.currentLevelIndex].levelNumber,
+        this.totalCorrectAnswers
+      );
       setTimeout(() => {
         this.state = "GAME_OVER";
+        const goBadge = document.getElementById("goAgentBadge");
+        if (goBadge) goBadge.textContent = `AGENT: ${this.playerName || "DR. AZZAM"}`;
         document.getElementById("goScore").textContent = String(this.score).padStart(7, "0");
         document.getElementById("gameOverScreen").classList.remove("hidden");
       }, 950);
@@ -2987,9 +3345,20 @@ const Game = {
     GameAudio.stopBGM();
     Keys.left = Keys.right = Keys.up = Keys.down = Keys.jump = Keys.shoot = false;
 
+    const currentLevelNumber = LEVEL_CONFIGS[this.currentLevelIndex].levelNumber;
+    Leaderboard.recordScore(
+      this.playerName,
+      this.score,
+      this.totalCrystals,
+      currentLevelNumber,
+      this.totalCorrectAnswers
+    );
+
     if (this.currentLevelIndex >= LEVEL_CONFIGS.length - 1) {
       // Level 5 Complete -> FINAL VICTORY CHAMPION!
       this.state = "FINAL_VICTORY";
+      const fvBadge = document.getElementById("fvAgentBadge");
+      if (fvBadge) fvBadge.textContent = `CHAMPION AGENT: ${this.playerName || "DR. AZZAM"}`;
       document.getElementById("fvScore").textContent = this.score;
       document.getElementById("fvCrystals").textContent = this.totalCrystals;
       document.getElementById("fvCorrect").textContent = `${this.totalCorrectAnswers}/${this.totalQuestionsAnswered}`;
@@ -2997,7 +3366,9 @@ const Game = {
     } else {
       this.state = "LEVEL_COMPLETE";
       const cfg = LEVEL_CONFIGS[this.currentLevelIndex];
-      document.getElementById("lcSubtitle").textContent = `Congratulations! Level ${cfg.levelNumber} (${cfg.name}) Mission Complete!`;
+      const lcBadge = document.getElementById("lcAgentBadge");
+      if (lcBadge) lcBadge.textContent = `AGENT: ${this.playerName || "DR. AZZAM"}`;
+      document.getElementById("lcSubtitle").textContent = `Congratulations, Agent ${this.playerName || "Azzam"}! Level ${cfg.levelNumber} (${cfg.name}) Mission Complete!`;
       document.getElementById("lcScore").textContent = this.score;
       document.getElementById("lcLives").textContent = `❤️ ${this.lives}`;
       document.getElementById("lcCrystals").textContent = `💎 ${this.levelCrystalsCollected}`;
