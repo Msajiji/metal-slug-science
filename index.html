@@ -5,224 +5,970 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SCIENCE BLASTER | Mission Intro</title>
+<title>SCIENCE BLASTER | The Ultimate Science Adventure</title>
 
 <style>
+
+/* =========================================
+   SCIENCE BLASTER - LANDING PAGE
+========================================= */
+
+:root{
+    --bg:#07111f;
+    --bg2:#0c1d32;
+    --card:#10243c;
+    --text:#ffffff;
+    --muted:#a9bbcf;
+    --accent:#36c5ff;
+    --purple:#8b5cf6;
+}
+
 *{
     box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
     margin:0;
     font-family:Arial, Helvetica, sans-serif;
-    background:#08111f;
-    color:#ffffff;
-    overflow:hidden;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
 }
 
-/* MAIN INTRO */
-.intro{
-    position:fixed;
-    inset:0;
+
+/* =========================================
+   HERO SECTION
+========================================= */
+
+.hero{
+    min-height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
+    position:relative;
+    overflow:hidden;
+
     background:
-        radial-gradient(circle at top, #17355f 0%, #0b1728 45%, #050a12 100%);
+        linear-gradient(
+            rgba(4,12,24,.30),
+            rgba(4,12,24,.65)
+        ),
+        url("assets/hero-banner.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
 }
 
-/* CONTENT */
-.content{
-    width:min(90%, 700px);
-    padding:40px 25px;
+
+/* =========================================
+   HERO CONTENT
+========================================= */
+
+.hero-content{
+    width:min(90%,850px);
+    padding:40px 20px;
+    position:relative;
+    z-index:2;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
-/* SMALL SCIENCE ICON */
-.icon{
-    font-size:42px;
-    margin-bottom:18px;
-    filter:drop-shadow(0 0 12px rgba(0,210,255,.45));
+
+/* =========================================
+   GAME ICON
+========================================= */
+
+.game-icon{
+    width:clamp(75px,10vw,130px);
+    height:auto;
+
+    margin-bottom:28px;
+
+    filter:
+        drop-shadow(0 10px 25px rgba(0,0,0,.55));
+
+    transition:.3s ease;
 }
 
-/* GAME TITLE */
-.logo{
-    font-size:clamp(38px, 6vw, 72px);
-    font-weight:800;
-    letter-spacing:2px;
-    margin:0;
-    color:#ffffff;
+.game-icon:hover{
+    transform:scale(1.05);
 }
 
-/* BLUE ACCENT */
-.logo span{
-    color:#32c5ff;
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.buttons{
+    display:flex;
+    gap:15px;
+    justify-content:center;
+    flex-wrap:wrap;
 }
 
-/* SUBTITLE */
-.subtitle{
-    margin-top:12px;
-    font-size:clamp(13px, 1.8vw, 18px);
-    font-weight:500;
-    letter-spacing:4px;
-    color:#8fa5bd;
-}
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
 
-/* DIVIDER */
-.divider{
-    width:70px;
-    height:3px;
-    margin:25px auto;
+    min-width:180px;
+
+    padding:16px 30px;
+
     border-radius:10px;
-    background:#32c5ff;
-}
 
-/* MISSION */
-.mission{
-    color:#d6e1ec;
-    font-size:clamp(15px, 1.8vw, 19px);
-    line-height:1.9;
-}
-
-/* START BUTTON */
-.start-btn{
-    margin-top:32px;
-    padding:16px 38px;
-    border:none;
-    border-radius:10px;
-    font-size:16px;
     font-weight:700;
-    letter-spacing:1px;
+    font-size:15px;
+    letter-spacing:.5px;
+
     cursor:pointer;
-    color:#07111d;
-    background:#32c5ff;
-    box-shadow:0 8px 25px rgba(50,197,255,.22);
+    text-decoration:none;
+
     transition:.25s ease;
 }
 
-.start-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 12px 30px rgba(50,197,255,.35);
+
+/* WATCH INTRO BUTTON */
+
+.primary{
+    border:none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #a855f7
+        );
+
+    color:white;
+
+    box-shadow:
+        0 8px 25px
+        rgba(124,58,237,.35);
 }
 
-.start-btn:active{
-    transform:translateY(0);
+
+/* START GAME BUTTON */
+
+.secondary{
+    border:
+        1px solid
+        rgba(255,255,255,.4);
+
+    color:white;
+
+    background:
+        rgba(5,15,28,.70);
+
+    backdrop-filter:blur(8px);
 }
 
-/* VIDEO SCREEN */
-#videoScreen{
+
+/* BUTTON EFFECT */
+
+.btn:hover{
+    transform:
+        translateY(-3px)
+        scale(1.02);
+}
+
+.btn:active{
+    transform:scale(.98);
+}
+
+
+/* =========================================
+   GENERAL SECTION
+========================================= */
+
+section{
+    padding:85px 20px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+}
+
+.section-title{
+    text-align:center;
+    font-size:clamp(28px,4vw,42px);
+    margin:0 0 12px;
+}
+
+.section-subtitle{
+    text-align:center;
+    color:var(--muted);
+    max-width:650px;
+    margin:0 auto 45px;
+}
+
+
+/* =========================================
+   STORY SECTION
+========================================= */
+
+.story{
+    background:
+        linear-gradient(
+            180deg,
+            #07111f,
+            #0b1b2c
+        );
+}
+
+.story-box{
+    max-width:850px;
+    margin:auto;
+
+    padding:40px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(16,36,60,.95),
+            rgba(8,20,35,.95)
+        );
+
+    border:
+        1px solid
+        rgba(54,197,255,.15);
+
+    border-radius:18px;
+
+    color:#d8e4f0;
+
+    box-shadow:
+        0 20px 50px
+        rgba(0,0,0,.25);
+}
+
+.story-box p{
+    margin-top:0;
+}
+
+
+/* =========================================
+   MISSION SECTION
+========================================= */
+
+.mission{
+    background:#081523;
+}
+
+.mission-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.mission-card{
+    background:
+        linear-gradient(
+            145deg,
+            #10243c,
+            #0a1828
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    padding:28px 15px;
+
+    border-radius:14px;
+
+    text-align:center;
+
+    transition:.25s ease;
+}
+
+.mission-card:hover{
+    transform:translateY(-6px);
+    border-color:var(--accent);
+}
+
+.mission-icon{
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+.mission-card strong{
+    display:block;
+    letter-spacing:1px;
+}
+
+
+/* =========================================
+   THE 5 WORLDS
+========================================= */
+
+.worlds{
+    background:
+        linear-gradient(
+            180deg,
+            #091726,
+            #07111f
+        );
+}
+
+.world-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.world-card{
+    background:
+        linear-gradient(
+            145deg,
+            #10243c,
+            #0a1828
+        );
+
+    border-radius:14px;
+
+    padding:28px 15px;
+
+    text-align:center;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    transition:.25s ease;
+}
+
+.world-card:hover{
+    transform:translateY(-6px);
+    border-color:var(--accent);
+}
+
+.world-icon{
+    font-size:45px;
+}
+
+.world-card h3{
+    margin:15px 0 8px;
+    font-size:15px;
+}
+
+.world-card p{
+    margin:0;
+    color:var(--muted);
+    font-size:13px;
+}
+
+
+/* =========================================
+   FINAL CTA
+========================================= */
+
+.cta{
+    text-align:center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #163b62 0%,
+            #091726 55%,
+            #07111f 100%
+        );
+}
+
+.cta p{
+    color:var(--muted);
+    margin-bottom:28px;
+}
+
+
+/* =========================================
+   VIDEO MODAL
+========================================= */
+
+#videoModal{
     display:none;
+
     position:fixed;
     inset:0;
-    background:#000;
+
+    z-index:9999;
+
+    background:
+        rgba(0,0,0,.92);
+
+    padding:20px;
+
+    align-items:center;
+    justify-content:center;
 }
 
-#gameVideo{
+.video-box{
+    position:relative;
+
+    width:min(1000px,100%);
+
+    aspect-ratio:16/9;
+
+    background:#000;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 20px 80px
+        rgba(0,0,0,.7);
+}
+
+.video-box iframe{
     width:100%;
     height:100%;
     border:none;
 }
 
-/* SKIP BUTTON */
-#skipBtn{
+
+/* CLOSE VIDEO BUTTON */
+
+.close-btn{
     position:absolute;
-    top:18px;
-    right:18px;
-    z-index:100;
-    padding:10px 18px;
-    border:1px solid rgba(255,255,255,.25);
-    border-radius:8px;
-    background:rgba(0,0,0,.55);
-    color:#ffffff;
-    font-size:13px;
+
+    top:12px;
+    right:12px;
+
+    z-index:10;
+
+    width:42px;
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
     cursor:pointer;
-    backdrop-filter:blur(8px);
+
+    background:
+        rgba(0,0,0,.75);
+
+    color:white;
+
+    font-size:20px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.25);
 }
 
-/* FOOTER */
-.footer{
-    position:absolute;
-    bottom:18px;
-    color:#63758a;
-    font-size:12px;
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer{
+    padding:25px;
+
+    text-align:center;
+
+    color:#708197;
+
+    font-size:13px;
+
+    background:#050c15;
 }
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media(max-width:900px){
+
+    .mission-grid,
+    .world-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:600px){
+
+    .hero{
+        min-height:75vh;
+        background-position:center;
+    }
+
+    section{
+        padding:65px 18px;
+    }
+
+    .mission-grid,
+    .world-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .story-box{
+        padding:28px 22px;
+    }
+
+    .btn{
+        width:100%;
+        max-width:280px;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media(max-width:400px){
+
+    .mission-grid,
+    .world-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
 </style>
 </head>
 
+
 <body>
 
-<!-- INTRO SCREEN -->
-<div class="intro" id="introScreen">
 
-    <div class="content">
+<!-- =========================================
+     HERO BANNER
+========================================= -->
 
-        <div class="icon">⚛️</div>
+<section class="hero">
 
-        <h1 class="logo">
-            SCIENCE <span>BLASTER</span>
-        </h1>
+    <div class="hero-content">
 
-        <div class="subtitle">
-            THE ULTIMATE SCIENCE ADVENTURE
+        <!-- GAME ICON -->
+
+        <img
+            src="assets/game-icon.png"
+            alt="Science Blaster Game Icon"
+            class="game-icon"
+        >
+
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+            <button
+                class="btn primary"
+                onclick="openVideo()"
+            >
+                ▶ WATCH INTRO
+            </button>
+
+
+            <a
+                href="game.html"
+                class="btn secondary"
+            >
+                🎮 START GAME
+            </a>
+
         </div>
 
-        <div class="divider"></div>
+    </div>
 
-        <div class="mission">
-            Explore exciting worlds.<br>
-            Solve science challenges.<br>
-            <strong>Shoot • Answer • Learn • Win!</strong>
+</section>
+
+
+<!-- =========================================
+     THE STORY
+========================================= -->
+
+<section class="story">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            THE STORY
+        </h2>
+
+
+        <p class="section-subtitle">
+            Your science adventure begins here.
+        </p>
+
+
+        <div class="story-box">
+
+            <p>
+                <strong>
+                    The world of Science is in danger.
+                </strong>
+            </p>
+
+            <p>
+                The legendary Science Crystals have been scattered
+                across five mysterious worlds. Without their power,
+                the balance of knowledge and discovery could be lost forever.
+            </p>
+
+            <p>
+                Your mission is to explore dangerous environments,
+                overcome obstacles, defeat enemies and unlock
+                mysterious Science Question Boxes.
+            </p>
+
+            <p>
+                Every challenge will test your knowledge,
+                problem-solving skills and ability to think critically.
+            </p>
+
+            <p>
+                Only those brave enough to explore, think and learn
+                can complete the ultimate mission.
+            </p>
+
         </div>
 
-        <button class="start-btn" onclick="startMission()">
-            ▶ START MISSION
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     YOUR MISSION
+========================================= -->
+
+<section class="mission">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            YOUR MISSION
+        </h2>
+
+
+        <p class="section-subtitle">
+            Complete every challenge and recover the Science Crystals.
+        </p>
+
+
+        <div class="mission-grid">
+
+
+            <div class="mission-card">
+                <div class="mission-icon">🌳</div>
+                <strong>EXPLORE</strong>
+            </div>
+
+
+            <div class="mission-card">
+                <div class="mission-icon">🧠</div>
+                <strong>SOLVE</strong>
+            </div>
+
+
+            <div class="mission-card">
+                <div class="mission-icon">🔫</div>
+                <strong>BLAST</strong>
+            </div>
+
+
+            <div class="mission-card">
+                <div class="mission-icon">💎</div>
+                <strong>COLLECT</strong>
+            </div>
+
+
+            <div class="mission-card">
+                <div class="mission-icon">🏆</div>
+                <strong>WIN</strong>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     THE 5 WORLDS
+========================================= -->
+
+<section class="worlds">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            THE 5 WORLDS
+        </h2>
+
+
+        <p class="section-subtitle">
+            Five worlds. Five challenges. One ultimate mission.
+        </p>
+
+
+        <div class="world-grid">
+
+
+            <!-- WORLD 1 -->
+
+            <div class="world-card">
+
+                <div class="world-icon">🌳</div>
+
+                <h3>
+                    SCIENCE FOREST
+                </h3>
+
+                <p>
+                    Explore a mysterious world filled with science challenges.
+                </p>
+
+            </div>
+
+
+            <!-- WORLD 2 -->
+
+            <div class="world-card">
+
+                <div class="world-icon">🌋</div>
+
+                <h3>
+                    VOLCANO LAB
+                </h3>
+
+                <p>
+                    Survive the heat and dangerous challenges.
+                </p>
+
+            </div>
+
+
+            <!-- WORLD 3 -->
+
+            <div class="world-card">
+
+                <div class="world-icon">🌊</div>
+
+                <h3>
+                    DEEP SEA LAB
+                </h3>
+
+                <p>
+                    Discover mysteries beneath the ocean.
+                </p>
+
+            </div>
+
+
+            <!-- WORLD 4 -->
+
+            <div class="world-card">
+
+                <div class="world-icon">⚡</div>
+
+                <h3>
+                    ENERGY CITY
+                </h3>
+
+                <p>
+                    Restore power and master energy challenges.
+                </p>
+
+            </div>
+
+
+            <!-- WORLD 5 -->
+
+            <div class="world-card">
+
+                <div class="world-icon">🚀</div>
+
+                <h3>
+                    SPACE LAB
+                </h3>
+
+                <p>
+                    Enter the final frontier and complete the mission.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     FINAL CTA
+========================================= -->
+
+<section class="cta">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            ARE YOU READY FOR THE MISSION?
+        </h2>
+
+
+        <p>
+            Explore. Think. Learn. Win.
+        </p>
+
+
+        <div class="buttons">
+
+            <a
+                href="game.html"
+                class="btn primary"
+            >
+                🎮 START GAME
+            </a>
+
+
+            <button
+                class="btn secondary"
+                onclick="openVideo()"
+            >
+                ▶ WATCH INTRO
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     VIDEO MODAL
+========================================= -->
+
+<div id="videoModal">
+
+    <div class="video-box">
+
+        <button
+            class="close-btn"
+            onclick="closeVideo()"
+        >
+            ✕
         </button>
 
-    </div>
 
-    <div class="footer">
-        SCIENCE BLASTER © 2026
+        <iframe
+            id="introVideo"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+
     </div>
 
 </div>
 
 
-<!-- VIDEO SCREEN -->
-<div id="videoScreen">
+<!-- =========================================
+     FOOTER
+========================================= -->
 
-    <button id="skipBtn" onclick="skipIntro()">
-        SKIP INTRO ⏭
-    </button>
+<footer>
+    SCIENCE BLASTER © 2026
+</footer>
 
-    <iframe
-        id="gameVideo"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowfullscreen>
-    </iframe>
 
-</div>
-
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
 
 <script>
 
-function startMission(){
+/* OPEN VIDEO */
 
-    document.getElementById("introScreen").style.display="none";
-    document.getElementById("videoScreen").style.display="block";
+function openVideo(){
 
-    /* GANTIKAN VIDEO_ID */
-    document.getElementById("gameVideo").src =
-    "https://www.youtube.com/embed/6URw9WfnPe4?autoplay=1&mute=0&playsinline=1&rel=0";
+    document
+        .getElementById("videoModal")
+        .style.display = "flex";
+
+
+    document
+        .getElementById("introVideo")
+        .src =
+        "https://www.youtube.com/embed/6URw9WfnPe4?autoplay=1&mute=0&playsinline=1&rel=0";
 
 }
 
-function skipIntro(){
 
-    window.location.href="game.html";
+/* CLOSE VIDEO */
+
+function closeVideo(){
+
+    document
+        .getElementById("videoModal")
+        .style.display = "none";
+
+
+    /* STOP VIDEO */
+
+    document
+        .getElementById("introVideo")
+        .src = "";
 
 }
+
+
+/* CLOSE VIDEO WHEN CLICK OUTSIDE */
+
+document
+    .getElementById("videoModal")
+    .addEventListener("click", function(e){
+
+        if(e.target === this){
+
+            closeVideo();
+
+        }
+
+    });
+
+
+/* ESC KEY CLOSE VIDEO */
+
+document
+    .addEventListener("keydown", function(e){
+
+        if(e.key === "Escape"){
+
+            closeVideo();
+
+        }
+
+    });
 
 </script>
+
 
 </body>
 </html>
